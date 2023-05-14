@@ -1389,6 +1389,17 @@ body {
 input::placeholder {
   color: var(--font-color);
 }
+#web_bg {
+  position: fixed;
+  z-index: -999;
+  width: 100%;
+  height: 100%;
+  background: url(https://ts1.cn.mm.bing.net/th/id/R-C.e7aa4c546c9f67472a9bb67421cf0136?rik=pQNEUX%2bvja0MNg&riu=http%3a%2f%2fimage.qianye88.com%2fpic%2f64d6988be4b5c6306d33cb2f2b4925e2&ehk=IUfTIMuNa0z8MHGhwpLJaaP3xWMgHnkN6gVUeGvNAZE%3d&risl=&pid=ImgRaw&r=0);
+  background-attachment: local;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 h1,
 h2,
 h3,
@@ -4163,6 +4174,21 @@ h1.page-title + .tag-cloud-list {
   #rightside #hide-aside-btn {
     display: none;
   }
+}
+#rightside #go-up .scroll-percent {
+  display: none;
+}
+#rightside #go-up.show-percent .scroll-percent {
+  display: block;
+}
+#rightside #go-up.show-percent .scroll-percent + i {
+  display: none;
+}
+#rightside #go-up:hover .scroll-percent {
+  display: none;
+}
+#rightside #go-up:hover .scroll-percent + i {
+  display: block;
 }
 #sidebar #menu-mask {
   position: fixed;
