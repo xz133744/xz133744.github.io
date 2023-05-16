@@ -1,65 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Markdown图片路径问题及git bash无法中断问题</title>
-    <url>/post/1d96212d.html</url>
-    <content><![CDATA[<h1 id="markdown图片相对路径问题"><a href="#markdown图片相对路径问题" class="headerlink" title="markdown图片相对路径问题"></a>markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
-<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
-<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
-<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
-<p>只需要两步：</p>
-<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>展示：</p>
-<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
-<p>此时我的路径是<code>/2038608.jpg</code></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
-
-<p>接下来你可以看到本篇博客显示如下图片：</p>
-<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
-
-<h1 id="Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
-
-<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/post/4a17b156.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<blockquote>
-<p>asdfads</p>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
     <title>test</title>
     <url>/post/d87f7e0c.html</url>
     <content><![CDATA[<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">111</button></li><li class="tab"><button type="button" data-href="#test1-2">test1 2</button></li><li class="tab"><button type="button" data-href="#test1-3">test1 3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p><strong>This is Tab 1.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><strong>This is Tab 2.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is Tab 3.</strong></p>
@@ -120,6 +61,65 @@ w:Rock-y did-nt like that</div>
 
 
 <p>作者: Jerry<br>連結: <a href="https://butterfly.js.org/posts/4aa8abbe/#Tabs">https://butterfly.js.org/posts/4aa8abbe/#Tabs</a><br>來源: Butterfly<br>著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Markdown图片路径问题及git bash无法中断问题</title>
+    <url>/post/1d96212d.html</url>
+    <content><![CDATA[<h1 id="markdown图片相对路径问题"><a href="#markdown图片相对路径问题" class="headerlink" title="markdown图片相对路径问题"></a>markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
+<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
+<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
+<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
+<p>只需要两步：</p>
+<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>展示：</p>
+<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
+<p>此时我的路径是<code>/2038608.jpg</code></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接下来你可以看到本篇博客显示如下图片：</p>
+<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
+
+<h1 id="Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
+
+<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/post/4a17b156.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<blockquote>
+<p>asdfads</p>
+</blockquote>
 ]]></content>
   </entry>
 </search>
