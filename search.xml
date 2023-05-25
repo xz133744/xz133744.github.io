@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>报错日志：安卓插件引入和项目版本兼容问题</title>
-    <url>/post/3b7f2b28.html</url>
-    <content><![CDATA[<h1 id="一、Android-Studio项目插件引入"><a href="#一、Android-Studio项目插件引入" class="headerlink" title="一、Android Studio项目插件引入"></a>一、Android Studio项目插件引入</h1><p>在引入别人的安卓文件时发生了报错</p>
-<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note danger modern"><p>Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin ‘com.android.internal.application’.</p>
-</div>
+    <title>Markdown图片路径问题及git bash无法中断问题</title>
+    <url>/post/1d96212d.html</url>
+    <content><![CDATA[<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
+<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>在<code>gradle.properties</code>添加<code>android.overridePathCheck=true</code>即可</p>
-<img src="/post/3b7f2b28/1.png" class="" title="image-20230524144658745">
+<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
+<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
+<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
+<p>只需要两步：</p>
+<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
 
-<img src="/post/3b7f2b28/2.png" class="" title="image-20230524144751980">
+<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
-<p>引入后点击Try Again继续下载依赖包</p>
-<p><img src="/post/3b7f2b28/3.png" alt="image-20230524145110593"></p>
-<h1 id="二、项目版本不兼容问题"><a href="#二、项目版本不兼容问题" class="headerlink" title="二、项目版本不兼容问题"></a>二、项目版本不兼容问题</h1><p>引入插件后继续下载sdk时发生报错</p>
-<div class="note danger modern"><p>The project is using an incompatible version (AGP 8.0.1) of the Android Gradle plugin. Latest supported version is AGP 7.4.2</p>
-</div>
 
-<p>意思是：</p>
-<div class="note info modern"><p>使用该 “ Android Studio Dolphin “ 版本的 Android Studio , 最高只能配置的 Android Gradle 插件的版本为 7.3.1 ;</p>
-</div>
 
-<p>这是因为他用Mac 创建了该项目，而在 Mac 中创建的项目 , 自动生成的 Android Gradle 插件 版本是 7.4.2 , 说明 Mac 中项目版本号是 “ Electric Eel | 2022.1.1 “ 或者更高的版本 ;</p>
-<p>将 <code>build.gradle</code> 构建脚本中的 <code>com.android.application</code> 插件 和 <code>com.android.library</code> 插件的版本修改为 <code>7.3.1</code> , 即可完成编译 ;</p>
-<p>找到 <code>build.gradle</code>  :</p>
-<p><img src="/post/3b7f2b28/4.png" alt="image-20230524150433874"></p>
-<p>将两个版本号都修改为<code>7.3.1</code>,点击Try Again可以继续执行依赖</p>
-<p><img src="/post/3b7f2b28/5.png" alt="image-20230524151121493"></p>
+<p>展示：</p>
+<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
+<p>此时我的路径是<code>/2038608.jpg</code></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接下来你可以看到本篇博客显示如下图片：</p>
+<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
+
+<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
+
+<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
 ]]></content>
       <categories>
-        <category>报错</category>
-        <category>安卓</category>
+        <category>hexo</category>
+        <category>markdown</category>
       </categories>
       <tags>
-        <tag>报错</tag>
-        <tag>安卓</tag>
+        <tag>hexo</tag>
+        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -102,43 +104,41 @@ w:Rock-y did-nt like that</div>
 ]]></content>
   </entry>
   <entry>
-    <title>Markdown图片路径问题及git bash无法中断问题</title>
-    <url>/post/1d96212d.html</url>
-    <content><![CDATA[<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
-<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+    <title>报错日志：安卓插件引入和项目版本兼容问题</title>
+    <url>/post/3b7f2b28.html</url>
+    <content><![CDATA[<h1 id="一、Android-Studio项目插件引入"><a href="#一、Android-Studio项目插件引入" class="headerlink" title="一、Android Studio项目插件引入"></a>一、Android Studio项目插件引入</h1><p>在引入别人的安卓文件时发生了报错</p>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note danger modern"><p>Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin ‘com.android.internal.application’.</p>
+</div>
 
-<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
-<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
-<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
-<p>只需要两步：</p>
-<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>在<code>gradle.properties</code>添加<code>android.overridePathCheck=true</code>即可</p>
+<img src="/post/3b7f2b28/1.png" class="" title="image-20230524144658745">
 
-<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<img src="/post/3b7f2b28/2.png" class="" title="image-20230524144751980">
 
+<p>引入后点击Try Again继续下载依赖包</p>
+<p><img src="/post/3b7f2b28/3.png" alt="image-20230524145110593"></p>
+<h1 id="二、项目版本不兼容问题"><a href="#二、项目版本不兼容问题" class="headerlink" title="二、项目版本不兼容问题"></a>二、项目版本不兼容问题</h1><p>引入插件后继续下载sdk时发生报错</p>
+<div class="note danger modern"><p>The project is using an incompatible version (AGP 8.0.1) of the Android Gradle plugin. Latest supported version is AGP 7.4.2</p>
+</div>
 
+<p>意思是：</p>
+<div class="note info modern"><p>使用该 “ Android Studio Dolphin “ 版本的 Android Studio , 最高只能配置的 Android Gradle 插件的版本为 7.3.1 ;</p>
+</div>
 
-<p>展示：</p>
-<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
-<p>此时我的路径是<code>/2038608.jpg</code></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
-
-<p>接下来你可以看到本篇博客显示如下图片：</p>
-<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
-
-<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
-
-<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
+<p>这是因为他用Mac 创建了该项目，而在 Mac 中创建的项目 , 自动生成的 Android Gradle 插件 版本是 7.4.2 , 说明 Mac 中项目版本号是 “ Electric Eel | 2022.1.1 “ 或者更高的版本 ;</p>
+<p>将 <code>build.gradle</code> 构建脚本中的 <code>com.android.application</code> 插件 和 <code>com.android.library</code> 插件的版本修改为 <code>7.3.1</code> , 即可完成编译 ;</p>
+<p>找到 <code>build.gradle</code>  :</p>
+<p><img src="/post/3b7f2b28/4.png" alt="image-20230524150433874"></p>
+<p>将两个版本号都修改为<code>7.3.1</code>,点击Try Again可以继续执行依赖</p>
+<p><img src="/post/3b7f2b28/5.png" alt="image-20230524151121493"></p>
 ]]></content>
       <categories>
-        <category>hexo</category>
-        <category>markdown</category>
+        <category>报错</category>
+        <category>安卓</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>markdown</tag>
+        <tag>报错</tag>
+        <tag>安卓</tag>
       </tags>
   </entry>
 </search>
