@@ -42,6 +42,114 @@
       </tags>
   </entry>
   <entry>
+    <title>Markdown图片路径问题及git bash无法中断问题</title>
+    <url>/post/1d96212d.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
+<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
+<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
+<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
+<p>只需要两步：</p>
+<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>展示：</p>
+<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
+<p>此时我的路径是<code>/2038608.jpg</code></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接下来你可以看到本篇博客显示如下图片：</p>
+<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
+
+<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
+
+<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
+</font>
+]]></content>
+      <categories>
+        <category>hexo</category>
+        <category>markdown</category>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>markdown</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/post/d87f7e0c.html</url>
+    <content><![CDATA[<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">111</button></li><li class="tab"><button type="button" data-href="#test1-2">test1 2</button></li><li class="tab"><button type="button" data-href="#test1-3">test1 3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p><strong>This is Tab 1.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><strong>This is Tab 2.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is Tab 3.</strong></p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+
+<hr>
+<div class="timeline undefined"><div class='timeline-item headline'><div class='timeline-item-title'><div class='item-circle'><p>2022</p>
+</div></div></div><div class='timeline-item'><div class='timeline-item-title'><div class='item-circle'><p>01-02</p>
+</div></div><div class='timeline-item-content'><p>这是测试页面</p>
+</div></div></div>
+
+
+
+<div class="flink"><div class="flink-name">友情链接</div><div class="flink-desc">那些人，那些事</div> <div class="flink-list">
+          <div class="flink-list-item">
+            <a href="https://jerryc.me/" title="JerryC" target="_blank">
+              <div class="flink-item-icon">
+                <img class="no-lightbox" src="https://jerryc.me/img/avatar.png" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="JerryC" />
+              </div>
+              <div class="flink-item-name">JerryC</div> 
+              <div class="flink-item-desc" title="今日事,今日毕">今日事,今日毕</div>
+            </a>
+          </div>
+          <div class="flink-list-item">
+            <a href="https://hexo.io/zh-tw/" title="Hexo" target="_blank">
+              <div class="flink-item-icon">
+                <img class="no-lightbox" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="Hexo" />
+              </div>
+              <div class="flink-item-name">Hexo</div> 
+              <div class="flink-item-desc" title="快速、简单且强大的网志框架">快速、简单且强大的网志框架</div>
+            </a>
+          </div></div></div>
+
+<div class="abc-music-sheet">X:1
+T:alternate heads
+M:C
+L:1/8
+U:n=!style=normal!
+K:C treble style=rhythm
+&quot;Am&quot; BBBB B2 B&gt;B | &quot;Dm&quot; B2 B/B/B &quot;C&quot; B4 |&quot;Am&quot; B2 nGnB B2 nGnA | &quot;Dm&quot; nDB/B/ nDB/B/ &quot;C&quot; nCB/B/ nCB/B/ |B8| B0 B0 B0 B0 |]
+%%text This translates to:
+[M:C][K:style=normal]
+[A,EAce][A,EAce][A,EAce][A,EAce] [A,EAce]2 [A,EAce]&gt;[A,EAce] |[DAdf]2 [DAdf]/[DAdf]/[DAdf] [CEGce]4 |[A,EAce]2 GA [A,EAce] GA |D[DAdf]/[DAdf]/ D[DAdf]/[DAdf]/ C [CEGce]/[CEGce]/ C[CEGce]/[CEGce]/ |[CEGce]8 | [CEGce]2 [CEGce]2 [CEGce]2 [CEGce]2 |]
+GAB2 !style=harmonic![gb]4|GAB2 [K: style=harmonic]gbgb|
+[K: style=x]
+C/A,/ C/C/E C/zz2|
+w:Rock-y did-nt like that</div>
+
+
+
+
+<p>作者: Jerry<br>連結: <a href="https://butterfly.js.org/posts/4aa8abbe/#Tabs">https://butterfly.js.org/posts/4aa8abbe/#Tabs</a><br>來源: Butterfly<br>著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>Vercel+imsyy部署个人博客home页面</title>
     <url>/post/6b62e9ba.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
@@ -175,7 +283,7 @@
 
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="attr">state</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">innerWidth</span>: <span class="literal">null</span>, <span class="comment">// 当前窗口宽度</span></span><br><span class="line">            <span class="attr">coverType</span>: <span class="string">&quot;0&quot;</span>, <span class="comment">// 壁纸种类</span></span><br><span class="line">            <span class="attr">siteStartShow</span>: <span class="literal">true</span>, <span class="comment">// 建站日期显示</span></span><br><span class="line">            <span class="attr">musicIsOk</span>: <span class="literal">false</span>, <span class="comment">// 音乐是否加载完成</span></span><br><span class="line">            <span class="attr">musicVolume</span>: <span class="number">0</span>, <span class="comment">// 音乐音量;</span></span><br><span class="line">            <span class="attr">musicOpenState</span>: <span class="literal">false</span>, <span class="comment">// 音乐面板开启状态</span></span><br><span class="line">            <span class="attr">backgroundShow</span>: <span class="literal">false</span>, <span class="comment">// 壁纸展示状态</span></span><br><span class="line">            <span class="attr">boxOpenState</span>: <span class="literal">false</span>, <span class="comment">// 盒子开启状态</span></span><br><span class="line">            <span class="attr">mobileOpenState</span>: <span class="literal">false</span>, <span class="comment">// 移动端开启状态</span></span><br><span class="line">            <span class="attr">mobileFuncState</span>: <span class="literal">false</span>, <span class="comment">// 移动端功能区开启状态</span></span><br><span class="line">            <span class="attr">setOpenState</span>: <span class="literal">false</span>, <span class="comment">// 设置页面开启状态</span></span><br><span class="line">            <span class="attr">playerState</span>: <span class="literal">false</span>, <span class="comment">// 当前播放状态</span></span><br><span class="line">            <span class="attr">playerTitle</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌曲名</span></span><br><span class="line">            <span class="attr">playerArtist</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌手名</span></span><br><span class="line">            <span class="attr">playerLrc</span>: <span class="string">&quot;歌词加载中&quot;</span>, <span class="comment">// 当前播放歌词</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>背景图可以在前端直接设置，点击左侧留言，再点击时间胶囊右侧的设置按钮。但是目前只能设置这一个内容，而且这个设置随着网页刷新会被覆盖掉，建议在后端设置好默认的壁纸</p>
+<p>背景图可以在前端直接设置，点击左侧留言，再点击时间胶囊右侧的设置按钮。</p>
 <div class="note danger flat"><p>建议<strong>coverType</strong>默认为0，使用本地壁纸页面的打开速度会快很多</p>
 </div>
 
@@ -210,118 +318,10 @@
         <category>imsyy</category>
       </categories>
       <tags>
-        <tag>imsyy</tag>
         <tag>博客</tag>
+        <tag>imsyy</tag>
         <tag>vercel</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Markdown图片路径问题及git bash无法中断问题</title>
-    <url>/post/1d96212d.html</url>
-    <content><![CDATA[<font face="ZhuZiAWan" size=3>
-
-<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
-<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
-<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
-<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
-<p>只需要两步：</p>
-<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>展示：</p>
-<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
-<p>此时我的路径是<code>/2038608.jpg</code></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
-
-<p>接下来你可以看到本篇博客显示如下图片：</p>
-<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
-
-<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
-
-<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
-</font>
-]]></content>
-      <categories>
-        <category>hexo</category>
-        <category>markdown</category>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>hexo</tag>
-        <tag>markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/post/d87f7e0c.html</url>
-    <content><![CDATA[<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">111</button></li><li class="tab"><button type="button" data-href="#test1-2">test1 2</button></li><li class="tab"><button type="button" data-href="#test1-3">test1 3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p><strong>This is Tab 1.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><strong>This is Tab 2.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is Tab 3.</strong></p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-
-<hr>
-<div class="timeline undefined"><div class='timeline-item headline'><div class='timeline-item-title'><div class='item-circle'><p>2022</p>
-</div></div></div><div class='timeline-item'><div class='timeline-item-title'><div class='item-circle'><p>01-02</p>
-</div></div><div class='timeline-item-content'><p>这是测试页面</p>
-</div></div></div>
-
-
-
-<div class="flink"><div class="flink-name">友情链接</div><div class="flink-desc">那些人，那些事</div> <div class="flink-list">
-          <div class="flink-list-item">
-            <a href="https://jerryc.me/" title="JerryC" target="_blank">
-              <div class="flink-item-icon">
-                <img class="no-lightbox" src="https://jerryc.me/img/avatar.png" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="JerryC" />
-              </div>
-              <div class="flink-item-name">JerryC</div> 
-              <div class="flink-item-desc" title="今日事,今日毕">今日事,今日毕</div>
-            </a>
-          </div>
-          <div class="flink-list-item">
-            <a href="https://hexo.io/zh-tw/" title="Hexo" target="_blank">
-              <div class="flink-item-icon">
-                <img class="no-lightbox" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="Hexo" />
-              </div>
-              <div class="flink-item-name">Hexo</div> 
-              <div class="flink-item-desc" title="快速、简单且强大的网志框架">快速、简单且强大的网志框架</div>
-            </a>
-          </div></div></div>
-
-<div class="abc-music-sheet">X:1
-T:alternate heads
-M:C
-L:1/8
-U:n=!style=normal!
-K:C treble style=rhythm
-&quot;Am&quot; BBBB B2 B&gt;B | &quot;Dm&quot; B2 B/B/B &quot;C&quot; B4 |&quot;Am&quot; B2 nGnB B2 nGnA | &quot;Dm&quot; nDB/B/ nDB/B/ &quot;C&quot; nCB/B/ nCB/B/ |B8| B0 B0 B0 B0 |]
-%%text This translates to:
-[M:C][K:style=normal]
-[A,EAce][A,EAce][A,EAce][A,EAce] [A,EAce]2 [A,EAce]&gt;[A,EAce] |[DAdf]2 [DAdf]/[DAdf]/[DAdf] [CEGce]4 |[A,EAce]2 GA [A,EAce] GA |D[DAdf]/[DAdf]/ D[DAdf]/[DAdf]/ C [CEGce]/[CEGce]/ C[CEGce]/[CEGce]/ |[CEGce]8 | [CEGce]2 [CEGce]2 [CEGce]2 [CEGce]2 |]
-GAB2 !style=harmonic![gb]4|GAB2 [K: style=harmonic]gbgb|
-[K: style=x]
-C/A,/ C/C/E C/zz2|
-w:Rock-y did-nt like that</div>
-
-
-
-
-<p>作者: Jerry<br>連結: <a href="https://butterfly.js.org/posts/4aa8abbe/#Tabs">https://butterfly.js.org/posts/4aa8abbe/#Tabs</a><br>來源: Butterfly<br>著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。</p>
-]]></content>
   </entry>
   <entry>
     <title>微信小程序的组件间通信</title>
