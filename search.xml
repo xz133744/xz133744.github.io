@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>test</title>
+    <url>/post/d87f7e0c.html</url>
+    <content><![CDATA[<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">111</button></li><li class="tab"><button type="button" data-href="#test1-2">test1 2</button></li><li class="tab"><button type="button" data-href="#test1-3">test1 3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p><strong>This is Tab 1.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><strong>This is Tab 2.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is Tab 3.</strong></p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1</p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+
+<hr>
+<div class="timeline undefined"><div class='timeline-item headline'><div class='timeline-item-title'><div class='item-circle'><p>2022</p>
+</div></div></div><div class='timeline-item'><div class='timeline-item-title'><div class='item-circle'><p>01-02</p>
+</div></div><div class='timeline-item-content'><p>这是测试页面</p>
+</div></div></div>
+
+
+
+<div class="flink"><div class="flink-name">友情链接</div><div class="flink-desc">那些人，那些事</div> <div class="flink-list">
+          <div class="flink-list-item">
+            <a href="https://jerryc.me/" title="JerryC" target="_blank">
+              <div class="flink-item-icon">
+                <img class="no-lightbox" src="https://jerryc.me/img/avatar.png" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="JerryC" />
+              </div>
+              <div class="flink-item-name">JerryC</div> 
+              <div class="flink-item-desc" title="今日事,今日毕">今日事,今日毕</div>
+            </a>
+          </div>
+          <div class="flink-list-item">
+            <a href="https://hexo.io/zh-tw/" title="Hexo" target="_blank">
+              <div class="flink-item-icon">
+                <img class="no-lightbox" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="Hexo" />
+              </div>
+              <div class="flink-item-name">Hexo</div> 
+              <div class="flink-item-desc" title="快速、简单且强大的网志框架">快速、简单且强大的网志框架</div>
+            </a>
+          </div></div></div>
+
+<div class="abc-music-sheet">X:1
+T:alternate heads
+M:C
+L:1/8
+U:n=!style=normal!
+K:C treble style=rhythm
+&quot;Am&quot; BBBB B2 B&gt;B | &quot;Dm&quot; B2 B/B/B &quot;C&quot; B4 |&quot;Am&quot; B2 nGnB B2 nGnA | &quot;Dm&quot; nDB/B/ nDB/B/ &quot;C&quot; nCB/B/ nCB/B/ |B8| B0 B0 B0 B0 |]
+%%text This translates to:
+[M:C][K:style=normal]
+[A,EAce][A,EAce][A,EAce][A,EAce] [A,EAce]2 [A,EAce]&gt;[A,EAce] |[DAdf]2 [DAdf]/[DAdf]/[DAdf] [CEGce]4 |[A,EAce]2 GA [A,EAce] GA |D[DAdf]/[DAdf]/ D[DAdf]/[DAdf]/ C [CEGce]/[CEGce]/ C[CEGce]/[CEGce]/ |[CEGce]8 | [CEGce]2 [CEGce]2 [CEGce]2 [CEGce]2 |]
+GAB2 !style=harmonic![gb]4|GAB2 [K: style=harmonic]gbgb|
+[K: style=x]
+C/A,/ C/C/E C/zz2|
+w:Rock-y did-nt like that</div>
+
+
+
+
+<p>作者: Jerry<br>連結: <a href="https://butterfly.js.org/posts/4aa8abbe/#Tabs">https://butterfly.js.org/posts/4aa8abbe/#Tabs</a><br>來源: Butterfly<br>著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>报错日志：安卓插件引入和项目版本兼容问题</title>
     <url>/post/3b7f2b28.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
@@ -78,74 +141,13 @@
       <categories>
         <category>hexo</category>
         <category>markdown</category>
+        <category>博客</category>
       </categories>
       <tags>
         <tag>hexo</tag>
         <tag>markdown</tag>
+        <tag>博客</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/post/d87f7e0c.html</url>
-    <content><![CDATA[<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">111</button></li><li class="tab"><button type="button" data-href="#test1-2">test1 2</button></li><li class="tab"><button type="button" data-href="#test1-3">test1 3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p><strong>This is Tab 1.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><strong>This is Tab 2.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is Tab 3.</strong></p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p>
-<p>1</p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-
-<hr>
-<div class="timeline undefined"><div class='timeline-item headline'><div class='timeline-item-title'><div class='item-circle'><p>2022</p>
-</div></div></div><div class='timeline-item'><div class='timeline-item-title'><div class='item-circle'><p>01-02</p>
-</div></div><div class='timeline-item-content'><p>这是测试页面</p>
-</div></div></div>
-
-
-
-<div class="flink"><div class="flink-name">友情链接</div><div class="flink-desc">那些人，那些事</div> <div class="flink-list">
-          <div class="flink-list-item">
-            <a href="https://jerryc.me/" title="JerryC" target="_blank">
-              <div class="flink-item-icon">
-                <img class="no-lightbox" src="https://jerryc.me/img/avatar.png" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="JerryC" />
-              </div>
-              <div class="flink-item-name">JerryC</div> 
-              <div class="flink-item-desc" title="今日事,今日毕">今日事,今日毕</div>
-            </a>
-          </div>
-          <div class="flink-list-item">
-            <a href="https://hexo.io/zh-tw/" title="Hexo" target="_blank">
-              <div class="flink-item-icon">
-                <img class="no-lightbox" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" onerror='this.onerror=null;this.src="/img/friend_404.gif"' alt="Hexo" />
-              </div>
-              <div class="flink-item-name">Hexo</div> 
-              <div class="flink-item-desc" title="快速、简单且强大的网志框架">快速、简单且强大的网志框架</div>
-            </a>
-          </div></div></div>
-
-<div class="abc-music-sheet">X:1
-T:alternate heads
-M:C
-L:1/8
-U:n=!style=normal!
-K:C treble style=rhythm
-&quot;Am&quot; BBBB B2 B&gt;B | &quot;Dm&quot; B2 B/B/B &quot;C&quot; B4 |&quot;Am&quot; B2 nGnB B2 nGnA | &quot;Dm&quot; nDB/B/ nDB/B/ &quot;C&quot; nCB/B/ nCB/B/ |B8| B0 B0 B0 B0 |]
-%%text This translates to:
-[M:C][K:style=normal]
-[A,EAce][A,EAce][A,EAce][A,EAce] [A,EAce]2 [A,EAce]&gt;[A,EAce] |[DAdf]2 [DAdf]/[DAdf]/[DAdf] [CEGce]4 |[A,EAce]2 GA [A,EAce] GA |D[DAdf]/[DAdf]/ D[DAdf]/[DAdf]/ C [CEGce]/[CEGce]/ C[CEGce]/[CEGce]/ |[CEGce]8 | [CEGce]2 [CEGce]2 [CEGce]2 [CEGce]2 |]
-GAB2 !style=harmonic![gb]4|GAB2 [K: style=harmonic]gbgb|
-[K: style=x]
-C/A,/ C/C/E C/zz2|
-w:Rock-y did-nt like that</div>
-
-
-
-
-<p>作者: Jerry<br>連結: <a href="https://butterfly.js.org/posts/4aa8abbe/#Tabs">https://butterfly.js.org/posts/4aa8abbe/#Tabs</a><br>來源: Butterfly<br>著作權歸作者所有。商業轉載請聯絡作者獲得授權，非商業轉載請註明出處。</p>
-]]></content>
   </entry>
   <entry>
     <title>微信小程序的组件间通信</title>
@@ -250,6 +252,180 @@ w:Rock-y did-nt like that</div>
       </categories>
       <tags>
         <tag>微信小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vercel+imsyy部署个人博客home页面</title>
+    <url>/post/6b62e9ba.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>hexo</strong>框架的butterfly首页看腻了，正好发现一个好看简洁的博客首页主题<strong>imsyy</strong>，本篇博客记录我部署<strong>imsyy</strong>的过程。</p>
+<h1 id="fork仓库"><a href="#fork仓库" class="headerlink" title="fork仓库"></a>fork仓库</h1><p><strong>imsyy</strong>主题是<strong>github</strong>上的开源项目，项目地址：<strong><a href="https://github.com/imsyy/home">https://github.com/imsyy/home</a></strong></p>
+<a class="btn-beautify blue larger" href="https://github.com/imsyy/home" 
+  title="imsyy/home"><i class="far fa-hand-point-right"></i><span>imsyy/home</span></a>
+
+<img src="/post/6b62e9ba/1.png" class="" title="image-20230527163145711">
+
+<p>点击<strong>fork</strong>之后添加仓库名，该项目就被复制到你的<strong>github</strong>中了</p>
+<h1 id="部署vercel"><a href="#部署vercel" class="headerlink" title="部署vercel"></a>部署vercel</h1><div class="note none blue flat"><p>登录你的<strong>vercel</strong>，进入到<strong>overview</strong>页面，点击<code>Add New Project</code>创建一个新项目</p>
+</div>
+
+<img src="/post/6b62e9ba/2.png" class="" title="image-20230527163542233">
+
+<div class="note none blue flat"><p>选择刚刚复刻的<strong>imsyy-home</strong>项目</p>
+</div>
+
+<img src="/post/6b62e9ba/3.png" class="" title="image-20230527163712714">
+
+<div class="note none blue flat"><p>什么都不用改，直接<strong>Deploy</strong></p>
+</div>
+
+<img src="/post/6b62e9ba/4.png" class="" title="image-20230527163939159">
+
+<div class="note none blue flat"><p>之后等待部署成功就行了</p>
+</div>
+
+<hr>
+<div class="note danger flat"><p>vercel在国内会被墙，所以需要绑定一个域名来正常访问</p>
+</div>
+
+<img src="/post/6b62e9ba/5.png" class="" title="image-20230527164325263">
+
+<div class="note none blue flat"><p>打开<strong>域名管理面板</strong>，添加<strong>域名解析</strong>，我们只需添加一个二级域名即可，<strong>主机记录</strong>为<code>imsyy</code>，可以随意设置，<strong>记录类型</strong>为<code>CNAME</code>，<strong>记录值</strong>为<code>vercel-dns.com.</code></p>
+</div>
+
+<img src="/post/6b62e9ba/6.png" class="" title="image-20230527170014755">
+
+<div class="note none blue flat"><p>随后回到<strong>vercel</strong>中，添加域名<code>imsyy+你的域名</code>,然后等待解析完成之后就可以使用该域名访问到一个初始化的<strong>imsyy</strong>页面啦</p>
+</div>
+
+<img src="/post/6b62e9ba/7.png" class="" title="image-20230527170327736">
+
+<hr>
+<h1 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h1><h2 id="先将项目copy到本地"><a href="#先将项目copy到本地" class="headerlink" title="先将项目copy到本地"></a>先将项目copy到本地</h2><p>打开<strong>github</strong>，进入<strong>imsyy</strong>项目所在的储存库，你可以选择<code>Download ZIP</code>直接将项目下载成一个压缩包，或者复制<strong>SSH</strong>，使用<strong>git</strong>拉取整个项目</p>
+<div class="tabs" id=""><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#-1">直接下载压缩包</button></li><li class="tab"><button type="button" data-href="#-2">git拉取</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="-1"><div class="note none blue flat"><p>点击Download Zip下载并在本地解压打开即可</p>
+</div>
+
+<img src="/post/6b62e9ba/8.png" class="" title="image-20230527170327737"><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="-2"><div class="note none blue flat"><p>复制你的SSH密钥，在你需要保存的文件根目录右键打开<code>GIT BASH</code>，输入<code>git clone 你的SSH密钥</code>即可</p>
+</div>
+
+<img src="/post/6b62e9ba/image-20230527172314585.png" class="" title="image-20230527172314585"><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+
+<h2 id="打开本地预览"><a href="#打开本地预览" class="headerlink" title="打开本地预览"></a>打开本地预览</h2><div class="note none blue flat"><p>在这之前需要运行本地预览</p>
+</div>
+
+
+
+<p>本地预览需要我们在本地安装好<code>node.js</code>环境以及<code>npm包管理器</code>，随后<a href="https://so.csdn.net/so/search?q=%E5%AE%89%E8%A3%85yarn&spm=1001.2101.3001.7020">安装yarn</a>，如你的电脑已经安装过<code>yarn</code>可以跳过这一步</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install yarn</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后执行<code>yarn install</code>安装依赖</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yarn install</span><br></pre></td></tr></table></figure>
+
+<p>依赖项搞定了，用<code>dev</code>查看预览页面</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yarn dev</span><br></pre></td></tr></table></figure>
+
+<div class="note none blue flat"><p>默认端口是<strong>localhost:3000</strong>，浏览器打开即可预览初始化的<strong>imsyy</strong>页面</p>
+</div>
+
+<img src="/post/6b62e9ba/image-20230527173229265.png" class="" title="image-20230527173229265">
+
+<hr>
+<h1 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h1><h2 id="社交链接"><a href="#社交链接" class="headerlink" title="社交链接"></a>社交链接</h2><p>如果你不需要社交链接，那么你可以打开<strong>根目录：</strong><code>\src\components\SocialLinks</code>下的<code>index.vue</code>，然后将里面的<code>&lt;template&gt;</code>里的内容注释掉</p>
+<img src="/post/6b62e9ba/image-20230527202035636.png" class="" title="image-20230527202035636">
+
+<p>如果要添加或修改社交链接，那么你需要进入到<strong>根目录</strong>下的<code>public</code>文件夹中找到<code>socialLinks.json</code>：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Github&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/github.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;去 Github 看看&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/你的github&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;BiliBili&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/bilibili.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(゜-゜)つロ 干杯 ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://space.bilibili.com/你的哔哩哔哩账号&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QQ&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/qq.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;有什么事吗&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://res.abeim.cn/api/qq/?qq=你的QQ&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Email&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/email.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;来封 Email ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的邮箱&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Telegram&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/telegram.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你懂的 ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的Telegram地址&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>社交链接会在这里展示出来：</p>
+<img src="/post/6b62e9ba/image-20230527203611490.png" class="" title="image-20230527203611490">
+
+<h2 id="添加你的基本信息"><a href="#添加你的基本信息" class="headerlink" title="添加你的基本信息"></a>添加你的基本信息</h2><p>打开<strong>根目录</strong>下的<code>.env</code>配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">VITE_SITE_NAME</span> <span class="string">=</span> <span class="string">&quot;小铭の博客&quot;</span>  <span class="comment"># 站点名称</span></span><br><span class="line"><span class="string">VITE_SITE_ANTHOR</span> <span class="string">=</span> <span class="string">&quot;小铭&quot;</span>   <span class="comment"># 站点作者</span></span><br><span class="line"><span class="string">VITE_SITE_KEYWORDS</span> <span class="string">=</span> <span class="string">&quot;小铭,个人博客&quot;</span> <span class="comment"># 站点关键词</span></span><br><span class="line"><span class="string">VITE_SITE_DES</span> <span class="string">=</span> <span class="string">&quot;一些乱七八糟的记录&quot;</span> <span class="comment"># 站点描述</span></span><br><span class="line"><span class="string">VITE_SITE_URL</span> <span class="string">=</span> <span class="string">&quot;xiaoming.site&quot;</span>  <span class="comment"># 站点地址(首页头像旁的文字)</span></span><br><span class="line"><span class="string">VITE_SITE_LOGO</span> <span class="string">=</span> <span class="string">&quot;/images/icon/ico.jpg&quot;</span> <span class="comment"># 站点 LOGO</span></span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p><font color='red' size=4>注意：</font>首页的logo字母是经过压缩的，使用其他字母会变成默认字体(只有<strong>imsyy.top</strong>和<strong>hello，world</strong>里的这些字母有样式),如果需要所有字母的样式可以去作者的<strong>github</strong>的项目首页下载</p>
+<p><a class="btn-beautify blue larger" href="https://github.com/imsyy/home" 
+  title="点击去下载完整字体"><i class="far fa-hand-point-right"></i><span>点击去下载完整字体</span></a></p>
+</div>
+
+<h2 id="修改建站日期"><a href="#修改建站日期" class="headerlink" title="修改建站日期"></a>修改建站日期</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 建站日期</span></span><br><span class="line"><span class="comment">## 请按照 YYYY-MM-DD 格式填写</span></span><br><span class="line"><span class="string">VITE_SITE_START</span> <span class="string">=</span> <span class="string">&quot;2023-5-8&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="添加音乐播放器"><a href="#添加音乐播放器" class="headerlink" title="添加音乐播放器"></a>添加音乐播放器</h2><p>这里我们只需要修改歌曲服务器和播放ID就行</p>
+<p>在浏览器打开你的网易云或者QQ音乐的，选择一个歌单，将网址中的id复制进来即可替换歌单</p>
+<div class="note none blue flat"><p><strong>建议选择网易云，无论是国内国外，网易云的播放服务器都更稳定</strong></p>
+</div>
+
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 歌曲 API 地址</span></span><br><span class="line"><span class="comment">## 请参照 https://github.com/xizeyoupan/Meting-API#deno-deploy 进行 API 服务部署</span></span><br><span class="line"><span class="comment">## 此处提供的服务可能会超量从而无法访问，请自行部署</span></span><br><span class="line"><span class="comment">## 若使用QQ音乐歌单，歌曲数量最好不要超出50首</span></span><br><span class="line"><span class="comment">## 备用：https://api.wuenci.com/meting/api/</span></span><br><span class="line"><span class="string">VITE_SONG_API</span> <span class="string">=</span> <span class="string">&quot;https://api-meting.imsyy.top/api&quot;</span></span><br><span class="line"><span class="comment"># 歌曲服务器 ( netease-网易云, tencent-qq音乐 )</span></span><br><span class="line"><span class="string">VITE_SONG_SERVER</span> <span class="string">=</span> <span class="string">&quot;netease&quot;</span></span><br><span class="line"><span class="comment"># 播放类型 ( song-歌曲, playlist-播放列表, album-专辑, search-搜索, artist-艺术家 )</span></span><br><span class="line"><span class="string">VITE_SONG_TYPE</span> <span class="string">=</span> <span class="string">&quot;playlist&quot;</span></span><br><span class="line"><span class="comment"># 播放 ID</span></span><br><span class="line"><span class="string">VITE_SONG_ID</span> <span class="string">=</span> <span class="string">&quot;5331617474&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="简介文本"><a href="#简介文本" class="headerlink" title="简介文本"></a>简介文本</h2><p>修改首页的一些简介</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 简介文本</span></span><br><span class="line"><span class="string">VITE_DESC_HELLO</span> <span class="string">=</span> <span class="string">&quot;Hello Blog !&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_TEXT</span> <span class="string">=</span> <span class="string">&quot;黄师塔前江水东，春光懒困倚微风。&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_HELLO_OTHER</span> <span class="string">=</span> <span class="string">&quot;less times !&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_TEXT_OTHER</span> <span class="string">=</span> <span class="string">&quot;岁月不居，时节如流。&quot;</span></span><br></pre></td></tr></table></figure>
+
+<img src="/post/6b62e9ba/image-20230527215209845.png" class="" title="image-20230527215209845">
+
+<p>点击文本块后：</p>
+<img src="/post/6b62e9ba/image-20230527215309543.png" class="" title="image-20230527215309543">
+
+<h2 id="天气服务"><a href="#天气服务" class="headerlink" title="天气服务"></a>天气服务</h2><p>因为作者的天气服务key已经超量，建议自行前往高德开放平台注册一个<strong>key</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 天气 Key</span></span><br><span class="line"><span class="comment">## 请前往高德开放平台注册 Web服务 Key（免费的）</span></span><br><span class="line"><span class="comment">## 请各位大佬行行好，别再让我超量了</span></span><br><span class="line"><span class="string">VITE_WEATHER_KEY</span> <span class="string">=</span> <span class="string">&quot;57eaea5833ff1616cfd1ff2c4cf9b58a&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="网站顶部logo"><a href="#网站顶部logo" class="headerlink" title="网站顶部logo"></a>网站顶部logo</h2><p>网站logo需要前往<strong>根目录</strong>下的<code>index.html</code>文件的头文件处修改</p>
+<p>打开<code>index.html</code>，找到<code>rel=&quot;icon&quot;</code>的<code>link</code>将<code>href</code>修改为你的头像的路径</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/images/icon/ico.jpg&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<img src="/post/6b62e9ba/image-20230527215951311.png" class="" title="image-20230527215951311">
+
+<h2 id="footer配置"><a href="#footer配置" class="headerlink" title="footer配置"></a>footer配置</h2><p>进入<strong>根目录</strong>下的<code>src\components\Footer\index.vue</code></p>
+<p>将网址链接修改为你的链接：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span></span></span><br><span class="line"><span class="tag">    &gt;</span>Copyright<span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;copy;</span><span class="symbol">&amp;nbsp;</span>&#123;&#123; fullYear &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://xiaoming.site&quot;</span>&gt;</span>小铭<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你的站点经过了备案，修改如下字段：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://beian.miit.gov.cn&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span></span></span><br><span class="line"><span class="tag">  &gt;</span>豫ICP备2022018134号-1&lt;/a</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="背景图设置"><a href="#背景图设置" class="headerlink" title="背景图设置"></a>背景图设置</h2><p>进入<strong>根目录</strong>下的<code>src\js\store\index.js</code></p>
+<p>在这里可以修改关于壁纸的各项设置</p>
+<div class="note none blue flat"><p><strong>coverType</strong>可选<code>0-4</code>,<strong>0</strong>是默认壁纸，每次刷新从<strong>根目录</strong>下的<code>public\images</code>下随机选取一张，<strong>1</strong>是<strong>bing</strong>每日推荐壁纸，<strong>2</strong>是随机风景，<strong>3</strong>是随机<strong>二刺螈</strong>背景图</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="attr">state</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">innerWidth</span>: <span class="literal">null</span>, <span class="comment">// 当前窗口宽度</span></span><br><span class="line">            <span class="attr">coverType</span>: <span class="string">&quot;0&quot;</span>, <span class="comment">// 壁纸种类</span></span><br><span class="line">            <span class="attr">siteStartShow</span>: <span class="literal">true</span>, <span class="comment">// 建站日期显示</span></span><br><span class="line">            <span class="attr">musicIsOk</span>: <span class="literal">false</span>, <span class="comment">// 音乐是否加载完成</span></span><br><span class="line">            <span class="attr">musicVolume</span>: <span class="number">0</span>, <span class="comment">// 音乐音量;</span></span><br><span class="line">            <span class="attr">musicOpenState</span>: <span class="literal">false</span>, <span class="comment">// 音乐面板开启状态</span></span><br><span class="line">            <span class="attr">backgroundShow</span>: <span class="literal">false</span>, <span class="comment">// 壁纸展示状态</span></span><br><span class="line">            <span class="attr">boxOpenState</span>: <span class="literal">false</span>, <span class="comment">// 盒子开启状态</span></span><br><span class="line">            <span class="attr">mobileOpenState</span>: <span class="literal">false</span>, <span class="comment">// 移动端开启状态</span></span><br><span class="line">            <span class="attr">mobileFuncState</span>: <span class="literal">false</span>, <span class="comment">// 移动端功能区开启状态</span></span><br><span class="line">            <span class="attr">setOpenState</span>: <span class="literal">false</span>, <span class="comment">// 设置页面开启状态</span></span><br><span class="line">            <span class="attr">playerState</span>: <span class="literal">false</span>, <span class="comment">// 当前播放状态</span></span><br><span class="line">            <span class="attr">playerTitle</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌曲名</span></span><br><span class="line">            <span class="attr">playerArtist</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌手名</span></span><br><span class="line">            <span class="attr">playerLrc</span>: <span class="string">&quot;歌词加载中&quot;</span>, <span class="comment">// 当前播放歌词</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>背景图可以在前端直接设置，点击左侧留言，再点击时间胶囊右侧的设置按钮。但是目前只能设置这一个内容，而且这个设置随着网页刷新会被覆盖掉，建议在后端设置好默认的壁纸</p>
+<div class="note danger flat"><p>建议<strong>coverType</strong>默认为0，使用本地壁纸页面的打开速度会快很多</p>
+</div>
+
+<img src="/post/6b62e9ba/image-20230527225556592.png" class="" title="image-20230527225556592">
+
+
+
+<div class="note none blue flat"><p>如果需要更换本地壁纸，你可以打开<strong>根目录</strong>下的<code>src\components\Background\index.vue</code></p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">changeBg</span> = (<span class="params">type</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (type == <span class="number">0</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">`/images/background<span class="subst">$&#123;<span class="built_in">Math</span>.floor(</span></span></span><br><span class="line"><span class="subst"><span class="string">      <span class="built_in">Math</span>.random() * <span class="number">10</span> + <span class="number">1</span></span></span></span><br><span class="line"><span class="subst"><span class="string">    )&#125;</span>.webp`</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">1</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://api.dujin.org/bing/1920.php&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">2</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://api.btstu.cn/sjbz/api.php?lx=fengjing&amp;format=images&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">3</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://www.dmoe.cc/random.php&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>默认壁纸是随机生成<strong>0-10</strong>的数，每次刷新随机抽取一张图片</p>
+<p>如果你要添加壁纸，需要修改<code>Math.random() * 10 + 1</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Math</span>.<span class="title function_">random</span>() * 你的图片数 + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将新壁纸到<strong>根目录</strong>下的<code>public\images</code>文件夹中，修改图片名称为<code>background$&#123;图片序号&#125;.webp</code>，这里的后缀名<code>.webp</code>根据你文件夹中的图片后缀修改</p>
+<p>这里是我的图片文件夹</p>
+<img src="/post/6b62e9ba/image-20230528133015854.png" class="" title="image-20230528133015854">
+
+<h2 id="网站链接配置"><a href="#网站链接配置" class="headerlink" title="网站链接配置"></a>网站链接配置</h2><p>进入<strong>根目录</strong>下的<code>src\components\Links\index.vue</code></p>
+<p>在<code>linksData</code>数组对象中增加或减少你的站点，建议不要超过六个，否则需要重设样式</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> linksData = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Blog</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;博客&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://blog.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Cloud</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;网盘&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://pan.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">CompactDisc</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;音乐&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://music.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Compass</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;起始页&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://nav.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Book</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;网址集&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://web.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Fire</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;今日热榜&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://hot.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要更改链接图标，打开<strong>根目录</strong>下的<code>node_modules\@vicons\fa\es\index.d.ts</code>，找到你需要的图标然后<code>import</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  <span class="title class_">Link</span>,</span><br><span class="line">  <span class="title class_">Blog</span>,</span><br><span class="line">  <span class="title class_">CompactDisc</span>,</span><br><span class="line">  <span class="title class_">Cloud</span>,</span><br><span class="line">  <span class="title class_">Compass</span>,</span><br><span class="line">  <span class="title class_">Book</span>,</span><br><span class="line">  <span class="title class_">Fire</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;@vicons/fa&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>修改一下链接地址就可以得到一个简洁好看的博客首页啦</p>
+</font>
+]]></content>
+      <categories>
+        <category>imsyy</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>imsyy</tag>
+        <tag>vercel</tag>
       </tags>
   </entry>
 </search>
