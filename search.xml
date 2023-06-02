@@ -1,6 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>报错日志：安卓插件引入和项目版本兼容问题</title>
+    <url>/post/3b7f2b28.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="一、Android-Studio项目插件引入"><a href="#一、Android-Studio项目插件引入" class="headerlink" title="一、Android Studio项目插件引入"></a>一、Android Studio项目插件引入</h1><p>在引入别人的安卓文件时发生了报错</p>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note danger modern"><p>Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin ‘com.android.internal.application’.</p>
+</div>
+
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>在<code>gradle.properties</code>添加<code>android.overridePathCheck=true</code>即可</p>
+<img src="/post/3b7f2b28/1.png" class="" title="image-20230524144658745">
+
+<img src="/post/3b7f2b28/2.png" class="" title="image-20230524144751980">
+
+<p>引入后点击Try Again继续下载依赖包</p>
+<p><img src="/post/3b7f2b28/3.png" alt="image-20230524145110593"></p>
+<h1 id="二、项目版本不兼容问题"><a href="#二、项目版本不兼容问题" class="headerlink" title="二、项目版本不兼容问题"></a>二、项目版本不兼容问题</h1><p>引入插件后继续下载sdk时发生报错</p>
+<div class="note danger modern"><p>The project is using an incompatible version (AGP 8.0.1) of the Android Gradle plugin. Latest supported version is AGP 7.4.2</p>
+</div>
+
+<p>意思是：</p>
+<div class="note info modern"><p>使用该 “ Android Studio Dolphin “ 版本的 Android Studio , 最高只能配置的 Android Gradle 插件的版本为 7.3.1 ;</p>
+</div>
+
+<p>这是因为他用Mac 创建了该项目，而在 Mac 中创建的项目 , 自动生成的 Android Gradle 插件 版本是 7.4.2 , 说明 Mac 中项目版本号是 “ Electric Eel | 2022.1.1 “ 或者更高的版本 ;</p>
+<p>将 <code>build.gradle</code> 构建脚本中的 <code>com.android.application</code> 插件 和 <code>com.android.library</code> 插件的版本修改为 <code>7.3.1</code> , 即可完成编译 ;</p>
+<p>找到 <code>build.gradle</code>  :</p>
+<p><img src="/post/3b7f2b28/4.png" alt="image-20230524150433874"></p>
+<p>将两个版本号都修改为<code>7.3.1</code>,点击Try Again可以继续执行依赖</p>
+<p><img src="/post/3b7f2b28/5.png" alt="image-20230524151121493"></p>
+</font>
+]]></content>
+      <categories>
+        <category>报错</category>
+        <category>安卓</category>
+      </categories>
+      <tags>
+        <tag>报错</tag>
+        <tag>安卓</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Markdown图片路径问题及git bash无法中断问题</title>
+    <url>/post/1d96212d.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
+<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
+<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
+<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
+<p>只需要两步：</p>
+<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>展示：</p>
+<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
+<p>此时我的路径是<code>/2038608.jpg</code></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接下来你可以看到本篇博客显示如下图片：</p>
+<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
+
+<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
+
+<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
+</font>
+]]></content>
+      <categories>
+        <category>hexo</category>
+        <category>markdown</category>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>markdown</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vue3 与 Vue2 区别</title>
     <url>/post/ec9655cc.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
@@ -143,89 +229,84 @@
       </tags>
   </entry>
   <entry>
-    <title>Markdown图片路径问题及git bash无法中断问题</title>
-    <url>/post/1d96212d.html</url>
+    <title>promise的使用</title>
+    <url>/post/36345c37.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
 
-<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
-<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h1 id="一、为什么使用Promise"><a href="#一、为什么使用Promise" class="headerlink" title="一、为什么使用Promise?"></a>一、为什么使用Promise?</h1><p>我们知道 js 执行的时候，一次只能执行一个任务，它会阻塞其他任务。由于这个缺陷导致 js 的所有网络操作，浏览器事件，都必须是异步执行。异步执行可以使用回调函数执行。</p>
+<p>常见的异步模式有以下几种：</p>
+<ul>
+<li>定时器</li>
+<li>接口调用</li>
+<li>事件函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// setTimeout 示例</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">callBack</span>(<span class="params"></span>)&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;执行完成&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;before setTimeout&#x27;</span>)</span><br><span class="line"><span class="built_in">setTimeout</span>(callBack,<span class="number">1000</span>)<span class="comment">// 1秒后调用callBack函数</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;after setTimeout&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
-<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
-<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
-<p>只需要两步：</p>
-<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
+<p>控制台输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">before setTimeout</span><br><span class="line">after setTimeout</span><br><span class="line">执行完成 //1秒后打印</span><br></pre></td></tr></table></figure>
 
 
-<p>展示：</p>
-<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
-<p>此时我的路径是<code>/2038608.jpg</code></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
 
-<p>接下来你可以看到本篇博客显示如下图片：</p>
-<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
+<p>上述定时器是在固定时间触发某个回调函数。</p>
+<p>对于 ajax 网络请求就没有这么简单了，可能有多个网络请求是关联的，先执行某个请求返回结果后，第一个返回结果作为第二个请求的参数，调用第二个网络请求。如此，如果业务复杂，网络请求太多时，回调也很多，容易出现回调地狱。所以 Promise 出现了，专门解决异步回调地狱问题。</p>
+<p>通俗地讲，Promise 就像一个容器，里面存放着未来才会结束，返回结果的容器，返回的结果只需要在出口处接收就好了。从语法上讲，Promise 是一个对象，从它可以获取异步操作的消息。</p>
+<h1 id="二、Promise基本使用"><a href="#二、Promise基本使用" class="headerlink" title="二、Promise基本使用"></a>二、Promise基本使用</h1><p>Promise 实例化的时候，传入的参数是一个函数，函数中接收两个参数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line"> <span class="title function_">resolve</span>(<span class="string">&#x27;123&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(res) <span class="comment">//1秒后打印123</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
+<p>传入的 resolve 和 reject 本身都是函数。其作用分别为：</p>
+<p>resolve - 把 Promise 的状态从进行中变为成功状态。</p>
+<p>reject - 把 Promise 的状态从进行中变为拒绝状态。</p>
+<p><strong>Promise的三种状态：</strong></p>
+<p>pending ：进行中，表示 Promise 还在执行阶段，没有执行完成。</p>
+<p>fulfilled：成功状态，表示 Promise 成功执行完成。</p>
+<p>rejected：拒绝状态，表示 Promise 执行被拒绝，也就是失败。</p>
+<p>Promise 的状态，只可能是其中一种状态，从进行中变为成功或失败状态之后，状态就固定了，不会再发生改变。</p>
+<p><strong>Promise.then</strong></p>
+<p>执行 resolve 时，Promise 状态变为 fulfilled ，会执行 .then 方法。then 方法接收的参数也是一个函数，函数中携带一个参数，该参数是 resolve(res) 返回的数据。</p>
+<p><strong>Promise.catch</strong></p>
+<p>执行 reject 时，Promise 状态从 pending 变为 rejected，会执行 catch 方法，catch 方法接收的也是一个函数，函数中携带一个参数，该参数为 reject(err) 返回的数据。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;error message&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(res)<span class="comment">//不执行</span></span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)<span class="comment">//1秒后打印 error message</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
+<h1 id="三、Promise-链式调用"><a href="#三、Promise-链式调用" class="headerlink" title="三、Promise 链式调用"></a>三、Promise 链式调用</h1><p>制作一个模拟网络请求：</p>
+<ul>
+<li>第一次返回 a，</li>
+<li>修改返回的结果为 aa，作为第二次网络请求返回的结果。</li>
+<li>修改结果为 aaa，作为第三次返回结果。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> pp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res1&#x27;</span>,res) <span class="comment">//1秒后打印 a</span></span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">   &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res&#x27;</span>,res) <span class="comment">//2秒后打印 aa</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">   <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    &#125;,<span class="number">1000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"> &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res3&#x27;</span>,res) <span class="comment">//3秒后打印 aaa</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这种场景其实就是接口的多层嵌套使用，Promise 可以把多层嵌套按照线性的方式进行书写，非常优雅。我们把 Promise 的多层嵌套调用就叫做链式调用。</p>
+<p>上述实例，有三层嵌套就 new 了 3 个Promise，代码写得比较多，我们看看在实现功能的前提下如何能够简化。</p>
+<h1 id="四、Promise-嵌套使用的简写"><a href="#四、Promise-嵌套使用的简写" class="headerlink" title="四、Promise 嵌套使用的简写"></a>四、Promise 嵌套使用的简写</h1><p>promise传入的函数参数reject是一个非必传的参数，如果不需要处理失败时的结果时，我们可以省略掉 reject 。代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//简化1</span></span><br><span class="line"><span class="keyword">const</span> ppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res1&#x27;</span>,res)</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res&#x27;</span>,res)</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(res+<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res3&#x27;</span>,res)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Promise 嵌套使用时，内层的 Promise 可以省略不写，所以我们可以直接把 Promise 相关的去掉，只返回最后一个结果返回，代码如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//简化2</span></span><br><span class="line"><span class="keyword">const</span> pppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="keyword">return</span>  res+<span class="string">&#x27;a&#x27;</span></span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="keyword">return</span> res+<span class="string">&#x27;a&#x27;</span></span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;res3&#x27;</span>,res)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>同理，失败状态catch也能简写：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> ppppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"> &#125;,<span class="number">1000</span>)</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">reject</span>(err+<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写1</span></span><br><span class="line"><span class="keyword">const</span> pppppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span><span class="title function_">reject</span>(err+<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写2</span></span><br><span class="line"><span class="keyword">const</span> ppppppp = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">reject</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">  &#125;,<span class="number">1000</span>)</span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> err+<span class="string">&#x27;a&#x27;</span></span><br><span class="line"> &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>,err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="五、Promise方法"><a href="#五、Promise方法" class="headerlink" title="五、Promise方法"></a>五、Promise方法</h1><h2 id="all-方法"><a href="#all-方法" class="headerlink" title="all 方法"></a>all 方法</h2><p>Promise.all 方法，提供了并行执行异步操作的能力，并且在所有异步操作完成之后，统一返回所有结果。具体使用如：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">all</span>([</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)),</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span><span class="title function_">resolve</span>(<span class="string">&#x27;b&#x27;</span>)),</span><br><span class="line">]).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line"> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;all&#x27;</span>,res)<span class="comment">//【&#x27;a&#x27; , &#x27;b&#x27;】</span></span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>控制台输出一个all数组，数组长度取决于 Promise 的个数。</p>
+<p>一些游戏类的素材比较多的应用，打开网页时，预先加载需要用到的各类资源，所有的都加载完后，再进行页面的初始化。</p>
+<h2 id="race方法"><a href="#race方法" class="headerlink" title="race方法"></a>race方法</h2><p>race翻译成中文：赛跑。就是谁跑得最快，谁才能触碰到终点的胜利线。</p>
+<p>Promise.race 用法与 all 一样，只是返回结果上不同，它返回的是<strong>执行最快的那个 Promise 的结果</strong>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">race</span>([</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">   &#125;,<span class="number">100</span>)</span><br><span class="line">  ),</span><br><span class="line"> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span>=&gt;</span></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">   <span class="title function_">resolve</span>(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">   &#125;,<span class="number">200</span>)</span><br><span class="line">  ),</span><br><span class="line"> ]).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;race&#x27;</span>,res) <span class="comment">// 返回 a</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 </font>
 ]]></content>
       <categories>
-        <category>hexo</category>
-        <category>markdown</category>
-        <category>博客</category>
+        <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>markdown</tag>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>报错日志：安卓插件引入和项目版本兼容问题</title>
-    <url>/post/3b7f2b28.html</url>
-    <content><![CDATA[<font face="ZhuZiAWan" size=3>
-
-<h1 id="一、Android-Studio项目插件引入"><a href="#一、Android-Studio项目插件引入" class="headerlink" title="一、Android Studio项目插件引入"></a>一、Android Studio项目插件引入</h1><p>在引入别人的安卓文件时发生了报错</p>
-<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note danger modern"><p>Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin ‘com.android.internal.application’.</p>
-</div>
-
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>在<code>gradle.properties</code>添加<code>android.overridePathCheck=true</code>即可</p>
-<img src="/post/3b7f2b28/1.png" class="" title="image-20230524144658745">
-
-<img src="/post/3b7f2b28/2.png" class="" title="image-20230524144751980">
-
-<p>引入后点击Try Again继续下载依赖包</p>
-<p><img src="/post/3b7f2b28/3.png" alt="image-20230524145110593"></p>
-<h1 id="二、项目版本不兼容问题"><a href="#二、项目版本不兼容问题" class="headerlink" title="二、项目版本不兼容问题"></a>二、项目版本不兼容问题</h1><p>引入插件后继续下载sdk时发生报错</p>
-<div class="note danger modern"><p>The project is using an incompatible version (AGP 8.0.1) of the Android Gradle plugin. Latest supported version is AGP 7.4.2</p>
-</div>
-
-<p>意思是：</p>
-<div class="note info modern"><p>使用该 “ Android Studio Dolphin “ 版本的 Android Studio , 最高只能配置的 Android Gradle 插件的版本为 7.3.1 ;</p>
-</div>
-
-<p>这是因为他用Mac 创建了该项目，而在 Mac 中创建的项目 , 自动生成的 Android Gradle 插件 版本是 7.4.2 , 说明 Mac 中项目版本号是 “ Electric Eel | 2022.1.1 “ 或者更高的版本 ;</p>
-<p>将 <code>build.gradle</code> 构建脚本中的 <code>com.android.application</code> 插件 和 <code>com.android.library</code> 插件的版本修改为 <code>7.3.1</code> , 即可完成编译 ;</p>
-<p>找到 <code>build.gradle</code>  :</p>
-<p><img src="/post/3b7f2b28/4.png" alt="image-20230524150433874"></p>
-<p>将两个版本号都修改为<code>7.3.1</code>,点击Try Again可以继续执行依赖</p>
-<p><img src="/post/3b7f2b28/5.png" alt="image-20230524151121493"></p>
-</font>
-]]></content>
-      <categories>
-        <category>报错</category>
-        <category>安卓</category>
-      </categories>
-      <tags>
-        <tag>报错</tag>
-        <tag>安卓</tag>
+        <tag>promise</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -568,6 +649,237 @@ w:Rock-y did-nt like that</div>
       </categories>
       <tags>
         <tag>微信小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一些前端面试题（一）</title>
+    <url>/post/20802113.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<p>记录一点前端面试中会出现的问题</p>
+<h1 id="hash-与-history-的区别？"><a href="#hash-与-history-的区别？" class="headerlink" title="hash 与 history 的区别？"></a>hash 与 history 的区别？</h1><h2 id="原理区别"><a href="#原理区别" class="headerlink" title="原理区别"></a>原理区别</h2><h3 id="hash-原理"><a href="#hash-原理" class="headerlink" title="hash 原理"></a><strong>hash 原理</strong></h3><p>hash 通过监听浏览器 onhashchange 事件变化，查找对应路由应用。通过改变 location.hash 改变页面路由。</p>
+<h3 id="history-原理"><a href="#history-原理" class="headerlink" title="history 原理"></a><strong>history 原理</strong></h3><p>利用 html5 的history Interface 中新增的 pushState() 和 replaceState() 方法，改变页面路径。</p>
+<p>history Interface 是浏览器历史记录栈提供的接口，可通过 back、forward、go 等，可以读取历览器历史记录栈的信息，pushState、repalceState 还可以对浏览器历史记录栈进行修改。</p>
+<table>
+<thead>
+<tr>
+<th>hash</th>
+<th>history</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>有#号</td>
+<td>无#号</td>
+</tr>
+<tr>
+<td>能够兼容IE8</td>
+<td>只能兼容到IE10</td>
+</tr>
+<tr>
+<td>实际的url之前使用哈希字符，这部分url不会发送到服务器，不需要在服务器层面上进行任何处理</td>
+<td>每访问一个页面都需要服务器进行路由匹配生成 html 文件再发送响应给浏览器，消耗服务器大量资源</td>
+</tr>
+<tr>
+<td>刷新不会存在404</td>
+<td>浏览器直接访问嵌套路由时，会报 404 问题。</td>
+</tr>
+<tr>
+<td>不需要服务器任何配置</td>
+<td>需要在服务器配置一个回调路由</td>
+</tr>
+</tbody></table>
+<h2 id="hash-模式优势"><a href="#hash-模式优势" class="headerlink" title="hash 模式优势"></a>hash 模式优势</h2><p>1、从兼容角度分析。</p>
+<p>　　hash 可以兼容到 IE8，而 history 只能兼容到 IE10。</p>
+<p>2、从网络请求的角度分析。</p>
+<p>　　使用 hash 模式，地址改变时通过 hashchange 事件，只会读取哈希符号后的内容，并不会发起任何网络请求。</p>
+<p>　　而 history 模式，每访问一个页面都要发起网络请求，每个请求都需要服务器进行路由匹配、数据库查询、生成HTML文档后再发送响应给浏览器，这个过程会消耗服务器的大量资源，给服务器的压力较大。</p>
+<p>3、服务器配置角度分析。</p>
+<p>　　hash 不需要服务器任何配置。</p>
+<p>　　history 进行刷新页面时，无法找到url对应的页面，会出现 404 问题。因为域名后面的路由是由前端控制的，后端只能保留域名部分，所以就会造成页面丢失的问题，需要服务器端添加一个回退路由，就能解决该问题了。</p>
+<h3 id="hash模式的不足"><a href="#hash模式的不足" class="headerlink" title="hash模式的不足"></a><strong>hash模式的不足</strong></h3><p>1、hash 模式中的 # 也称作锚点，这里的的 # 和 css 中的 # 是一个意思，所以在 hash 模式内，页面定位会失效。</p>
+<p>2、hash 不利于 SEO（搜索引擎优化）。</p>
+<p>3、白屏时间问题。浏览器需要等待 JavaScript 文件加载完成之后渲染 HTML 文档内容，用户等待时间稍长。</p>
+<h1 id="什么是-MVVM、mvc-模型？"><a href="#什么是-MVVM、mvc-模型？" class="headerlink" title="什么是 MVVM、mvc 模型？"></a>什么是 MVVM、mvc 模型？</h1><p><strong>MVC:</strong> MVC 即 model-view-controller（模型-视图-控制器)是项目的一种分层架构思想，它把复杂的业务逻辑， 抽离为职能单一的小模块，每个模块看似相互独立，其实又各自有相互依赖关系。它的好处是： 保证了模块的智能单一性，方便程序的开发、维护、耦合度低。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ef7bdc26eeb745e8a5e0057b8b554d09~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="img"></p>
+<p><strong>MVVM：</strong>MVVM 即 Model-View-ViewModel，(模型-视图-控制器)它是一种双向数据绑定的模式， 用 viewModel 来建立起 model 数据层和 view 视图层的连接，数据改变会影响视图，视图改变会影响数据</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b594cec4834242d582f4598c9db4179c~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="img"></p>
+<h1 id="vue-双向数据绑定的原理？"><a href="#vue-双向数据绑定的原理？" class="headerlink" title="vue 双向数据绑定的原理？"></a>vue 双向数据绑定的原理？</h1><p>vue.js 是采用数据劫持结合发布者-订阅者模式的方式，通过<strong>Object.defineProperty()**来劫持各个属性的**setter**，</strong>getter**，在数据变动时发布消息给订阅者，触发相应的监听回调。 <strong>具体步骤：</strong></p>
+<p><strong>第一步：</strong> 需要 <strong>observe</strong> 的数据对象进行递归遍历，包括子属性对象的属性，都加上 <strong>setter</strong> 和<strong>getter</strong> 这样的话，给这个对象的某个值赋值，就会触发 setter，那么就能监听到了数据变化</p>
+<p><strong>第二步：</strong> <strong>compile 解析模板指令</strong>，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图</p>
+<p><strong>第三步：</strong> <strong>Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁</strong>，主要做的事情是: 1、在自身实例化时往属性订阅器(dep)里面添加自己 2、自身必须有一个 <strong>update()</strong> 方法 3、待属性变动 <strong>dep.notice()</strong> 通知时，能调用自身的 update() 方法，并触发 Compile 中绑定的回调，则功成身退。</p>
+<p>第四步：MVVM 作为数据绑定的入口，整合 <strong>Observer、Compile 和 Watcher</strong> 三者，通过 Observer 来监听自己的 model 数据变化， 通过 Compile 来解析编译模板指令，最终利用 Watcher 搭起 Observer 和 Compile 之间的通信桥梁，达到数据变化 -&gt; 视图更新； 视图交互变化(input) -&gt; 数据 model 变更的双向绑定效果。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88523a441edf4712a616913bf2d2673b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="vue_02.png"></p>
+<h1 id="vue-的生命周期有哪些？"><a href="#vue-的生命周期有哪些？" class="headerlink" title="vue 的生命周期有哪些？"></a>vue 的生命周期有哪些？</h1><h2 id="vue2生命周期"><a href="#vue2生命周期" class="headerlink" title="vue2生命周期"></a>vue2生命周期</h2><ul>
+<li><strong>beforeCreat() 创建前</strong> 在new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。在此生命周期执行的时候，data和methods中的数据都还没有初始化。不能在这个阶段使用data中的数据和methods中的方法</li>
+<li><strong>created（）被创建</strong> data 和 methods都已经被初始化好了，可以调用了</li>
+<li><strong>beforeMount() 挂载前</strong> 在内存中已经编译好了模板了，但是还没有挂载到页面中，此时，页面还是旧的</li>
+<li><strong>mounted（）已挂载</strong> Vue实例已经初始化完成了。此时组件脱离了创建阶段，进入到了运行阶段。 如果我们想要通过插件操作页面上的DOM节点，最早可以在和这个阶段中进行</li>
+<li><strong>beforeupdate（）更新前</strong> 页面中的显示的数据还是旧的，data中的数据是更新后的， 页面还没有和最新的数据保持同步</li>
+<li><strong>updated（）更新</strong> 页面显示的数据和data中的数据已经保持同步了，都是最新的</li>
+<li><strong>beforeDestroy() 销毁前</strong> Vue实例从运行阶段进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁</li>
+<li><strong>destroyed（）被销毁</strong> 这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于不可用状态。组件已经被销毁了。</li>
+</ul>
+<p><img src="https://cdn.acwing.com/media/article/image/2021/08/06/101476_366b60c2f6-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="vue 生命周期原理图 - AcWing"></p>
+<p>除了<code>beforecate</code>和<code>created</code>(它们被<code>setup</code>方法本身所取代)，我们可以在<code>setup</code>方法中访问的API生命周期钩子有9个选项:</p>
+<ul>
+<li><p><code>onBeforeMount</code> – 在挂载开始之前被调用：相关的 <code>render</code> 函数首次被调用。</p>
+</li>
+<li><p><code>onMounted</code> – 组件挂载时调用</p>
+</li>
+<li><p><code>onBeforeUpdate</code> – 数据更新时调用，发生在虚拟 DOM 打补丁之前。这里适合在更新之前访问现有的 DOM，比如手动移除已添加的事件监听器。</p>
+</li>
+<li><p><code>onUpdated</code> – 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。</p>
+</li>
+<li><p>onBeforeUnmount – 在卸载组件实例之前调用。在这个阶段，实例仍然是完全正常的。</p>
+</li>
+<li><p><code>onUnmounted</code> – 卸载组件实例后调用。调用此钩子时，组件实例的所有指令都被解除绑定，所有事件侦听器都被移除，所有子组件实例被卸载。</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p><code>onActivated</code> – 被 <code>keep-alive</code> 缓存的组件激活时调用。</p>
+</li>
+<li><p><code>onDeactivated</code> – 被 <code>keep-alive</code> 缓存的组件停用时调用。</p>
+</li>
+<li><p><code>onErrorCaptured</code> – 当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 <code>false</code> 以阻止该错误继续向上传播。</p>
+</li>
+</ul>
+<p><img src="https://lordblog.cn/upload/2021/07/image-8359d1e7177f4ed486c55475a0da06bf.png" alt="Vue3.0"></p>
+<h1 id="Vue3-中的setup-在哪一个阶段执行？"><a href="#Vue3-中的setup-在哪一个阶段执行？" class="headerlink" title="Vue3.中的setup()在哪一个阶段执行？"></a>Vue3.中的setup()在哪一个阶段执行？</h1><p>setup是组合api的入口函数。setup()函数在beforecreate()函数执行之前,已经执行。也就是说在setup函数中我们不能够对data和methods进行操作。</p>
+<h1 id="v-if-和-v-show-有什么区别？"><a href="#v-if-和-v-show-有什么区别？" class="headerlink" title="v-if 和 v-show 有什么区别？"></a>v-if 和 v-show 有什么区别？</h1><p><code>v-if</code> 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建， 操作的实际上是 dom 元素的创建或销毁。</p>
+<p><code>v-show</code> 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换， 它操作的是<code>display:none/block</code>属性。</p>
+<p>一般来说， v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常<strong>频繁地切换</strong>，则使用<code> v-show</code> 较好； 如果在运行时条件很少改变，则使用 v-if 较好。</p>
+<h1 id="async-await-是什么？它有哪些作用？"><a href="#async-await-是什么？它有哪些作用？" class="headerlink" title="async await 是什么？它有哪些作用？"></a>async await 是什么？它有哪些作用？</h1><p><strong>async await</strong> 是<strong>es7</strong>里面的新语法、它的作用就是 async 用于申明一个 function 是异步的，而 await 用 于等待一个异步方法执行完成。它可以很好的替代<strong>promise 中的 then</strong></p>
+<p>async 函数返回一个 Promise 对象，可以使用 <strong>then</strong> 方法添加回调函数。当函数执行的时候，一旦遇 到 <code>await </code>就会先返回， 等到异步操作完成，再接着执行函数体内后面的语句。</p>
+<h1 id="常用的数组方法有哪些？"><a href="#常用的数组方法有哪些？" class="headerlink" title="常用的数组方法有哪些？"></a>常用的数组方法有哪些？</h1><p><strong>concat()</strong> 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。</p>
+<p><strong>find()</strong> 方法<strong>返回数组中满足提供的测试函数的第一个元素的值</strong>。否则返回 undefined 。</p>
+<p><strong>findIndex()</strong> 方法返回数组中满足提供的测试函数的<strong>第一个元素的索引</strong>。否则返回-1。</p>
+<p><strong>includes()</strong> 方法用来<strong>判断一个数组是否包含一个指定的值</strong>，根据情况，如果包含则返回 true， 否则返回 false。</p>
+<p><strong>indexOf()</strong> 方法返回在数组中可以<strong>找到一个给定元素的第一个索引</strong>，如果<strong>不存在，则返回-1</strong>。 （通常用它判断数组中有没有这个元素）</p>
+<p><strong>join()</strong> 方法将一个数组（或一个类数组对象）的所有元素<strong>连接成一个字符串并返回这个字符串</strong>。 如果数组只有一个项目，那么将返回该项目而不使用分隔符。</p>
+<p><strong>pop()</strong> 方法从数组中<strong>删除最后一个元素</strong>，并返回该元素的值。此方法更改数组的长度。</p>
+<p><strong>push()</strong> 方法将<strong>一个或多个元素添加到数组的末尾</strong>，并返回该数组的新长度。</p>
+<p><strong>shift()</strong> 方法从数组中<strong>删除第一个元素</strong>，并返回该元素的值。此方法更改数组的长度。</p>
+<p><strong>unshift()</strong> 方法将<strong>一个或多个元素添加到数组的开头</strong>，并返回该数组的新长度(该方法修改原有数组)。</p>
+<p><strong>splice()</strong> 方法通过删除或替换现有元素或者原地添加新的元素来修改数组,并以数组形式返回被修改的内 容。<strong>此方法会改变原数组</strong>。 由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删 除元素，则返回空数组。</p>
+<p><strong>slice()</strong> 方法同上，但不会改变原数组</p>
+<p><strong>reverse()</strong> 方法将数组中元素的位置颠倒，并返回该数组。该方法会改变原数组。</p>
+<p><strong>sort()</strong> 方法用原地算法对数组的元素进行排序，并返回数组。默认排序顺序是在将元素转换为字 符串，然后比较它们的 UTF-16 代码单元值序列时构建的</p>
+<h1 id="数组有哪几种循环方式？分别有什么作用？"><a href="#数组有哪几种循环方式？分别有什么作用？" class="headerlink" title="数组有哪几种循环方式？分别有什么作用？"></a>数组有哪几种循环方式？分别有什么作用？</h1><p><strong>every()</strong> 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔 值。</p>
+<p><strong>filter()</strong> 方法<strong>创建一个新数组</strong>, 其包含通过所提供函数实现的测试的所有元素。 <strong>注意：</strong> filter() 不会对空数组进行检测。 <strong>注意：</strong> filter() 不会改变原始数组。</p>
+<p><strong>forEach()</strong> 方法对数组的<strong>每个元素执行一次</strong>提供的函数。</p>
+<p><strong>some()</strong> 方法测试<strong>是否至少有一个元素可以通过被提供的函数方法</strong>。该方法返回一个 Boolean 类型 的值。</p>
+<h1 id="常用的字符串方法有哪些？"><a href="#常用的字符串方法有哪些？" class="headerlink" title="常用的字符串方法有哪些？"></a>常用的字符串方法有哪些？</h1><p><strong>charAt()</strong> 方法从一个字符串中返回指定的字符。</p>
+<p><strong>concat()</strong> 方法将一个或多个字符串与原字符串连接合并，形成一个新的字符串并返回。</p>
+<p><strong>includes()</strong> 方法用于判断一个字符串是否包含在另一个字符串中，根据情况返回 true 或 false。</p>
+<p><strong>indexOf()</strong> 方法返回调用它的 String 对象中第一次出现的指定值的索引，从 fromIndex 处进行搜 索。如果未找到该值，则返回 -1。 <strong>match()</strong> 方法检索返回一个字符串匹配正则表达式的的结果。</p>
+<p><strong>padStart()</strong> 方法用另一个字符串填充当前字符串(重复，如果需要的话)，以便产生的字符串达到给定的 长度。填充从当前字符串的开始(左侧)应用的。 (常用于时间补 0)</p>
+<p><strong>replace()</strong> 方法返回一个由替换值（ replacement ）替换一些或所有匹配的模式（ pattern ）后的新 字符串。模式可以是一个字符串或者一个<a href="https://link.juejin.cn/?target=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp">正则表达式</a>，替换值可以是一个字符串或者一个每次匹配都要 调用的回调函数。 原字符串不会改变。 slice() 方法提取某个字符串的一部分，并返回一个新的字符串，且不会改动原字符串。</p>
+<p><strong>split()</strong> 方法使用指定的分隔符字符串将一个 <a href="https://link.juejin.cn/?target=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String">String</a> 对象分割成字符串数组，以将字符串分隔为 子字符串，以确定每个拆分的位置。 <strong>substr()</strong> 方法返回一个字符串中从指定位置开始到指定字符数的字符。 trim() 方法会从一个字符串的两端删除空白字符。在这个上下文中的空白字符是所有的空白字符 (space, tab, no-break space 等) 以及所有行终止符字符（如 LF，CR）。</p>
+</font>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+        <tag>面试</tag>
+        <tag>vue</tag>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>箭头函数的特点</title>
+    <url>/post/4d1c757e.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="箭头函数的使用"><a href="#箭头函数的使用" class="headerlink" title="箭头函数的使用"></a>箭头函数的使用</h1><h2 id="简写方法速记"><a href="#简写方法速记" class="headerlink" title="简写方法速记"></a>简写方法速记</h2><div class="note none blue flat"><p>将原函数的“function”关键字和函数名都删掉，并使用“&#x3D;&gt;”连接参数列表和函数体。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写为：</span></span><br><span class="line">(a,b)=&gt;&#123;<span class="comment">//删掉了function和函数名</span></span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add = <span class="keyword">function</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写为：</span></span><br><span class="line"><span class="keyword">var</span> <span class="title function_">add</span> = (<span class="params">a,b</span>)=&gt;&#123; <span class="comment">//删掉了function</span></span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="箭头函数的书写规则"><a href="#箭头函数的书写规则" class="headerlink" title="箭头函数的书写规则"></a>箭头函数的书写规则</h1><h2 id="箭头函数的书写-x3D-gt"><a href="#箭头函数的书写-x3D-gt" class="headerlink" title="箭头函数的书写 ()&#x3D;&gt;{}"></a><strong>箭头函数的书写 ()&#x3D;&gt;{}</strong></h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">test</span> = (<span class="params">zjcopy</span>) =&gt; &#123; </span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(zjcopy) </span><br><span class="line">&#125; </span><br><span class="line"><span class="title function_">test</span>(<span class="string">&#x27;hello&#x27;</span>) </span><br></pre></td></tr></table></figure>
+
+<h2 id="箭头函数简写规则："><a href="#箭头函数简写规则：" class="headerlink" title="箭头函数简写规则："></a>箭头函数简写规则：</h2><p><strong>（1）箭头函数只能用赋值式写法，不能用声明式写法</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = (<span class="params">a</span>) =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>（2）如果参数只有一个，可以不加括号，如果没有参数或者参数多于一个就需要加括号</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>（3）如果函数体只有一句话，可以省略函数体大括号</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; <span class="keyword">return</span> a</span><br></pre></td></tr></table></figure>
+
+<p><strong>（4）箭头函数返回对象时，省略大括号，用小括号括起来。</strong></p>
+<p>箭头后面return的是一个对象时, 需要使用({});</p>
+<p><strong>（5）如果函数体只有一句话，并且这一句话是return 返回值 那return也可以要省略</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; a</span><br><span class="line"><span class="title function_">f</span>(<span class="number">2</span>) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="箭头函数的特点"><a href="#箭头函数的特点" class="headerlink" title="箭头函数的特点"></a>箭头函数的特点</h1><p><strong>1.箭头函数没有自己的this，arguments，super或new.target</strong></p>
+<p><strong>2.箭头函数不绑定this，会捕获其所在上下文的this，作为自己的this。</strong></p>
+<div class="note danger flat"><p>这句话需要注意的是，箭头函数的外层如果有普通函数，那么箭头函数的this就是这个外层的普通函数的this，箭头函数的外层如果没有普通函数，那么箭头函数的this就是全局变量。</p>
+</div>
+
+<p><strong>3. 箭头函数是匿名函数，不能作为构造函数，不可以使用new命令，否则后抛出错误。</strong></p>
+<p><strong>4. 箭头函数不绑定arguments，取而代之用rest参数解决，同时没有super和new.target。</strong></p>
+<div class="note danger flat"><p>箭头函数没有arguments、super、new.target的绑定，这些值由外围最近一层非箭头函数决定。</p>
+</div>
+
+<div class="note danger flat"><p><strong>外围最近一层非箭头函数</strong>指的是箭头函数被包裹在一个普通函数中</p>
+</div>
+
+<p><strong>5.箭头函数可以通过拓展运算符获取传入的参数。</strong></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/597888ee749b49a69385e687abd57173~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
+<p><strong>6. 使用call,apply,bind并不会改变箭头函数中的this指向。</strong></p>
+<ul>
+<li>当对箭头函数使用call或apply方法时，只会传入参数并调用函数，并不会改变箭头函数中this的指向。</li>
+<li>当对箭头函数使用bind方法时，只会返回一个预设参数的新函数，并不会改变这个新函数的this指向。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">name</span> = <span class="string">&quot;window_name&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> f1 = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"><span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">name</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="title function_">f2</span> = (<span class="params"></span>) =&gt; <span class="variable language_">this</span>.<span class="property">name</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">&quot;obj_name&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">call</span>(obj));  <span class="comment">//obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">call</span>(obj));  <span class="comment">// window_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">apply</span>(obj)); <span class="comment">// obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">apply</span>(obj)); <span class="comment">// window_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">bind</span>(obj)());  <span class="comment">// obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">bind</span>(obj)());  <span class="comment">// window_name</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>7. 箭头函数没有原型对象prototype这个属性</strong></p>
+<div class="note danger flat"><p>由于不可以通过new关键字调用，所以没有构建原型的需求，所以箭头函数没有prototype这个属性。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">F</span> = (<span class="params"></span>)=&gt;&#123;&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(F.<span class="property"><span class="keyword">prototype</span></span>) <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>8. 不能使用yield关键字，不能用作Generator函数</strong></p>
+<h1 id="arguments函数"><a href="#arguments函数" class="headerlink" title="arguments函数"></a>arguments函数</h1><h2 id="arguments有什么用？"><a href="#arguments有什么用？" class="headerlink" title="arguments有什么用？"></a>arguments有什么用？</h2><p>arguments对象是所有非箭头函数中都可用的局部变量，可以使用arguments对象在函数中引用函数的参数，此对象包含传递给函数的每一个参数，第一个参数在索引0的位置。</p>
+<h2 id="如何将arguments对象转换为数组"><a href="#如何将arguments对象转换为数组" class="headerlink" title="如何将arguments对象转换为数组"></a>如何将arguments对象转换为数组</h2><ol>
+<li>通过slice</li>
+<li>通过拓展运算符</li>
+<li>通过Array.from</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">js</span><br><span class="line">复制代码</span><br><span class="line"><span class="keyword">var</span> args = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"><span class="keyword">var</span> args = [].<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> args = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"><span class="keyword">const</span> args = [...<span class="variable language_">arguments</span>];</span><br></pre></td></tr></table></figure>
+
+<h2 id="arguments函数如何调用自身函数？"><a href="#arguments函数如何调用自身函数？" class="headerlink" title="arguments函数如何调用自身函数？"></a>arguments函数如何调用自身函数？</h2><div class="note danger flat"><p>我们先看看下面这个函数，这个是可以正常运行的。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">factorial</span> (n) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="title function_">factorial</span>(n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(factorial);</span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p>但是作为匿名函数则不行。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">n</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="comment">/* what goes here? */</span> (n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p>因此arguments.callee诞生了。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">n</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="variable language_">arguments</span>.<span class="title function_">callee</span>(n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p>所以arguments要想调用自身的匿名函数，可以通过arguments.callee来调用。</p>
+</div>
+
+</font>
+]]></content>
+      <categories>
+        <category>es6</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
       </tags>
   </entry>
 </search>
