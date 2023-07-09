@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Markdown图片路径问题及git bash无法中断问题</title>
-    <url>/post/1d96212d.html</url>
+    <title>报错日志：安卓插件引入和项目版本兼容问题</title>
+    <url>/post/3b7f2b28.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
 
-<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
-<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h1 id="一、Android-Studio项目插件引入"><a href="#一、Android-Studio项目插件引入" class="headerlink" title="一、Android Studio项目插件引入"></a>一、Android Studio项目插件引入</h1><p>在引入别人的安卓文件时发生了报错</p>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note danger modern"><p>Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin ‘com.android.internal.application’.</p>
+</div>
 
-<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
-<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
-<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
-<p>只需要两步：</p>
-<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>在<code>gradle.properties</code>添加<code>android.overridePathCheck=true</code>即可</p>
+<img src="/post/3b7f2b28/1.png" class="" title="image-20230524144658745">
 
-<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<img src="/post/3b7f2b28/2.png" class="" title="image-20230524144751980">
 
+<p>引入后点击Try Again继续下载依赖包</p>
+<p><img src="/post/3b7f2b28/3.png" alt="image-20230524145110593"></p>
+<h1 id="二、项目版本不兼容问题"><a href="#二、项目版本不兼容问题" class="headerlink" title="二、项目版本不兼容问题"></a>二、项目版本不兼容问题</h1><p>引入插件后继续下载sdk时发生报错</p>
+<div class="note danger modern"><p>The project is using an incompatible version (AGP 8.0.1) of the Android Gradle plugin. Latest supported version is AGP 7.4.2</p>
+</div>
 
+<p>意思是：</p>
+<div class="note info modern"><p>使用该 “ Android Studio Dolphin “ 版本的 Android Studio , 最高只能配置的 Android Gradle 插件的版本为 7.3.1 ;</p>
+</div>
 
-<p>展示：</p>
-<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
-<p>此时我的路径是<code>/2038608.jpg</code></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
-
-<p>接下来你可以看到本篇博客显示如下图片：</p>
-<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
-
-<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
-
-<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
+<p>这是因为他用Mac 创建了该项目，而在 Mac 中创建的项目 , 自动生成的 Android Gradle 插件 版本是 7.4.2 , 说明 Mac 中项目版本号是 “ Electric Eel | 2022.1.1 “ 或者更高的版本 ;</p>
+<p>将 <code>build.gradle</code> 构建脚本中的 <code>com.android.application</code> 插件 和 <code>com.android.library</code> 插件的版本修改为 <code>7.3.1</code> , 即可完成编译 ;</p>
+<p>找到 <code>build.gradle</code>  :</p>
+<p><img src="/post/3b7f2b28/4.png" alt="image-20230524150433874"></p>
+<p>将两个版本号都修改为<code>7.3.1</code>,点击Try Again可以继续执行依赖</p>
+<p><img src="/post/3b7f2b28/5.png" alt="image-20230524151121493"></p>
 </font>
 ]]></content>
       <categories>
-        <category>hexo</category>
-        <category>markdown</category>
-        <category>博客</category>
+        <category>报错</category>
+        <category>安卓</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>markdown</tag>
-        <tag>博客</tag>
+        <tag>报错</tag>
+        <tag>安卓</tag>
       </tags>
   </entry>
   <entry>
@@ -188,44 +184,177 @@
       </tags>
   </entry>
   <entry>
-    <title>报错日志：安卓插件引入和项目版本兼容问题</title>
-    <url>/post/3b7f2b28.html</url>
+    <title>Vercel+imsyy部署个人博客home页面</title>
+    <url>/post/6b62e9ba.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
 
-<h1 id="一、Android-Studio项目插件引入"><a href="#一、Android-Studio项目插件引入" class="headerlink" title="一、Android Studio项目插件引入"></a>一、Android Studio项目插件引入</h1><p>在引入别人的安卓文件时发生了报错</p>
-<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note danger modern"><p>Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin ‘com.android.internal.application’.</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>hexo</strong>框架的butterfly首页看腻了，正好发现一个好看简洁的博客首页主题<strong>imsyy</strong>，本篇博客记录我部署<strong>imsyy</strong>的过程。</p>
+<h1 id="fork仓库"><a href="#fork仓库" class="headerlink" title="fork仓库"></a>fork仓库</h1><p><strong>imsyy</strong>主题是<strong>github</strong>上的开源项目，项目地址：<strong><a href="https://github.com/imsyy/home">https://github.com/imsyy/home</a></strong></p>
+<a class="btn-beautify blue larger" href="https://github.com/imsyy/home" 
+  title="imsyy/home"><i class="far fa-hand-point-right"></i><span>imsyy/home</span></a>
+
+<img src="/post/6b62e9ba/1.png" class="" title="image-20230527163145711">
+
+<p>点击<strong>fork</strong>之后添加仓库名，该项目就被复制到你的<strong>github</strong>中了</p>
+<h1 id="部署vercel"><a href="#部署vercel" class="headerlink" title="部署vercel"></a>部署vercel</h1><div class="note none blue flat"><p>登录你的<strong>vercel</strong>，进入到<strong>overview</strong>页面，点击<code>Add New Project</code>创建一个新项目</p>
 </div>
 
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>在<code>gradle.properties</code>添加<code>android.overridePathCheck=true</code>即可</p>
-<img src="/post/3b7f2b28/1.png" class="" title="image-20230524144658745">
+<img src="/post/6b62e9ba/2.png" class="" title="image-20230527163542233">
 
-<img src="/post/3b7f2b28/2.png" class="" title="image-20230524144751980">
-
-<p>引入后点击Try Again继续下载依赖包</p>
-<p><img src="/post/3b7f2b28/3.png" alt="image-20230524145110593"></p>
-<h1 id="二、项目版本不兼容问题"><a href="#二、项目版本不兼容问题" class="headerlink" title="二、项目版本不兼容问题"></a>二、项目版本不兼容问题</h1><p>引入插件后继续下载sdk时发生报错</p>
-<div class="note danger modern"><p>The project is using an incompatible version (AGP 8.0.1) of the Android Gradle plugin. Latest supported version is AGP 7.4.2</p>
+<div class="note none blue flat"><p>选择刚刚复刻的<strong>imsyy-home</strong>项目</p>
 </div>
 
-<p>意思是：</p>
-<div class="note info modern"><p>使用该 “ Android Studio Dolphin “ 版本的 Android Studio , 最高只能配置的 Android Gradle 插件的版本为 7.3.1 ;</p>
+<img src="/post/6b62e9ba/3.png" class="" title="image-20230527163712714">
+
+<div class="note none blue flat"><p>什么都不用改，直接<strong>Deploy</strong></p>
 </div>
 
-<p>这是因为他用Mac 创建了该项目，而在 Mac 中创建的项目 , 自动生成的 Android Gradle 插件 版本是 7.4.2 , 说明 Mac 中项目版本号是 “ Electric Eel | 2022.1.1 “ 或者更高的版本 ;</p>
-<p>将 <code>build.gradle</code> 构建脚本中的 <code>com.android.application</code> 插件 和 <code>com.android.library</code> 插件的版本修改为 <code>7.3.1</code> , 即可完成编译 ;</p>
-<p>找到 <code>build.gradle</code>  :</p>
-<p><img src="/post/3b7f2b28/4.png" alt="image-20230524150433874"></p>
-<p>将两个版本号都修改为<code>7.3.1</code>,点击Try Again可以继续执行依赖</p>
-<p><img src="/post/3b7f2b28/5.png" alt="image-20230524151121493"></p>
+<img src="/post/6b62e9ba/4.png" class="" title="image-20230527163939159">
+
+<div class="note none blue flat"><p>之后等待部署成功就行了</p>
+</div>
+
+<hr>
+<div class="note danger flat"><p>vercel在国内会被墙，所以需要绑定一个域名来正常访问</p>
+</div>
+
+<img src="/post/6b62e9ba/5.png" class="" title="image-20230527164325263">
+
+<div class="note none blue flat"><p>打开<strong>域名管理面板</strong>，添加<strong>域名解析</strong>，我们只需添加一个二级域名即可，<strong>主机记录</strong>为<code>imsyy</code>，可以随意设置，<strong>记录类型</strong>为<code>CNAME</code>，<strong>记录值</strong>为<code>vercel-dns.com.</code></p>
+</div>
+
+<img src="/post/6b62e9ba/6.png" class="" title="image-20230527170014755">
+
+<div class="note none blue flat"><p>随后回到<strong>vercel</strong>中，添加域名<code>imsyy+你的域名</code>,然后等待解析完成之后就可以使用该域名访问到一个初始化的<strong>imsyy</strong>页面啦</p>
+</div>
+
+<img src="/post/6b62e9ba/7.png" class="" title="image-20230527170327736">
+
+<hr>
+<h1 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h1><h2 id="先将项目copy到本地"><a href="#先将项目copy到本地" class="headerlink" title="先将项目copy到本地"></a>先将项目copy到本地</h2><p>打开<strong>github</strong>，进入<strong>imsyy</strong>项目所在的储存库，你可以选择<code>Download ZIP</code>直接将项目下载成一个压缩包，或者复制<strong>SSH</strong>，使用<strong>git</strong>拉取整个项目</p>
+<div class="tabs" id=""><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#-1">直接下载压缩包</button></li><li class="tab"><button type="button" data-href="#-2">git拉取</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="-1"><div class="note none blue flat"><p>点击Download Zip下载并在本地解压打开即可</p>
+</div>
+
+<img src="/post/6b62e9ba/8.png" class="" title="image-20230527170327737"><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="-2"><div class="note none blue flat"><p>复制你的SSH密钥，在你需要保存的文件根目录右键打开<code>GIT BASH</code>，输入<code>git clone 你的SSH密钥</code>即可</p>
+</div>
+
+<img src="/post/6b62e9ba/image-20230527172314585.png" class="" title="image-20230527172314585"><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+
+<h2 id="打开本地预览"><a href="#打开本地预览" class="headerlink" title="打开本地预览"></a>打开本地预览</h2><div class="note none blue flat"><p>在这之前需要运行本地预览</p>
+</div>
+
+
+
+<p>本地预览需要我们在本地安装好<code>node.js</code>环境以及<code>npm包管理器</code>，随后<a href="https://so.csdn.net/so/search?q=%E5%AE%89%E8%A3%85yarn&spm=1001.2101.3001.7020">安装yarn</a>，如你的电脑已经安装过<code>yarn</code>可以跳过这一步</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install yarn</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后执行<code>yarn install</code>安装依赖</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yarn install</span><br></pre></td></tr></table></figure>
+
+<p>依赖项搞定了，用<code>dev</code>查看预览页面</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yarn dev</span><br></pre></td></tr></table></figure>
+
+<div class="note none blue flat"><p>默认端口是<strong>localhost:3000</strong>，浏览器打开即可预览初始化的<strong>imsyy</strong>页面</p>
+</div>
+
+<img src="/post/6b62e9ba/image-20230527173229265.png" class="" title="image-20230527173229265">
+
+<hr>
+<h1 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h1><h2 id="社交链接"><a href="#社交链接" class="headerlink" title="社交链接"></a>社交链接</h2><p>如果你不需要社交链接，那么你可以打开<strong>根目录：</strong><code>\src\components\SocialLinks</code>下的<code>index.vue</code>，然后将里面的<code>&lt;template&gt;</code>里的内容注释掉</p>
+<img src="/post/6b62e9ba/image-20230527202035636.png" class="" title="image-20230527202035636">
+
+<p>如果要添加或修改社交链接，那么你需要进入到<strong>根目录</strong>下的<code>public</code>文件夹中找到<code>socialLinks.json</code>：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Github&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/github.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;去 Github 看看&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/你的github&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;BiliBili&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/bilibili.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(゜-゜)つロ 干杯 ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://space.bilibili.com/你的哔哩哔哩账号&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QQ&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/qq.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;有什么事吗&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://res.abeim.cn/api/qq/?qq=你的QQ&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Email&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/email.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;来封 Email ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的邮箱&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Telegram&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/telegram.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你懂的 ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的Telegram地址&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>社交链接会在这里展示出来：</p>
+<img src="/post/6b62e9ba/image-20230527203611490.png" class="" title="image-20230527203611490">
+
+<h2 id="添加你的基本信息"><a href="#添加你的基本信息" class="headerlink" title="添加你的基本信息"></a>添加你的基本信息</h2><p>打开<strong>根目录</strong>下的<code>.env</code>配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">VITE_SITE_NAME</span> <span class="string">=</span> <span class="string">&quot;小铭の博客&quot;</span>  <span class="comment"># 站点名称</span></span><br><span class="line"><span class="string">VITE_SITE_ANTHOR</span> <span class="string">=</span> <span class="string">&quot;小铭&quot;</span>   <span class="comment"># 站点作者</span></span><br><span class="line"><span class="string">VITE_SITE_KEYWORDS</span> <span class="string">=</span> <span class="string">&quot;小铭,个人博客&quot;</span> <span class="comment"># 站点关键词</span></span><br><span class="line"><span class="string">VITE_SITE_DES</span> <span class="string">=</span> <span class="string">&quot;一些乱七八糟的记录&quot;</span> <span class="comment"># 站点描述</span></span><br><span class="line"><span class="string">VITE_SITE_URL</span> <span class="string">=</span> <span class="string">&quot;xiaoming.site&quot;</span>  <span class="comment"># 站点地址(首页头像旁的文字)</span></span><br><span class="line"><span class="string">VITE_SITE_LOGO</span> <span class="string">=</span> <span class="string">&quot;/images/icon/ico.jpg&quot;</span> <span class="comment"># 站点 LOGO</span></span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p><font color='red' size=4>注意：</font>首页的logo字母是经过压缩的，使用其他字母会变成默认字体(只有<strong>imsyy.top</strong>和<strong>hello，world</strong>里的这些字母有样式),如果需要所有字母的样式可以去作者的<strong>github</strong>的项目首页下载</p>
+<p><a class="btn-beautify blue larger" href="https://github.com/imsyy/home" 
+  title="点击去下载完整字体"><i class="far fa-hand-point-right"></i><span>点击去下载完整字体</span></a></p>
+</div>
+
+<h2 id="修改建站日期"><a href="#修改建站日期" class="headerlink" title="修改建站日期"></a>修改建站日期</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 建站日期</span></span><br><span class="line"><span class="comment">## 请按照 YYYY-MM-DD 格式填写</span></span><br><span class="line"><span class="string">VITE_SITE_START</span> <span class="string">=</span> <span class="string">&quot;2023-5-8&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="添加音乐播放器"><a href="#添加音乐播放器" class="headerlink" title="添加音乐播放器"></a>添加音乐播放器</h2><p>这里我们只需要修改歌曲服务器和播放ID就行</p>
+<p>在浏览器打开你的网易云或者QQ音乐的，选择一个歌单，将网址中的id复制进来即可替换歌单</p>
+<div class="note none blue flat"><p><strong>建议选择网易云，无论是国内国外，网易云的播放服务器都更稳定</strong></p>
+</div>
+
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 歌曲 API 地址</span></span><br><span class="line"><span class="comment">## 请参照 https://github.com/xizeyoupan/Meting-API#deno-deploy 进行 API 服务部署</span></span><br><span class="line"><span class="comment">## 此处提供的服务可能会超量从而无法访问，请自行部署</span></span><br><span class="line"><span class="comment">## 若使用QQ音乐歌单，歌曲数量最好不要超出50首</span></span><br><span class="line"><span class="comment">## 备用：https://api.wuenci.com/meting/api/</span></span><br><span class="line"><span class="string">VITE_SONG_API</span> <span class="string">=</span> <span class="string">&quot;https://api-meting.imsyy.top/api&quot;</span></span><br><span class="line"><span class="comment"># 歌曲服务器 ( netease-网易云, tencent-qq音乐 )</span></span><br><span class="line"><span class="string">VITE_SONG_SERVER</span> <span class="string">=</span> <span class="string">&quot;netease&quot;</span></span><br><span class="line"><span class="comment"># 播放类型 ( song-歌曲, playlist-播放列表, album-专辑, search-搜索, artist-艺术家 )</span></span><br><span class="line"><span class="string">VITE_SONG_TYPE</span> <span class="string">=</span> <span class="string">&quot;playlist&quot;</span></span><br><span class="line"><span class="comment"># 播放 ID</span></span><br><span class="line"><span class="string">VITE_SONG_ID</span> <span class="string">=</span> <span class="string">&quot;5331617474&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="简介文本"><a href="#简介文本" class="headerlink" title="简介文本"></a>简介文本</h2><p>修改首页的一些简介</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 简介文本</span></span><br><span class="line"><span class="string">VITE_DESC_HELLO</span> <span class="string">=</span> <span class="string">&quot;Hello Blog !&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_TEXT</span> <span class="string">=</span> <span class="string">&quot;黄师塔前江水东，春光懒困倚微风。&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_HELLO_OTHER</span> <span class="string">=</span> <span class="string">&quot;less times !&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_TEXT_OTHER</span> <span class="string">=</span> <span class="string">&quot;岁月不居，时节如流。&quot;</span></span><br></pre></td></tr></table></figure>
+
+<img src="/post/6b62e9ba/image-20230527215209845.png" class="" title="image-20230527215209845">
+
+<p>点击文本块后：</p>
+<img src="/post/6b62e9ba/image-20230527215309543.png" class="" title="image-20230527215309543">
+
+<h2 id="天气服务"><a href="#天气服务" class="headerlink" title="天气服务"></a>天气服务</h2><p>因为作者的天气服务key已经超量，建议自行前往高德开放平台注册一个<strong>key</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 天气 Key</span></span><br><span class="line"><span class="comment">## 请前往高德开放平台注册 Web服务 Key（免费的）</span></span><br><span class="line"><span class="comment">## 请各位大佬行行好，别再让我超量了</span></span><br><span class="line"><span class="string">VITE_WEATHER_KEY</span> <span class="string">=</span> <span class="string">&quot;57eaea5833ff1616cfd1ff2c4cf9b58a&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="网站顶部logo"><a href="#网站顶部logo" class="headerlink" title="网站顶部logo"></a>网站顶部logo</h2><p>网站logo需要前往<strong>根目录</strong>下的<code>index.html</code>文件的头文件处修改</p>
+<p>打开<code>index.html</code>，找到<code>rel=&quot;icon&quot;</code>的<code>link</code>将<code>href</code>修改为你的头像的路径</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/images/icon/ico.jpg&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<img src="/post/6b62e9ba/image-20230527215951311.png" class="" title="image-20230527215951311">
+
+<h2 id="footer配置"><a href="#footer配置" class="headerlink" title="footer配置"></a>footer配置</h2><p>进入<strong>根目录</strong>下的<code>src\components\Footer\index.vue</code></p>
+<p>将网址链接修改为你的链接：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span></span></span><br><span class="line"><span class="tag">    &gt;</span>Copyright<span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;copy;</span><span class="symbol">&amp;nbsp;</span>&#123;&#123; fullYear &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://xiaoming.site&quot;</span>&gt;</span>小铭<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你的站点经过了备案，修改如下字段：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://beian.miit.gov.cn&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span></span></span><br><span class="line"><span class="tag">  &gt;</span>豫ICP备2022018134号-1&lt;/a</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="背景图设置"><a href="#背景图设置" class="headerlink" title="背景图设置"></a>背景图设置</h2><p>进入<strong>根目录</strong>下的<code>src\js\store\index.js</code></p>
+<p>在这里可以修改关于壁纸的各项设置</p>
+<div class="note none blue flat"><p><strong>coverType</strong>可选<code>0-4</code>,<strong>0</strong>是默认壁纸，每次刷新从<strong>根目录</strong>下的<code>public\images</code>下随机选取一张，<strong>1</strong>是<strong>bing</strong>每日推荐壁纸，<strong>2</strong>是随机风景，<strong>3</strong>是随机<strong>二刺螈</strong>背景图</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="attr">state</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">innerWidth</span>: <span class="literal">null</span>, <span class="comment">// 当前窗口宽度</span></span><br><span class="line">            <span class="attr">coverType</span>: <span class="string">&quot;0&quot;</span>, <span class="comment">// 壁纸种类</span></span><br><span class="line">            <span class="attr">siteStartShow</span>: <span class="literal">true</span>, <span class="comment">// 建站日期显示</span></span><br><span class="line">            <span class="attr">musicIsOk</span>: <span class="literal">false</span>, <span class="comment">// 音乐是否加载完成</span></span><br><span class="line">            <span class="attr">musicVolume</span>: <span class="number">0</span>, <span class="comment">// 音乐音量;</span></span><br><span class="line">            <span class="attr">musicOpenState</span>: <span class="literal">false</span>, <span class="comment">// 音乐面板开启状态</span></span><br><span class="line">            <span class="attr">backgroundShow</span>: <span class="literal">false</span>, <span class="comment">// 壁纸展示状态</span></span><br><span class="line">            <span class="attr">boxOpenState</span>: <span class="literal">false</span>, <span class="comment">// 盒子开启状态</span></span><br><span class="line">            <span class="attr">mobileOpenState</span>: <span class="literal">false</span>, <span class="comment">// 移动端开启状态</span></span><br><span class="line">            <span class="attr">mobileFuncState</span>: <span class="literal">false</span>, <span class="comment">// 移动端功能区开启状态</span></span><br><span class="line">            <span class="attr">setOpenState</span>: <span class="literal">false</span>, <span class="comment">// 设置页面开启状态</span></span><br><span class="line">            <span class="attr">playerState</span>: <span class="literal">false</span>, <span class="comment">// 当前播放状态</span></span><br><span class="line">            <span class="attr">playerTitle</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌曲名</span></span><br><span class="line">            <span class="attr">playerArtist</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌手名</span></span><br><span class="line">            <span class="attr">playerLrc</span>: <span class="string">&quot;歌词加载中&quot;</span>, <span class="comment">// 当前播放歌词</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>背景图可以在前端直接设置，点击左侧留言，再点击时间胶囊右侧的设置按钮。</p>
+<div class="note danger flat"><p>建议<strong>coverType</strong>默认为0，使用本地壁纸页面的打开速度会快很多</p>
+</div>
+
+<img src="/post/6b62e9ba/image-20230527225556592.png" class="" title="image-20230527225556592">
+
+
+
+<div class="note none blue flat"><p>如果需要更换本地壁纸，你可以打开<strong>根目录</strong>下的<code>src\components\Background\index.vue</code></p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">changeBg</span> = (<span class="params">type</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (type == <span class="number">0</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">`/images/background<span class="subst">$&#123;<span class="built_in">Math</span>.floor(</span></span></span><br><span class="line"><span class="subst"><span class="string">      <span class="built_in">Math</span>.random() * <span class="number">10</span> + <span class="number">1</span></span></span></span><br><span class="line"><span class="subst"><span class="string">    )&#125;</span>.webp`</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">1</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://api.dujin.org/bing/1920.php&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">2</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://api.btstu.cn/sjbz/api.php?lx=fengjing&amp;format=images&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">3</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://www.dmoe.cc/random.php&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>默认壁纸是随机生成<strong>0-10</strong>的数，每次刷新随机抽取一张图片</p>
+<p>如果你要添加壁纸，需要修改<code>Math.random() * 10 + 1</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Math</span>.<span class="title function_">random</span>() * 你的图片数 + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将新壁纸到<strong>根目录</strong>下的<code>public\images</code>文件夹中，修改图片名称为<code>background$&#123;图片序号&#125;.webp</code>，这里的后缀名<code>.webp</code>根据你文件夹中的图片后缀修改</p>
+<p>这里是我的图片文件夹</p>
+<img src="/post/6b62e9ba/image-20230528133015854.png" class="" title="image-20230528133015854">
+
+<h2 id="网站链接配置"><a href="#网站链接配置" class="headerlink" title="网站链接配置"></a>网站链接配置</h2><p>进入<strong>根目录</strong>下的<code>src\components\Links\index.vue</code></p>
+<p>在<code>linksData</code>数组对象中增加或减少你的站点，建议不要超过六个，否则需要重设样式</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> linksData = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Blog</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;博客&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://blog.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Cloud</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;网盘&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://pan.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">CompactDisc</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;音乐&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://music.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Compass</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;起始页&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://nav.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Book</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;网址集&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://web.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Fire</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;今日热榜&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://hot.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要更改链接图标，打开<strong>根目录</strong>下的<code>node_modules\@vicons\fa\es\index.d.ts</code>，找到你需要的图标然后<code>import</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  <span class="title class_">Link</span>,</span><br><span class="line">  <span class="title class_">Blog</span>,</span><br><span class="line">  <span class="title class_">CompactDisc</span>,</span><br><span class="line">  <span class="title class_">Cloud</span>,</span><br><span class="line">  <span class="title class_">Compass</span>,</span><br><span class="line">  <span class="title class_">Book</span>,</span><br><span class="line">  <span class="title class_">Fire</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;@vicons/fa&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>修改一下链接地址就可以得到一个简洁好看的博客首页啦</p>
 </font>
 ]]></content>
       <categories>
-        <category>报错</category>
-        <category>安卓</category>
+        <category>imsyy</category>
       </categories>
       <tags>
-        <tag>报错</tag>
-        <tag>安卓</tag>
+        <tag>imsyy</tag>
+        <tag>博客</tag>
+        <tag>vercel</tag>
       </tags>
   </entry>
   <entry>
@@ -266,6 +395,51 @@
       <tags>
         <tag>JavaScript</tag>
         <tag>es6</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Markdown图片路径问题及git bash无法中断问题</title>
+    <url>/post/1d96212d.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="一、markdown图片相对路径问题"><a href="#一、markdown图片相对路径问题" class="headerlink" title="一、markdown图片相对路径问题"></a>一、markdown图片相对路径问题</h1><p>Typora本地插入图片的路径有两种方式：一个是绝对路径，一个是相对路径（相对于当前文件所在的路径）</p>
+<p>Hexo通过<code>hexo-renderer-marked</code>插件实现了对markdown语法的支持，其中默认插入图片的方式为 <code>![](/images/image.jpg)</code> ，它是一个相对路径（相对于Hexo工作目录下的 <code>source</code> 文件夹）的方式。为了方便相对路径的引用，hexo提供了一个配置属性：<code>post_asset_folder</code>,在hexo根目录下的配置文件<code>_config.yml</code>中将<code>post_asset_folder</code>设置为<code>true</code> ：    </p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>该功能打开后，Hexo将会在你每一次通过 <code>hexo new [layout] &lt;title&gt;</code> 命令创建新文章时自动创建一个文件夹和一个markdown文件。例如，我使用 <code>hexo new blog</code> 创建了一篇文章 <code>blog.md</code> ，会同时在该文章文件所在的路径上创建文件夹 <code>blog/</code>，我们在该文件夹里面添加图片 <code>blog/my.png</code>，这时我们在 <code>blog.md</code> 文件中插入该图片的方式为 <code>![](my.png)</code> 就可以了。</p>
+<p>这个资源文件夹名与这个文章文件名相同。将所有与你的文章有关的资源（如图片）放在这个关联文件夹中之后，你可以通过相对路径来引用它们。</p>
+<p>但在typora中不使用<code>![](my.png)</code>这种图片格式，typora会将其转化为<code>&#123;% asset_img my.png %&#125;</code>形式，所有在typora使用相对路径引入图片需要借助插件完成，网上大多数资料推荐的插件是<code>hexo-asset-image</code>，但我清测没有效，我使用的是<code>hexo-image-link</code>插件，是将markdown图片路径转换为asset_img语法，使得图片能够同时显示在typora和hexo上。</p>
+<p>只需要两步：</p>
+<h3 id="1-安装插件hexo-image-link"><a href="#1-安装插件hexo-image-link" class="headerlink" title="1.安装插件hexo-image-link"></a>1.安装插件<code>hexo-image-link</code></h3><p>根目录git bash输入命令:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-打开Hexo资源管理配置开关"><a href="#2-打开Hexo资源管理配置开关" class="headerlink" title="2.打开Hexo资源管理配置开关"></a>2.打开Hexo资源管理配置开关</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>展示：</p>
+<p>因为我的typora设置： 格式-&gt;图像-&gt;设置图片根目录，所以我此时的引用不需要文件夹路径</p>
+<p>此时我的路径是<code>/2038608.jpg</code></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">风景</span>](<span class="link">/2038608.jpg</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接下来你可以看到本篇博客显示如下图片：</p>
+<img src="/post/1d96212d/2038608.jpg" class="" title="风景">
+
+<h1 id="二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法"><a href="#二、Git-Bash中按下Ctrl-C无法中断hexo-s的解决方法" class="headerlink" title="二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法"></a>二、Git Bash中按下Ctrl+C无法中断hexo s的解决方法</h1><p>在git bash启动<code>hexo server</code>后经常出现ctrl+c无法关闭服务器的情况，这时我们只需要打开<code>cmd</code>，然后输入<code>taskkill /F /IM node.exe</code>，</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">taskkill</span> /F /IM node.exe</span><br></pre></td></tr></table></figure>
+
+<p>即可关闭所有node脚本占用的端口从而关闭服务器。</p>
+</font>
+]]></content>
+      <categories>
+        <category>hexo</category>
+        <category>markdown</category>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -592,95 +766,6 @@
       </tags>
   </entry>
   <entry>
-    <title>一些前端面试题（二）</title>
-    <url>/post/9e4b7ff2.html</url>
-    <content><![CDATA[<font face="ZhuZiAWan" size=3>
-
-<h1 id="什么是原型链？"><a href="#什么是原型链？" class="headerlink" title="什么是原型链？"></a>什么是原型链？</h1><p>每一个实例对象上有一个<strong>proto 属性</strong>，指向的<strong>构造函数的原型对象</strong>，构造函数的原型 对象也是一个对象， 也有 proto 属性，这样一层一层往上找的过程就形成了<strong>原型链</strong>。</p>
-<p><strong>实例对象</strong>的 <strong>proto</strong> 指向构造函数的 prototype，<strong>构造函数</strong>的__proto__ 指向Object的 prototype，<strong>Object</strong>的__proto__ 最终指向null</p>
-<p><strong>Javascript中任意数据都能沿着自己的原型链最终找到Object.prototype</strong></p>
-<h1 id="什么是闭包？-闭包有哪些优缺点？"><a href="#什么是闭包？-闭包有哪些优缺点？" class="headerlink" title="什么是闭包？ 闭包有哪些优缺点？"></a>什么是闭包？ 闭包有哪些优缺点？</h1><p><strong>闭包</strong>（closure）指有权访问另一个函数作用域中变量的函数。简单理解就是 ，一个<strong>作用 域可以访问另外一个函数内部的局部变量</strong>。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> num = <span class="number">10</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">fun</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(num)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fun</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> f = <span class="title function_">fn</span>()</span><br><span class="line"><span class="title function_">f</span>()</span><br></pre></td></tr></table></figure>
-
-<p><strong>作用：</strong> 延长变量作用域、在函数的外部可以访问函数内部的局部变量，<strong>容易造成内层泄露</strong>，因为闭包中 的局部变量<strong>永远不会被回收</strong></p>
-<h1 id="常见的继承有哪些？"><a href="#常见的继承有哪些？" class="headerlink" title="常见的继承有哪些？"></a>常见的继承有哪些？</h1><h2 id="一、原型链继承"><a href="#一、原型链继承" class="headerlink" title="一、原型链继承"></a>一、原型链继承</h2><p><strong>特点：</strong> 1、实例可继承的属性有：实例的构造函数的属性，父类构造函数属性，父类原型的属性。（新 实例不会继承父类实例的属性！</p>
-<p><strong>缺点：</strong> 1、新实例无法向父类构造函数传参。</p>
-<p>2、继承单一。</p>
-<p>3、所有新实例都会共享父类实例的属性。（原型上的属性是共享的，一个实例修改了原型属 性，另一个实例的原 型属性也会被修改！）</p>
-<h2 id="二、借用构造函数继承"><a href="#二、借用构造函数继承" class="headerlink" title="二、借用构造函数继承"></a>二、借用构造函数继承</h2><p><strong>重点：</strong> 用 <strong>.call()和.apply()</strong> 将父类构造函数引入子类函数（在子类函数中做了父类函数的自执行（复 制））</p>
-<p><strong>特点：</strong> 1、只继承了父类构造函数的属性，没有继承父类原型的属性。</p>
-<p>2、解决了原型链继承缺点 1、2、3。</p>
-<p>3、可以继承多个构造函数属性（call 多个）。</p>
-<p>4、在子实例中可向父实例传参。</p>
-<p><strong>缺点：</strong> 1、只能继承父类构造函数的属性。</p>
-<p>2、无法实现构造函数的复用。（每次用每次都要重新调用）</p>
-<p>3、每个新实例都有父类构造函数的副本，臃肿。</p>
-<h2 id="三、组合继承（组合原型链继承和借用构造函数继承）（常用）"><a href="#三、组合继承（组合原型链继承和借用构造函数继承）（常用）" class="headerlink" title="三、组合继承（组合原型链继承和借用构造函数继承）（常用）"></a>三、组合继承（组合原型链继承和借用构造函数继承）（常用）</h2><p><strong>重点：</strong> 结合了两种模式的优点，传参和复用</p>
-<p><strong>特点：</strong> 1、可以继承父类原型上的属性，可以传参，可复用。</p>
-<p>2、每个新实例引入的构造函数属性是私有的。</p>
-<p><strong>缺点：</strong> 调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函 数。</p>
-<h2 id="四、原型式继承"><a href="#四、原型式继承" class="headerlink" title="四、原型式继承"></a>四、原型式继承</h2><p><strong>重点：</strong> 用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的 实例或对象。object.create()就是这个原理。</p>
-<p><strong>特点：</strong> 类似于复制一个对象，用函数来包装。</p>
-<p><strong>缺点：</strong> 1、所有实例都会继承原型上的属性。 2、无法实现复用。（新实例属性都是后面添加的）</p>
-<h2 id="五、class-类实现继承"><a href="#五、class-类实现继承" class="headerlink" title="五、class 类实现继承"></a>五、class 类实现继承</h2><p>通过 extends 和 super 实现继承</p>
-<h2 id="六、寄生式继承"><a href="#六、寄生式继承" class="headerlink" title="六、寄生式继承"></a>六、寄生式继承</h2><p><strong>重点：</strong> 就是给原型式继承外面套了个壳子。</p>
-<p><strong>优点：</strong> 没有创建自定义类型，因为只是套了个壳子返回对象（这个），这个函数顺理成章就成 了创建的新对象。</p>
-<p><strong>缺点：</strong> 没用到原型，无法复用。</p>
-<h1 id="后台管理系统中的权限管理是怎么实现的？"><a href="#后台管理系统中的权限管理是怎么实现的？" class="headerlink" title="后台管理系统中的权限管理是怎么实现的？"></a>后台管理系统中的权限管理是怎么实现的？</h1><p>登录成功后，服务端会返回一个 <strong>token</strong>（该 token 的是一个能唯一标示用户身份的一个 key），之后我 们将 token 存储在本地 cookie 之中，这样下次打开页面或者刷新页面的时候能记住用户的登录状态，不 用再去登录页面重新登录了。</p>
-<p>用户登录成功之后，在全局钩子 router.beforeEach 中拦截路由，判断是否已获得 token，在 获得 token 之后我们就要去获取用户的基本信息了 页面会先从 cookie 中查看是否存有 token，没有，就走一遍上一部分的流程重新登录，如果有 token, 就会把这个 token 返给后端去拉取 user_info，保证用户信息是最新的。 当然如果是做了单点登录得功 能的话，用户信息存储在本地也是可以的。当你一台电脑登录时，另一台会被提下线，所以总会重新登 录获取最新的内容。</p>
-<h1 id="es6-有哪些新特性？"><a href="#es6-有哪些新特性？" class="headerlink" title="es6 有哪些新特性？"></a>es6 有哪些新特性？</h1><p>ES6 是 2015 年推出的一个新的版本、这个版本相对于 ES5 的语法做了很多的优化、例如：新增了<strong>let、 const</strong></p>
-<p><strong>let 和 const</strong>具有块级作用域，<strong>不存在变量提升的问题</strong>。新增了<strong>箭头函数</strong>，简化了定义函数的写法，</p>
-<p>同时 可以<strong>巧用箭头函数的 this</strong>、（注意箭头函数本身没有 this,它的 this 取决于外部的环境），</p>
-<p>新增了<strong>promise</strong> 解决了回调地域的问题，新增了模块化、利用 import 、export 来实现导入、导出。</p>
-<p>新增了<strong>结构赋值</strong>， ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构 （Destructuring）。</p>
-<p>新增了<strong>class 类</strong>的概念，它类似于对象。</p>
-<h1 id="v-for-循环为什么一定要绑定-key"><a href="#v-for-循环为什么一定要绑定-key" class="headerlink" title="v-for 循环为什么一定要绑定 key ?"></a>v-for 循环为什么一定要绑定 key ?</h1><p><strong>页面上的标签都对应具体的虚拟 dom 对象(虚拟 dom 就是 js 对象),</strong> 循环中 ,如果没有唯一 key , 页面上删除 一条标签, 由于并不知道删除的是那一条! 所以要把全部虚拟 dom 重新渲染, 如果知道 key 为 x 标签被删除 掉, 只需要把渲染的 dom 为 x 的标签去掉即可!</p>
-<h1 id="平时都是用什么实现跨域的？"><a href="#平时都是用什么实现跨域的？" class="headerlink" title="平时都是用什么实现跨域的？"></a>平时都是用什么实现跨域的？</h1><p><strong>jsonp:</strong> 利用 标签没有跨域限制的漏洞，网页可以得到从其他来源动态产生的 JSON 数据。JSONP 请求一 定需要对方的服务器做支持才可以。</p>
-<p>JSONP 优点是简单兼容性好，可用于解决主流浏览器的跨域数据访问的问题。缺点是仅支持 get 方法具 有局限性,不安全可能会遭受 XSS 攻击。</p>
-<p>声明一个回调函数，其函数名(如 show)当做参数值，要传递给跨域请求数据的服务器，函数形参为要获 取目标数据(服务器返回的 data)。 创建一个 <code>&lt;script&gt;</code> 标签，把那个跨域的 API 数据接口地址，赋值给 script 的 src,还要在这个地址中向服 务器传递该函数名（可以通过问号传参:?callback&#x3D;show）。</p>
-<p>服务器接收到请求后，需要进行特殊的处理：把传递进来的函数名和它需要给你的数据拼接成一个字符 串,例如：传递进去的函数名是 show，它准备好的数据是 show(‘我不爱你’) 。</p>
-<p>最后服务器把准备的数据通过 HTTP 协议返回给客户端，客户端再调用执行之前声明的回调函数 （show），对返回的数据进行操作。</p>
-<p><strong>CORS：跨域资源共享（CORS）是一种机制</strong>；当一个资源访问到另外一个资源(这个资源放在 不同的域名或者不同的协议或者端口)，资源就会发起一个跨域的 HTTP 请求需要浏览器和服务器同时支持；</p>
-<p>1.整个 CORS 通信，都是浏览器自动完成。浏览器发现了 AJAX 请求跨源，就会自动添加一些附加的头 信息，有时还会多出一次附加的请求，但用户不会有感觉；</p>
-<p>2.实现 CORS 的关键是服务器，只要服务器实现了 CORS 接口，就可以跨源通信</p>
-<p>3.服务器对于不同的请求，处理方式不一样； 有简单请求和非简单请求</p>
-<h1 id="cookie-、localstorage-、-sessionstrorage-之间有什么区别？"><a href="#cookie-、localstorage-、-sessionstrorage-之间有什么区别？" class="headerlink" title="cookie 、localstorage 、 sessionstrorage 之间有什么区别？"></a>cookie 、localstorage 、 sessionstrorage 之间有什么区别？</h1><ul>
-<li>与服务器交互：<ul>
-<li>cookie 是网站为了标示用户身份而储存在用户本地终端上的数据（通常经过加密）</li>
-<li>cookie 始终会在同源 http 请求头中携带（即使不需要），在浏览器和服务器间来回传递</li>
-<li>sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存</li>
-</ul>
-</li>
-<li>存储大小：</li>
-<li>cookie 数据根据不同浏览器限制，大小一般不能超过 4k</li>
-<li>sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到 5M 或更大</li>
-<li>有期时间：<ul>
-<li>ocalStorage 存储持久数据，浏览器关闭后数据不丢失除非主动删除数据</li>
-<li>sessionStorage 数据在当前浏览器窗口关闭后自动删除</li>
-<li>cookie 设置的 cookie 过期时间之前一直有效，与浏览器是否关闭无关</li>
-</ul>
-</li>
-</ul>
-<h1 id="this-的指向有哪些？"><a href="#this-的指向有哪些？" class="headerlink" title="this 的指向有哪些？"></a>this 的指向有哪些？</h1><p>1、普通函数中的 this 指向 window</p>
-<p>2、定时器中的 this 指向 window</p>
-<p>3、箭头函数没有 this,它的 this 指向取决于外部环境、</p>
-<p>4、事件中的 this 指向事件的调用者 黑马程序员</p>
-<p>5、 构造函数中 this 和原型对象中的 this,都是指向构造函数 new 出来实例对象</p>
-<p>6、类 class 中的 this 指向由 constructor 构造器 new 出来的实例对象</p>
-<p>7、自调用函数中的 this 指向 window</p>
-<h1 id="谈谈你平时都用了哪些方法进行性能优化？"><a href="#谈谈你平时都用了哪些方法进行性能优化？" class="headerlink" title="谈谈你平时都用了哪些方法进行性能优化？"></a>谈谈你平时都用了哪些方法进行性能优化？</h1><p><strong>减少 http 请求次数、打包压缩上线代码、使用懒加载、使用雪碧图、动态渲染组件、CDN 加载包。</strong></p>
-</font>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>前端</tag>
-        <tag>JavaScript</tag>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>箭头函数的特点</title>
     <url>/post/4d1c757e.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
@@ -775,177 +860,92 @@
       </tags>
   </entry>
   <entry>
-    <title>Vercel+imsyy部署个人博客home页面</title>
-    <url>/post/6b62e9ba.html</url>
+    <title>一些前端面试题（二）</title>
+    <url>/post/9e4b7ff2.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
 
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>hexo</strong>框架的butterfly首页看腻了，正好发现一个好看简洁的博客首页主题<strong>imsyy</strong>，本篇博客记录我部署<strong>imsyy</strong>的过程。</p>
-<h1 id="fork仓库"><a href="#fork仓库" class="headerlink" title="fork仓库"></a>fork仓库</h1><p><strong>imsyy</strong>主题是<strong>github</strong>上的开源项目，项目地址：<strong><a href="https://github.com/imsyy/home">https://github.com/imsyy/home</a></strong></p>
-<a class="btn-beautify blue larger" href="https://github.com/imsyy/home" 
-  title="imsyy/home"><i class="far fa-hand-point-right"></i><span>imsyy/home</span></a>
+<h1 id="什么是原型链？"><a href="#什么是原型链？" class="headerlink" title="什么是原型链？"></a>什么是原型链？</h1><p>每一个实例对象上有一个<strong>proto 属性</strong>，指向的<strong>构造函数的原型对象</strong>，构造函数的原型 对象也是一个对象， 也有 proto 属性，这样一层一层往上找的过程就形成了<strong>原型链</strong>。</p>
+<p><strong>实例对象</strong>的 <strong>proto</strong> 指向构造函数的 prototype，<strong>构造函数</strong>的__proto__ 指向Object的 prototype，<strong>Object</strong>的__proto__ 最终指向null</p>
+<p><strong>Javascript中任意数据都能沿着自己的原型链最终找到Object.prototype</strong></p>
+<h1 id="什么是闭包？-闭包有哪些优缺点？"><a href="#什么是闭包？-闭包有哪些优缺点？" class="headerlink" title="什么是闭包？ 闭包有哪些优缺点？"></a>什么是闭包？ 闭包有哪些优缺点？</h1><p><strong>闭包</strong>（closure）指有权访问另一个函数作用域中变量的函数。简单理解就是 ，一个<strong>作用 域可以访问另外一个函数内部的局部变量</strong>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> num = <span class="number">10</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">fun</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(num)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fun</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> f = <span class="title function_">fn</span>()</span><br><span class="line"><span class="title function_">f</span>()</span><br></pre></td></tr></table></figure>
 
-<img src="/post/6b62e9ba/1.png" class="" title="image-20230527163145711">
-
-<p>点击<strong>fork</strong>之后添加仓库名，该项目就被复制到你的<strong>github</strong>中了</p>
-<h1 id="部署vercel"><a href="#部署vercel" class="headerlink" title="部署vercel"></a>部署vercel</h1><div class="note none blue flat"><p>登录你的<strong>vercel</strong>，进入到<strong>overview</strong>页面，点击<code>Add New Project</code>创建一个新项目</p>
-</div>
-
-<img src="/post/6b62e9ba/2.png" class="" title="image-20230527163542233">
-
-<div class="note none blue flat"><p>选择刚刚复刻的<strong>imsyy-home</strong>项目</p>
-</div>
-
-<img src="/post/6b62e9ba/3.png" class="" title="image-20230527163712714">
-
-<div class="note none blue flat"><p>什么都不用改，直接<strong>Deploy</strong></p>
-</div>
-
-<img src="/post/6b62e9ba/4.png" class="" title="image-20230527163939159">
-
-<div class="note none blue flat"><p>之后等待部署成功就行了</p>
-</div>
-
-<hr>
-<div class="note danger flat"><p>vercel在国内会被墙，所以需要绑定一个域名来正常访问</p>
-</div>
-
-<img src="/post/6b62e9ba/5.png" class="" title="image-20230527164325263">
-
-<div class="note none blue flat"><p>打开<strong>域名管理面板</strong>，添加<strong>域名解析</strong>，我们只需添加一个二级域名即可，<strong>主机记录</strong>为<code>imsyy</code>，可以随意设置，<strong>记录类型</strong>为<code>CNAME</code>，<strong>记录值</strong>为<code>vercel-dns.com.</code></p>
-</div>
-
-<img src="/post/6b62e9ba/6.png" class="" title="image-20230527170014755">
-
-<div class="note none blue flat"><p>随后回到<strong>vercel</strong>中，添加域名<code>imsyy+你的域名</code>,然后等待解析完成之后就可以使用该域名访问到一个初始化的<strong>imsyy</strong>页面啦</p>
-</div>
-
-<img src="/post/6b62e9ba/7.png" class="" title="image-20230527170327736">
-
-<hr>
-<h1 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h1><h2 id="先将项目copy到本地"><a href="#先将项目copy到本地" class="headerlink" title="先将项目copy到本地"></a>先将项目copy到本地</h2><p>打开<strong>github</strong>，进入<strong>imsyy</strong>项目所在的储存库，你可以选择<code>Download ZIP</code>直接将项目下载成一个压缩包，或者复制<strong>SSH</strong>，使用<strong>git</strong>拉取整个项目</p>
-<div class="tabs" id=""><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#-1">直接下载压缩包</button></li><li class="tab"><button type="button" data-href="#-2">git拉取</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="-1"><div class="note none blue flat"><p>点击Download Zip下载并在本地解压打开即可</p>
-</div>
-
-<img src="/post/6b62e9ba/8.png" class="" title="image-20230527170327737"><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="-2"><div class="note none blue flat"><p>复制你的SSH密钥，在你需要保存的文件根目录右键打开<code>GIT BASH</code>，输入<code>git clone 你的SSH密钥</code>即可</p>
-</div>
-
-<img src="/post/6b62e9ba/image-20230527172314585.png" class="" title="image-20230527172314585"><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-
-<h2 id="打开本地预览"><a href="#打开本地预览" class="headerlink" title="打开本地预览"></a>打开本地预览</h2><div class="note none blue flat"><p>在这之前需要运行本地预览</p>
-</div>
-
-
-
-<p>本地预览需要我们在本地安装好<code>node.js</code>环境以及<code>npm包管理器</code>，随后<a href="https://so.csdn.net/so/search?q=%E5%AE%89%E8%A3%85yarn&spm=1001.2101.3001.7020">安装yarn</a>，如你的电脑已经安装过<code>yarn</code>可以跳过这一步</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install yarn</span><br></pre></td></tr></table></figure>
-
-<p>安装完成后执行<code>yarn install</code>安装依赖</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yarn install</span><br></pre></td></tr></table></figure>
-
-<p>依赖项搞定了，用<code>dev</code>查看预览页面</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yarn dev</span><br></pre></td></tr></table></figure>
-
-<div class="note none blue flat"><p>默认端口是<strong>localhost:3000</strong>，浏览器打开即可预览初始化的<strong>imsyy</strong>页面</p>
-</div>
-
-<img src="/post/6b62e9ba/image-20230527173229265.png" class="" title="image-20230527173229265">
-
-<hr>
-<h1 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h1><h2 id="社交链接"><a href="#社交链接" class="headerlink" title="社交链接"></a>社交链接</h2><p>如果你不需要社交链接，那么你可以打开<strong>根目录：</strong><code>\src\components\SocialLinks</code>下的<code>index.vue</code>，然后将里面的<code>&lt;template&gt;</code>里的内容注释掉</p>
-<img src="/post/6b62e9ba/image-20230527202035636.png" class="" title="image-20230527202035636">
-
-<p>如果要添加或修改社交链接，那么你需要进入到<strong>根目录</strong>下的<code>public</code>文件夹中找到<code>socialLinks.json</code>：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Github&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/github.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;去 Github 看看&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/你的github&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;BiliBili&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/bilibili.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(゜-゜)つロ 干杯 ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://space.bilibili.com/你的哔哩哔哩账号&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;QQ&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/qq.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;有什么事吗&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://res.abeim.cn/api/qq/?qq=你的QQ&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Email&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/email.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;来封 Email ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的邮箱&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Telegram&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icon/telegram.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你懂的 ~&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的Telegram地址&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
-
-<p>社交链接会在这里展示出来：</p>
-<img src="/post/6b62e9ba/image-20230527203611490.png" class="" title="image-20230527203611490">
-
-<h2 id="添加你的基本信息"><a href="#添加你的基本信息" class="headerlink" title="添加你的基本信息"></a>添加你的基本信息</h2><p>打开<strong>根目录</strong>下的<code>.env</code>配置文件</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">VITE_SITE_NAME</span> <span class="string">=</span> <span class="string">&quot;小铭の博客&quot;</span>  <span class="comment"># 站点名称</span></span><br><span class="line"><span class="string">VITE_SITE_ANTHOR</span> <span class="string">=</span> <span class="string">&quot;小铭&quot;</span>   <span class="comment"># 站点作者</span></span><br><span class="line"><span class="string">VITE_SITE_KEYWORDS</span> <span class="string">=</span> <span class="string">&quot;小铭,个人博客&quot;</span> <span class="comment"># 站点关键词</span></span><br><span class="line"><span class="string">VITE_SITE_DES</span> <span class="string">=</span> <span class="string">&quot;一些乱七八糟的记录&quot;</span> <span class="comment"># 站点描述</span></span><br><span class="line"><span class="string">VITE_SITE_URL</span> <span class="string">=</span> <span class="string">&quot;xiaoming.site&quot;</span>  <span class="comment"># 站点地址(首页头像旁的文字)</span></span><br><span class="line"><span class="string">VITE_SITE_LOGO</span> <span class="string">=</span> <span class="string">&quot;/images/icon/ico.jpg&quot;</span> <span class="comment"># 站点 LOGO</span></span><br></pre></td></tr></table></figure>
-
-<div class="note danger flat"><p><font color='red' size=4>注意：</font>首页的logo字母是经过压缩的，使用其他字母会变成默认字体(只有<strong>imsyy.top</strong>和<strong>hello，world</strong>里的这些字母有样式),如果需要所有字母的样式可以去作者的<strong>github</strong>的项目首页下载</p>
-<p><a class="btn-beautify blue larger" href="https://github.com/imsyy/home" 
-  title="点击去下载完整字体"><i class="far fa-hand-point-right"></i><span>点击去下载完整字体</span></a></p>
-</div>
-
-<h2 id="修改建站日期"><a href="#修改建站日期" class="headerlink" title="修改建站日期"></a>修改建站日期</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 建站日期</span></span><br><span class="line"><span class="comment">## 请按照 YYYY-MM-DD 格式填写</span></span><br><span class="line"><span class="string">VITE_SITE_START</span> <span class="string">=</span> <span class="string">&quot;2023-5-8&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="添加音乐播放器"><a href="#添加音乐播放器" class="headerlink" title="添加音乐播放器"></a>添加音乐播放器</h2><p>这里我们只需要修改歌曲服务器和播放ID就行</p>
-<p>在浏览器打开你的网易云或者QQ音乐的，选择一个歌单，将网址中的id复制进来即可替换歌单</p>
-<div class="note none blue flat"><p><strong>建议选择网易云，无论是国内国外，网易云的播放服务器都更稳定</strong></p>
-</div>
-
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 歌曲 API 地址</span></span><br><span class="line"><span class="comment">## 请参照 https://github.com/xizeyoupan/Meting-API#deno-deploy 进行 API 服务部署</span></span><br><span class="line"><span class="comment">## 此处提供的服务可能会超量从而无法访问，请自行部署</span></span><br><span class="line"><span class="comment">## 若使用QQ音乐歌单，歌曲数量最好不要超出50首</span></span><br><span class="line"><span class="comment">## 备用：https://api.wuenci.com/meting/api/</span></span><br><span class="line"><span class="string">VITE_SONG_API</span> <span class="string">=</span> <span class="string">&quot;https://api-meting.imsyy.top/api&quot;</span></span><br><span class="line"><span class="comment"># 歌曲服务器 ( netease-网易云, tencent-qq音乐 )</span></span><br><span class="line"><span class="string">VITE_SONG_SERVER</span> <span class="string">=</span> <span class="string">&quot;netease&quot;</span></span><br><span class="line"><span class="comment"># 播放类型 ( song-歌曲, playlist-播放列表, album-专辑, search-搜索, artist-艺术家 )</span></span><br><span class="line"><span class="string">VITE_SONG_TYPE</span> <span class="string">=</span> <span class="string">&quot;playlist&quot;</span></span><br><span class="line"><span class="comment"># 播放 ID</span></span><br><span class="line"><span class="string">VITE_SONG_ID</span> <span class="string">=</span> <span class="string">&quot;5331617474&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="简介文本"><a href="#简介文本" class="headerlink" title="简介文本"></a>简介文本</h2><p>修改首页的一些简介</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 简介文本</span></span><br><span class="line"><span class="string">VITE_DESC_HELLO</span> <span class="string">=</span> <span class="string">&quot;Hello Blog !&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_TEXT</span> <span class="string">=</span> <span class="string">&quot;黄师塔前江水东，春光懒困倚微风。&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_HELLO_OTHER</span> <span class="string">=</span> <span class="string">&quot;less times !&quot;</span></span><br><span class="line"><span class="string">VITE_DESC_TEXT_OTHER</span> <span class="string">=</span> <span class="string">&quot;岁月不居，时节如流。&quot;</span></span><br></pre></td></tr></table></figure>
-
-<img src="/post/6b62e9ba/image-20230527215209845.png" class="" title="image-20230527215209845">
-
-<p>点击文本块后：</p>
-<img src="/post/6b62e9ba/image-20230527215309543.png" class="" title="image-20230527215309543">
-
-<h2 id="天气服务"><a href="#天气服务" class="headerlink" title="天气服务"></a>天气服务</h2><p>因为作者的天气服务key已经超量，建议自行前往高德开放平台注册一个<strong>key</strong></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 天气 Key</span></span><br><span class="line"><span class="comment">## 请前往高德开放平台注册 Web服务 Key（免费的）</span></span><br><span class="line"><span class="comment">## 请各位大佬行行好，别再让我超量了</span></span><br><span class="line"><span class="string">VITE_WEATHER_KEY</span> <span class="string">=</span> <span class="string">&quot;57eaea5833ff1616cfd1ff2c4cf9b58a&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="网站顶部logo"><a href="#网站顶部logo" class="headerlink" title="网站顶部logo"></a>网站顶部logo</h2><p>网站logo需要前往<strong>根目录</strong>下的<code>index.html</code>文件的头文件处修改</p>
-<p>打开<code>index.html</code>，找到<code>rel=&quot;icon&quot;</code>的<code>link</code>将<code>href</code>修改为你的头像的路径</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/images/icon/ico.jpg&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<img src="/post/6b62e9ba/image-20230527215951311.png" class="" title="image-20230527215951311">
-
-<h2 id="footer配置"><a href="#footer配置" class="headerlink" title="footer配置"></a>footer配置</h2><p>进入<strong>根目录</strong>下的<code>src\components\Footer\index.vue</code></p>
-<p>将网址链接修改为你的链接：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span></span></span><br><span class="line"><span class="tag">    &gt;</span>Copyright<span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;copy;</span><span class="symbol">&amp;nbsp;</span>&#123;&#123; fullYear &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://xiaoming.site&quot;</span>&gt;</span>小铭<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>如果你的站点经过了备案，修改如下字段：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://beian.miit.gov.cn&quot;</span> <span class="attr">target</span>=<span class="string">&quot;_blank&quot;</span></span></span><br><span class="line"><span class="tag">  &gt;</span>豫ICP备2022018134号-1&lt;/a</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="背景图设置"><a href="#背景图设置" class="headerlink" title="背景图设置"></a>背景图设置</h2><p>进入<strong>根目录</strong>下的<code>src\js\store\index.js</code></p>
-<p>在这里可以修改关于壁纸的各项设置</p>
-<div class="note none blue flat"><p><strong>coverType</strong>可选<code>0-4</code>,<strong>0</strong>是默认壁纸，每次刷新从<strong>根目录</strong>下的<code>public\images</code>下随机选取一张，<strong>1</strong>是<strong>bing</strong>每日推荐壁纸，<strong>2</strong>是随机风景，<strong>3</strong>是随机<strong>二刺螈</strong>背景图</p>
-</div>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="attr">state</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">innerWidth</span>: <span class="literal">null</span>, <span class="comment">// 当前窗口宽度</span></span><br><span class="line">            <span class="attr">coverType</span>: <span class="string">&quot;0&quot;</span>, <span class="comment">// 壁纸种类</span></span><br><span class="line">            <span class="attr">siteStartShow</span>: <span class="literal">true</span>, <span class="comment">// 建站日期显示</span></span><br><span class="line">            <span class="attr">musicIsOk</span>: <span class="literal">false</span>, <span class="comment">// 音乐是否加载完成</span></span><br><span class="line">            <span class="attr">musicVolume</span>: <span class="number">0</span>, <span class="comment">// 音乐音量;</span></span><br><span class="line">            <span class="attr">musicOpenState</span>: <span class="literal">false</span>, <span class="comment">// 音乐面板开启状态</span></span><br><span class="line">            <span class="attr">backgroundShow</span>: <span class="literal">false</span>, <span class="comment">// 壁纸展示状态</span></span><br><span class="line">            <span class="attr">boxOpenState</span>: <span class="literal">false</span>, <span class="comment">// 盒子开启状态</span></span><br><span class="line">            <span class="attr">mobileOpenState</span>: <span class="literal">false</span>, <span class="comment">// 移动端开启状态</span></span><br><span class="line">            <span class="attr">mobileFuncState</span>: <span class="literal">false</span>, <span class="comment">// 移动端功能区开启状态</span></span><br><span class="line">            <span class="attr">setOpenState</span>: <span class="literal">false</span>, <span class="comment">// 设置页面开启状态</span></span><br><span class="line">            <span class="attr">playerState</span>: <span class="literal">false</span>, <span class="comment">// 当前播放状态</span></span><br><span class="line">            <span class="attr">playerTitle</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌曲名</span></span><br><span class="line">            <span class="attr">playerArtist</span>: <span class="literal">null</span>, <span class="comment">// 当前播放歌手名</span></span><br><span class="line">            <span class="attr">playerLrc</span>: <span class="string">&quot;歌词加载中&quot;</span>, <span class="comment">// 当前播放歌词</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>背景图可以在前端直接设置，点击左侧留言，再点击时间胶囊右侧的设置按钮。</p>
-<div class="note danger flat"><p>建议<strong>coverType</strong>默认为0，使用本地壁纸页面的打开速度会快很多</p>
-</div>
-
-<img src="/post/6b62e9ba/image-20230527225556592.png" class="" title="image-20230527225556592">
-
-
-
-<div class="note none blue flat"><p>如果需要更换本地壁纸，你可以打开<strong>根目录</strong>下的<code>src\components\Background\index.vue</code></p>
-</div>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">changeBg</span> = (<span class="params">type</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (type == <span class="number">0</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">`/images/background<span class="subst">$&#123;<span class="built_in">Math</span>.floor(</span></span></span><br><span class="line"><span class="subst"><span class="string">      <span class="built_in">Math</span>.random() * <span class="number">10</span> + <span class="number">1</span></span></span></span><br><span class="line"><span class="subst"><span class="string">    )&#125;</span>.webp`</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">1</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://api.dujin.org/bing/1920.php&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">2</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://api.btstu.cn/sjbz/api.php?lx=fengjing&amp;format=images&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == <span class="number">3</span>) &#123;</span><br><span class="line">    bgUrl.<span class="property">value</span> = <span class="string">&quot;https://www.dmoe.cc/random.php&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>默认壁纸是随机生成<strong>0-10</strong>的数，每次刷新随机抽取一张图片</p>
-<p>如果你要添加壁纸，需要修改<code>Math.random() * 10 + 1</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="title class_">Math</span>.<span class="title function_">random</span>() * 你的图片数 + <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>然后将新壁纸到<strong>根目录</strong>下的<code>public\images</code>文件夹中，修改图片名称为<code>background$&#123;图片序号&#125;.webp</code>，这里的后缀名<code>.webp</code>根据你文件夹中的图片后缀修改</p>
-<p>这里是我的图片文件夹</p>
-<img src="/post/6b62e9ba/image-20230528133015854.png" class="" title="image-20230528133015854">
-
-<h2 id="网站链接配置"><a href="#网站链接配置" class="headerlink" title="网站链接配置"></a>网站链接配置</h2><p>进入<strong>根目录</strong>下的<code>src\components\Links\index.vue</code></p>
-<p>在<code>linksData</code>数组对象中增加或减少你的站点，建议不要超过六个，否则需要重设样式</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> linksData = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Blog</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;博客&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://blog.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Cloud</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;网盘&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://pan.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">CompactDisc</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;音乐&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://music.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Compass</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;起始页&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://nav.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Book</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;网址集&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://web.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">icon</span>: <span class="title class_">Fire</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;今日热榜&quot;</span>,</span><br><span class="line">    <span class="attr">link</span>: <span class="string">&quot;https://hot.imsyy.top/&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>如果你需要更改链接图标，打开<strong>根目录</strong>下的<code>node_modules\@vicons\fa\es\index.d.ts</code>，找到你需要的图标然后<code>import</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  <span class="title class_">Link</span>,</span><br><span class="line">  <span class="title class_">Blog</span>,</span><br><span class="line">  <span class="title class_">CompactDisc</span>,</span><br><span class="line">  <span class="title class_">Cloud</span>,</span><br><span class="line">  <span class="title class_">Compass</span>,</span><br><span class="line">  <span class="title class_">Book</span>,</span><br><span class="line">  <span class="title class_">Fire</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;@vicons/fa&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>修改一下链接地址就可以得到一个简洁好看的博客首页啦</p>
+<p><strong>作用：</strong> 延长变量作用域、在函数的外部可以访问函数内部的局部变量，<strong>容易造成内层泄露</strong>，因为闭包中 的局部变量<strong>永远不会被回收</strong></p>
+<h1 id="常见的继承有哪些？"><a href="#常见的继承有哪些？" class="headerlink" title="常见的继承有哪些？"></a>常见的继承有哪些？</h1><h2 id="一、原型链继承"><a href="#一、原型链继承" class="headerlink" title="一、原型链继承"></a>一、原型链继承</h2><p><strong>特点：</strong> 1、实例可继承的属性有：实例的构造函数的属性，父类构造函数属性，父类原型的属性。（新 实例不会继承父类实例的属性！</p>
+<p><strong>缺点：</strong> 1、新实例无法向父类构造函数传参。</p>
+<p>2、继承单一。</p>
+<p>3、所有新实例都会共享父类实例的属性。（原型上的属性是共享的，一个实例修改了原型属 性，另一个实例的原 型属性也会被修改！）</p>
+<h2 id="二、借用构造函数继承"><a href="#二、借用构造函数继承" class="headerlink" title="二、借用构造函数继承"></a>二、借用构造函数继承</h2><p><strong>重点：</strong> 用 <strong>.call()和.apply()</strong> 将父类构造函数引入子类函数（在子类函数中做了父类函数的自执行（复 制））</p>
+<p><strong>特点：</strong> 1、只继承了父类构造函数的属性，没有继承父类原型的属性。</p>
+<p>2、解决了原型链继承缺点 1、2、3。</p>
+<p>3、可以继承多个构造函数属性（call 多个）。</p>
+<p>4、在子实例中可向父实例传参。</p>
+<p><strong>缺点：</strong> 1、只能继承父类构造函数的属性。</p>
+<p>2、无法实现构造函数的复用。（每次用每次都要重新调用）</p>
+<p>3、每个新实例都有父类构造函数的副本，臃肿。</p>
+<h2 id="三、组合继承（组合原型链继承和借用构造函数继承）（常用）"><a href="#三、组合继承（组合原型链继承和借用构造函数继承）（常用）" class="headerlink" title="三、组合继承（组合原型链继承和借用构造函数继承）（常用）"></a>三、组合继承（组合原型链继承和借用构造函数继承）（常用）</h2><p><strong>重点：</strong> 结合了两种模式的优点，传参和复用</p>
+<p><strong>特点：</strong> 1、可以继承父类原型上的属性，可以传参，可复用。</p>
+<p>2、每个新实例引入的构造函数属性是私有的。</p>
+<p><strong>缺点：</strong> 调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函 数。</p>
+<h2 id="四、原型式继承"><a href="#四、原型式继承" class="headerlink" title="四、原型式继承"></a>四、原型式继承</h2><p><strong>重点：</strong> 用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的 实例或对象。object.create()就是这个原理。</p>
+<p><strong>特点：</strong> 类似于复制一个对象，用函数来包装。</p>
+<p><strong>缺点：</strong> 1、所有实例都会继承原型上的属性。 2、无法实现复用。（新实例属性都是后面添加的）</p>
+<h2 id="五、class-类实现继承"><a href="#五、class-类实现继承" class="headerlink" title="五、class 类实现继承"></a>五、class 类实现继承</h2><p>通过 extends 和 super 实现继承</p>
+<h2 id="六、寄生式继承"><a href="#六、寄生式继承" class="headerlink" title="六、寄生式继承"></a>六、寄生式继承</h2><p><strong>重点：</strong> 就是给原型式继承外面套了个壳子。</p>
+<p><strong>优点：</strong> 没有创建自定义类型，因为只是套了个壳子返回对象（这个），这个函数顺理成章就成 了创建的新对象。</p>
+<p><strong>缺点：</strong> 没用到原型，无法复用。</p>
+<h1 id="后台管理系统中的权限管理是怎么实现的？"><a href="#后台管理系统中的权限管理是怎么实现的？" class="headerlink" title="后台管理系统中的权限管理是怎么实现的？"></a>后台管理系统中的权限管理是怎么实现的？</h1><p>登录成功后，服务端会返回一个 <strong>token</strong>（该 token 的是一个能唯一标示用户身份的一个 key），之后我 们将 token 存储在本地 cookie 之中，这样下次打开页面或者刷新页面的时候能记住用户的登录状态，不 用再去登录页面重新登录了。</p>
+<p>用户登录成功之后，在全局钩子 router.beforeEach 中拦截路由，判断是否已获得 token，在 获得 token 之后我们就要去获取用户的基本信息了 页面会先从 cookie 中查看是否存有 token，没有，就走一遍上一部分的流程重新登录，如果有 token, 就会把这个 token 返给后端去拉取 user_info，保证用户信息是最新的。 当然如果是做了单点登录得功 能的话，用户信息存储在本地也是可以的。当你一台电脑登录时，另一台会被提下线，所以总会重新登 录获取最新的内容。</p>
+<h1 id="es6-有哪些新特性？"><a href="#es6-有哪些新特性？" class="headerlink" title="es6 有哪些新特性？"></a>es6 有哪些新特性？</h1><p>ES6 是 2015 年推出的一个新的版本、这个版本相对于 ES5 的语法做了很多的优化、例如：新增了<strong>let、 const</strong></p>
+<p><strong>let 和 const</strong>具有块级作用域，<strong>不存在变量提升的问题</strong>。新增了<strong>箭头函数</strong>，简化了定义函数的写法，</p>
+<p>同时 可以<strong>巧用箭头函数的 this</strong>、（注意箭头函数本身没有 this,它的 this 取决于外部的环境），</p>
+<p>新增了<strong>promise</strong> 解决了回调地域的问题，新增了模块化、利用 import 、export 来实现导入、导出。</p>
+<p>新增了<strong>结构赋值</strong>， ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构 （Destructuring）。</p>
+<p>新增了<strong>class 类</strong>的概念，它类似于对象。</p>
+<h1 id="v-for-循环为什么一定要绑定-key"><a href="#v-for-循环为什么一定要绑定-key" class="headerlink" title="v-for 循环为什么一定要绑定 key ?"></a>v-for 循环为什么一定要绑定 key ?</h1><p><strong>页面上的标签都对应具体的虚拟 dom 对象(虚拟 dom 就是 js 对象),</strong> 循环中 ,如果没有唯一 key , 页面上删除 一条标签, 由于并不知道删除的是那一条! 所以要把全部虚拟 dom 重新渲染, 如果知道 key 为 x 标签被删除 掉, 只需要把渲染的 dom 为 x 的标签去掉即可!</p>
+<h1 id="平时都是用什么实现跨域的？"><a href="#平时都是用什么实现跨域的？" class="headerlink" title="平时都是用什么实现跨域的？"></a>平时都是用什么实现跨域的？</h1><p><strong>jsonp:</strong> 利用 标签没有跨域限制的漏洞，网页可以得到从其他来源动态产生的 JSON 数据。JSONP 请求一 定需要对方的服务器做支持才可以。</p>
+<p>JSONP 优点是简单兼容性好，可用于解决主流浏览器的跨域数据访问的问题。缺点是仅支持 get 方法具 有局限性,不安全可能会遭受 XSS 攻击。</p>
+<p>声明一个回调函数，其函数名(如 show)当做参数值，要传递给跨域请求数据的服务器，函数形参为要获 取目标数据(服务器返回的 data)。 创建一个 <code>&lt;script&gt;</code> 标签，把那个跨域的 API 数据接口地址，赋值给 script 的 src,还要在这个地址中向服 务器传递该函数名（可以通过问号传参:?callback&#x3D;show）。</p>
+<p>服务器接收到请求后，需要进行特殊的处理：把传递进来的函数名和它需要给你的数据拼接成一个字符 串,例如：传递进去的函数名是 show，它准备好的数据是 show(‘我不爱你’) 。</p>
+<p>最后服务器把准备的数据通过 HTTP 协议返回给客户端，客户端再调用执行之前声明的回调函数 （show），对返回的数据进行操作。</p>
+<p><strong>CORS：跨域资源共享（CORS）是一种机制</strong>；当一个资源访问到另外一个资源(这个资源放在 不同的域名或者不同的协议或者端口)，资源就会发起一个跨域的 HTTP 请求需要浏览器和服务器同时支持；</p>
+<p>1.整个 CORS 通信，都是浏览器自动完成。浏览器发现了 AJAX 请求跨源，就会自动添加一些附加的头 信息，有时还会多出一次附加的请求，但用户不会有感觉；</p>
+<p>2.实现 CORS 的关键是服务器，只要服务器实现了 CORS 接口，就可以跨源通信</p>
+<p>3.服务器对于不同的请求，处理方式不一样； 有简单请求和非简单请求</p>
+<h1 id="cookie-、localstorage-、-sessionstrorage-之间有什么区别？"><a href="#cookie-、localstorage-、-sessionstrorage-之间有什么区别？" class="headerlink" title="cookie 、localstorage 、 sessionstrorage 之间有什么区别？"></a>cookie 、localstorage 、 sessionstrorage 之间有什么区别？</h1><ul>
+<li>与服务器交互：<ul>
+<li>cookie 是网站为了标示用户身份而储存在用户本地终端上的数据（通常经过加密）</li>
+<li>cookie 始终会在同源 http 请求头中携带（即使不需要），在浏览器和服务器间来回传递</li>
+<li>sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存</li>
+</ul>
+</li>
+<li>存储大小：</li>
+<li>cookie 数据根据不同浏览器限制，大小一般不能超过 4k</li>
+<li>sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到 5M 或更大</li>
+<li>有期时间：<ul>
+<li>ocalStorage 存储持久数据，浏览器关闭后数据不丢失除非主动删除数据</li>
+<li>sessionStorage 数据在当前浏览器窗口关闭后自动删除</li>
+<li>cookie 设置的 cookie 过期时间之前一直有效，与浏览器是否关闭无关</li>
+</ul>
+</li>
+</ul>
+<h1 id="this-的指向有哪些？"><a href="#this-的指向有哪些？" class="headerlink" title="this 的指向有哪些？"></a>this 的指向有哪些？</h1><p>1、普通函数中的 this 指向 window</p>
+<p>2、定时器中的 this 指向 window</p>
+<p>3、箭头函数没有 this,它的 this 指向取决于外部环境、</p>
+<p>4、事件中的 this 指向事件的调用者 黑马程序员</p>
+<p>5、 构造函数中 this 和原型对象中的 this,都是指向构造函数 new 出来实例对象</p>
+<p>6、类 class 中的 this 指向由 constructor 构造器 new 出来的实例对象</p>
+<p>7、自调用函数中的 this 指向 window</p>
+<h1 id="谈谈你平时都用了哪些方法进行性能优化？"><a href="#谈谈你平时都用了哪些方法进行性能优化？" class="headerlink" title="谈谈你平时都用了哪些方法进行性能优化？"></a>谈谈你平时都用了哪些方法进行性能优化？</h1><p><strong>减少 http 请求次数、打包压缩上线代码、使用懒加载、使用雪碧图、动态渲染组件、CDN 加载包。</strong></p>
 </font>
 ]]></content>
       <categories>
-        <category>imsyy</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>博客</tag>
-        <tag>imsyy</tag>
-        <tag>vercel</tag>
+        <tag>前端</tag>
+        <tag>JavaScript</tag>
+        <tag>面试</tag>
       </tags>
   </entry>
 </search>
