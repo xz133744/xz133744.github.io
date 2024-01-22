@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>微信小程序城市定位 | 小铭の博客</title><meta name="author" content="小铭"><meta name="copyright" content="小铭"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="在微信小程序的项目开发中，我们需要定位用户的位置， 而微信小程序内置了可以获取用户经纬度的函数： 123456789wx.getLocation(&amp;#123; type: &amp;#x27;wgs84&amp;#x27;, success (res) &amp;#123;   const latitude &#x3D; res.latitude   const longitude &#x3D; res.longitude   const">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序城市定位">
+<meta property="og:url" content="https://xz133744.github.io/post/b55f790c.html">
+<meta property="og:site_name" content="小铭の博客">
+<meta property="og:description" content="在微信小程序的项目开发中，我们需要定位用户的位置， 而微信小程序内置了可以获取用户经纬度的函数： 123456789wx.getLocation(&amp;#123; type: &amp;#x27;wgs84&amp;#x27;, success (res) &amp;#123;   const latitude &#x3D; res.latitude   const longitude &#x3D; res.longitude   const">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tse3-mm.cn.bing.net/th/id/OIP-C.D9eYz4QC4qWYksVPa-ZngwHaEK?rs=1&pid=ImgDetMain">
+<meta property="article:published_time" content="2024-01-22T07:33:04.000Z">
+<meta property="article:modified_time" content="2024-01-22T08:10:33.797Z">
+<meta property="article:author" content="小铭">
+<meta property="article:tag" content="微信小程序">
+<meta property="article:tag" content="第三方API">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tse3-mm.cn.bing.net/th/id/OIP-C.D9eYz4QC4qWYksVPa-ZngwHaEK?rs=1&pid=ImgDetMain"><link rel="shortcut icon" href="/img/ico.jpg"><link rel="canonical" href="https://xz133744.github.io/post/b55f790c.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":true,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '微信小程序城市定位',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-22 16:10:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"  media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/ico.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 回到首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://imsyy.sijie.top"><i class="fa-fw fas fa-house-chimney"></i><span> 主站</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/errorlog/"><i class="fa-fw fa-solid fa-book"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-fish"></i><span> 摸鱼</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://haiyong.site/moyu/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://haiyong.site/tools/"><i class="fa-fw fas fa-tools"></i><span> 工具</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://haiyong.site/demo/"><i class="fa-fw fas fa-video"></i><span> 动画</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 推荐链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://tse3-mm.cn.bing.net/th/id/OIP-C.D9eYz4QC4qWYksVPa-ZngwHaEK?rs=1&amp;pid=ImgDetMain')"><nav id="nav"><span id="blog-info"><a href="/" title="小铭の博客"><img class="site-icon" src="/img/ico.jpg"/><span class="site-name">小铭の博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 回到首页</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://imsyy.sijie.top"><i class="fa-fw fas fa-house-chimney"></i><span> 主站</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/errorlog/"><i class="fa-fw fa-solid fa-book"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-fish"></i><span> 摸鱼</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://haiyong.site/moyu/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://haiyong.site/tools/"><i class="fa-fw fas fa-tools"></i><span> 工具</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://haiyong.site/demo/"><i class="fa-fw fas fa-video"></i><span> 动画</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 推荐链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">微信小程序城市定位</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-22T07:33:04.000Z" title="发表于 2024-01-22 15:33:04">2024-01-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-22T08:10:33.797Z" title="更新于 2024-01-22 16:10:33">2024-01-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">935</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="微信小程序城市定位"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在微信小程序的项目开发中，我们需要定位用户的位置，</p>
+<p>而微信小程序内置了可以获取用户经纬度的函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wx.<span class="title function_">getLocation</span>(&#123;</span><br><span class="line"> <span class="attr">type</span>: <span class="string">&#x27;wgs84&#x27;</span>,</span><br><span class="line"> success (res) &#123;</span><br><span class="line">   <span class="keyword">const</span> latitude = res.<span class="property">latitude</span></span><br><span class="line">   <span class="keyword">const</span> longitude = res.<span class="property">longitude</span></span><br><span class="line">   <span class="keyword">const</span> speed = res.<span class="property">speed</span></span><br><span class="line">   <span class="keyword">const</span> accuracy = res.<span class="property">accuracy</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>latitude</code>和<code>longitude</code>分别是经度和纬度。但是仅凭经纬度无法到达定位城市的效果，必须借助第三方地图商的API，如高德、百度、腾讯等等。</p>
+<h1 id="腾讯地图定位城市API"><a href="#腾讯地图定位城市API" class="headerlink" title="腾讯地图定位城市API"></a>腾讯地图定位城市API</h1><p>推荐使用腾讯地图，毕竟跟微信小程序是一家的。</p>
+<h2 id="注册腾讯地图API平台"><a href="#注册腾讯地图API平台" class="headerlink" title="注册腾讯地图API平台"></a>注册腾讯地图API平台</h2><p>直接注册就行，注册好后在<code>控制台</code>&#x3D;&gt;<code>应用管理</code>&#x3D;&gt;<code>我的应用</code>里添加一个应用并获取一个<strong>KEY</strong></p>
+<p>接下来需要到<code>配额管理</code>中分配额度，个人用户每天有<strong>5000</strong>条api请求额度，需要分配到不同的请求单位，不然每天只能请求一次</p>
+<img src="/post/b55f790c/image-20240122155009941.png" class="" title="image-20240122155009941">
+
+<p>这里我把全部额度分配给了IP定位，因为我暂时只使用这一个API模块</p>
+<h2 id="IP定位接口"><a href="#IP定位接口" class="headerlink" title="IP定位接口"></a>IP定位接口</h2><p>城市定位是最简单的一个API，就是一个简单的<strong>GET</strong>请求</p>
+<p>url:<font color=Blue><strong><a target="_blank" rel="noopener" href="https://apis.map.qq.com/ws/location/v1/ip">https://apis.map.qq.com/ws/location/v1/ip</a></strong></font></p>
+<h2 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h2><table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">必填</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">key</td>
+<td align="left">是</td>
+<td align="left">开发密钥（Key）</td>
+<td align="left">key&#x3D;OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-*****</td>
+</tr>
+<tr>
+<td align="left">ip</td>
+<td align="left">否</td>
+<td align="left">IP地址，缺省时会使用请求端的IP</td>
+<td align="left">ip&#x3D;111.206.145.41</td>
+</tr>
+<tr>
+<td align="left">output</td>
+<td align="left">否</td>
+<td align="left">返回格式：支持JSON&#x2F;JSONP，默认JSON</td>
+<td align="left">output&#x3D;json</td>
+</tr>
+<tr>
+<td align="left">callback</td>
+<td align="left">否</td>
+<td align="left">JSONP方式回调函数</td>
+<td align="left">callback&#x3D;function1</td>
+</tr>
+</tbody></table>
+<h2 id="响应结果"><a href="#响应结果" class="headerlink" title="响应结果"></a>响应结果</h2><table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">必有</th>
+<th align="left">说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">status</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">状态码，0为正常，其它为异常，详细请参阅<a target="_blank" rel="noopener" href="https://lbs.qq.com/service/webService/webServiceGuide/status">状态码说明</a></td>
+<td></td>
+</tr>
+<tr>
+<td align="left">message</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td align="left">对status的描述</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">result</td>
+<td align="left">object</td>
+<td align="left">是</td>
+<td align="left">IP定位结果</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">ip</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td>用于定位的IP地址</td>
+</tr>
+<tr>
+<td align="left">location</td>
+<td align="left">object</td>
+<td align="left">是</td>
+<td align="left">定位坐标。<strong>注：</strong>IP定位服务精确到市级，该位置为IP地址所属的行政区划政府坐标。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">lat</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td>纬度</td>
+</tr>
+<tr>
+<td align="left">lng</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">经度</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">ad_info</td>
+<td align="left">object</td>
+<td align="left">是</td>
+<td align="left">定位行政区划信息</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">nation</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td>国家</td>
+</tr>
+<tr>
+<td align="left">nation_code</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">国家代码（ISO3166标准3位数字码）</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">province</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td align="left">省</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">city</td>
+<td align="left">string</td>
+<td align="left">否</td>
+<td align="left">市</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">district</td>
+<td align="left">string</td>
+<td align="left">否</td>
+<td align="left">区</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">adcode</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">行政区划代码</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="调用示例"><a href="#调用示例" class="headerlink" title="调用示例"></a>调用示例</h2><p>GET请求，注意参数值要进行URL编码<br><a target="_blank" rel="noopener" href="https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&key=%5B%E4%BD%A0%E7%9A%84key%5D">https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&amp;key=[你的key]</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//响应示例：</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Success&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;result&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;ip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;111.206.145.41&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;location&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;lat&quot;</span><span class="punctuation">:</span> <span class="number">39.90469</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;lng&quot;</span><span class="punctuation">:</span> <span class="number">116.40717</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;ad_info&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;nation&quot;</span><span class="punctuation">:</span> <span class="string">&quot;中国&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;province&quot;</span><span class="punctuation">:</span> <span class="string">&quot;北京市&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="string">&quot;北京市&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;district&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;adcode&quot;</span><span class="punctuation">:</span> <span class="number">110000</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="微信小程序中的使用"><a href="#微信小程序中的使用" class="headerlink" title="微信小程序中的使用"></a>微信小程序中的使用</h2><p>有了第三方api接口，我们就不需要再用内置方法获取经纬度了，但需要注意在微信小程序管理平台上将域名添加上，否则可能获取失败</p>
+<img src="/post/b55f790c/image-20240122155835078.png" class="" title="image-20240122155835078">
+
+<p>此外，还需要在<code>app.json</code>中加上</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;permission&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;scope.userLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;desc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的位置信息将用于小程序位置接口的效果展示&quot;</span></span><br><span class="line">     <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>来获取用户授权定位</p>
+<p>示例代码：</p>
+<p><code>map.wxml</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=<span class="string">&quot;primary&quot;</span> bindtap=<span class="string">&quot;getLocation&quot;</span> <span class="keyword">class</span>=<span class="string">&quot;btn&quot;</span>&gt;定位&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>map.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">getLocation</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        wx.<span class="title function_">request</span>(&#123;</span><br><span class="line">            <span class="attr">url</span>:<span class="string">&#x27;https://apis.map.qq.com/ws/location/v1/ip?key=PENBZ-C7WK5-C5UIF-IDZWF-ZR6KV-M6BLQ&#x27;</span>,</span><br><span class="line">            <span class="attr">method</span>:<span class="string">&#x27;get&#x27;</span>,</span><br><span class="line">            <span class="attr">success</span>: <span class="keyword">function</span>(<span class="params">res</span>) &#123;</span><br><span class="line">              <span class="variable language_">console</span>.<span class="title function_">log</span>(res.<span class="property">data</span>.<span class="property">result</span>.<span class="property">ad_info</span>.<span class="property">city</span>); </span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击按钮即可获取当前城市名字</p>
+<div class="note danger modern"><p>注意：当前版本的开发者工具需要安装第三方腾讯插件才能将res打印到控制台上，如果没有安装插件，只能在真机调试中打印查看</p>
+</div>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://xz133744.github.io">小铭</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://xz133744.github.io/post/b55f790c.html">https://xz133744.github.io/post/b55f790c.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://xz133744.github.io" target="_blank">小铭の博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/">微信小程序</a><a class="post-meta__tags" href="/tags/%E7%AC%AC%E4%B8%89%E6%96%B9API/">第三方API</a></div><div class="post_share"><div class="social-share" data-image="https://tse3-mm.cn.bing.net/th/id/OIP-C.D9eYz4QC4qWYksVPa-ZngwHaEK?rs=1&amp;pid=ImgDetMain" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/post/6be0da90.html" title="node.js爬虫"><img class="cover" src="https://ts1.cn.mm.bing.net/th/id/R-C.4d20f5962fda5344d5ccd24f617c00fb?rik=o5PglvR6Vg1X0A&amp;riu=http%3a%2f%2fimage.hnol.net%2fc%2f2016-10%2f08%2f13%2f201610081352257411-2127595.jpg&amp;ehk=gYdCn243RGotUkh0qzsI08x9U6me0TgcRaAGn9I78jw%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">node.js爬虫</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/post/18c75403.html" title="微信小程序的组件间通信"><img class="cover" src="https://ts1.cn.mm.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-26</div><div class="title">微信小程序的组件间通信</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/ico.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">小铭</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xz133744"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="/2417214560@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2417214560&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa-brands fa-qq" style="color: #ea1c27;"></i></a><a class="social-icon" href="/errorlog/wx.jpg" target="_blank" title="微信"><i class="fa-brands fa-weixin" style="color: #2ede72;"></i></a><a class="social-icon" href="https://github.com/xz133744" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><b><font color="#e66b6d">前</font> <font color="#e66d98">路</font> <font color="#e66cc6">浩</font> <font color="#cc6de6">浩</font> <font color="#9770e6">荡</font> <font color="#6d93e6">荡</font> <font color="#6fcde6">,</font> <font color="#72e6b6">万</font> <font color="#72e689">物</font> <font color="#99e670">皆</font> <font color="#cde670">可</font> <font color="#e6df72">期</font> <font color="#e6c073">待</font> <font color="#e6a271">。</font></b> <p align="center"><img src="https://www.bing.com/th/id/OGC.c94ce78d80c07480d25f7acafddc15d8?pid=1.7&rurl=https%3a%2f%2fcutewallpaper.org%2f21%2f4k-gif-wallpaper%2fAnimated-GIFs-for-use-in-wallpapers.gif&ehk=mPUzgbSle6%2fMiMI5XxDG0pL8t8W8F4gLuFzB4OAu0Ew%3d" width="240" height="160" alt="mao"></p></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE%E5%AE%9A%E4%BD%8D%E5%9F%8E%E5%B8%82API"><span class="toc-number">1.</span> <span class="toc-text">腾讯地图定位城市API</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BEAPI%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.1.</span> <span class="toc-text">注册腾讯地图API平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E5%AE%9A%E4%BD%8D%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.</span> <span class="toc-text">IP定位接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">请求参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%BB%93%E6%9E%9C"><span class="toc-number">1.4.</span> <span class="toc-text">响应结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.5.</span> <span class="toc-text">调用示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text">微信小程序中的使用</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/b55f790c.html" title="微信小程序城市定位"><img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.D9eYz4QC4qWYksVPa-ZngwHaEK?rs=1&amp;pid=ImgDetMain" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="微信小程序城市定位"/></a><div class="content"><a class="title" href="/post/b55f790c.html" title="微信小程序城市定位">微信小程序城市定位</a><time datetime="2024-01-22T07:33:04.000Z" title="发表于 2024-01-22 15:33:04">2024-01-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/6be0da90.html" title="node.js爬虫"><img src="https://ts1.cn.mm.bing.net/th/id/R-C.4d20f5962fda5344d5ccd24f617c00fb?rik=o5PglvR6Vg1X0A&amp;riu=http%3a%2f%2fimage.hnol.net%2fc%2f2016-10%2f08%2f13%2f201610081352257411-2127595.jpg&amp;ehk=gYdCn243RGotUkh0qzsI08x9U6me0TgcRaAGn9I78jw%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="node.js爬虫"/></a><div class="content"><a class="title" href="/post/6be0da90.html" title="node.js爬虫">node.js爬虫</a><time datetime="2024-01-03T13:06:37.000Z" title="发表于 2024-01-03 21:06:37">2024-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/61738cb6.html" title="JavaScript实现深拷贝的3种常用方式"><img src="https://pic3.zhimg.com/v2-a5ce07e9b0f543ad7883cf2d9ae0c7f6_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaScript实现深拷贝的3种常用方式"/></a><div class="content"><a class="title" href="/post/61738cb6.html" title="JavaScript实现深拷贝的3种常用方式">JavaScript实现深拷贝的3种常用方式</a><time datetime="2023-06-10T08:03:56.000Z" title="发表于 2023-06-10 16:03:56">2023-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/9e4b7ff2.html" title="一些前端面试题（二）"><img src="https://pic2.zhimg.com/v2-95b6a6a6e163d50b92295b6e65e609f5_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一些前端面试题（二）"/></a><div class="content"><a class="title" href="/post/9e4b7ff2.html" title="一些前端面试题（二）">一些前端面试题（二）</a><time datetime="2023-06-02T07:05:45.000Z" title="发表于 2023-06-02 15:05:45">2023-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/4d1c757e.html" title="箭头函数的特点"><img src="https://wallpaperm.cmcm.com/1188507a10a244e7dbc77d9742da2d52.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="箭头函数的特点"/></a><div class="content"><a class="title" href="/post/4d1c757e.html" title="箭头函数的特点">箭头函数的特点</a><time datetime="2023-06-02T04:02:36.000Z" title="发表于 2023-06-02 12:02:36">2023-06-02</time></div></div></div></div></div></div></main><footer id="footer" style="background: rgba(220,38,38,0.1)"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2024 By 小铭</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">做自己喜欢的事，永远不为世俗烦恼。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><script src="https://unpkg.com/instant.page/instantpage.js" type="module"></script><script src="https://unpkg.com/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://unpkg.com/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    btf.addModeChange('mermaid', () => {
+      window.runMermaid()
+    })
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.xiaoming.site',
+      region: 'ap-shanghai',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.xiaoming.site',
+      region: 'ap-shanghai',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.textContent = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    GLOBAL_CONFIG_SITE.isPost && getCount()
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://unpkg.com/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><div class="aplayer no-destroy" data-id="2666719460" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script defer="defer" id="ribbon" src="https://unpkg.com/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script src="https://unpkg.com/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://unpkg.com/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="天天开心,永远快乐,up up up" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,6 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Vue3 与 Vue2 区别</title>
+    <url>/post/ec9655cc.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="Vue3-与-Vue2-区别详述"><a href="#Vue3-与-Vue2-区别详述" class="headerlink" title="Vue3 与 Vue2 区别详述"></a>Vue3 与 Vue2 区别详述</h1><h2 id="1-生命周期"><a href="#1-生命周期" class="headerlink" title="1. 生命周期"></a>1. 生命周期</h2><p>对于生命周期来说，整体上变化不大，只是大部分生命周期钩子名称上 + “on”，功能上是类似的。不过有一点需要注意，Vue3 在组合式API（Composition API，下面展开）中使用生命周期钩子时需要先引入，而 Vue2 在选项API（Options API）中可以直接调用生命周期钩子，如下所示。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// vue3</span></span><br><span class="line">&lt;script setup&gt;     </span><br><span class="line"><span class="keyword">import</span> &#123; onMounted &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;   <span class="comment">// 使用前需引入生命周期钩子</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_">onMounted</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 可将不同的逻辑拆开成多个onMounted，依然按顺序执行，不会被覆盖</span></span><br><span class="line"><span class="title function_">onMounted</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// vue2</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript">     </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;         </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">mounted</span>(<span class="params"></span>) &#123;   <span class="comment">// 直接调用生命周期钩子            </span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="comment">// ...         </span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,           </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br></pre></td></tr></table></figure>
+
+<p>常用生命周期对比如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>vue2</th>
+<th>vue3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>beforeCreate</td>
+<td></td>
+</tr>
+<tr>
+<td>created</td>
+<td></td>
+</tr>
+<tr>
+<td>beforeMount</td>
+<td>onBeforeMount</td>
+</tr>
+<tr>
+<td>mounted</td>
+<td>onBeforeMount</td>
+</tr>
+<tr>
+<td>beforeUpdate</td>
+<td>onBeforeMount</td>
+</tr>
+<tr>
+<td>updated</td>
+<td>onUpdated</td>
+</tr>
+<tr>
+<td>beforeDestroy</td>
+<td>onBeforeUnmount</td>
+</tr>
+<tr>
+<td>destroyed</td>
+<td>onUnmounted</td>
+</tr>
+</tbody></table>
+<div class="note info modern"><p>Tips： setup 是围绕 beforeCreate 和 created 生命周期钩子运行的，所以不需要显式地去定义。</p>
+</div>
+
+<h2 id="2-多根节点"><a href="#2-多根节点" class="headerlink" title="2. 多根节点"></a>2. 多根节点</h2><p>Vue2中，在模板中如果使用多个根节点时会报错，如下所示。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">// vue2中在template里存在多个根节点会报错</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">// 只能存在一个根节点，需要用一个<span class="tag">&lt;<span class="name">div</span>&gt;</span>来包裹着</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是，Vue3 支持多个根节点，也就是 fragment。即以下多根节点的写法是被允许的。根节点不再需要用<code>&lt;div&gt;</code>包裹.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Composition-API"><a href="#3-Composition-API" class="headerlink" title="3. Composition API"></a>3. Composition API</h2><p>组合式API（Composition API）是vue3最大的特色。</p>
+<p>Vue2 是选项API（Options API），一个逻辑会散乱在文件不同位置（data、props、computed、watch、生命周期钩子等），导致代码的可读性变差。当需要修改某个逻辑时，需要上下来回跳转文件位置。</p>
+<p>Vue3 组合式API（Composition API）则很好地解决了这个问题，可将同一逻辑的内容写到一起，增强了代码的可读性、内聚性，其还提供了较为完美的逻辑复用性方案。</p>
+<h2 id="4-异步组件（Suspense）"><a href="#4-异步组件（Suspense）" class="headerlink" title="4. 异步组件（Suspense）"></a>4. 异步组件（Suspense）</h2><p>Vue3 提供 Suspense 组件，允许程序在等待异步组件加载完成前渲染兜底的内容，如 loading ，使用户的体验更平滑。使用它，需在模板中声明，并包括两个命名插槽：default 和 fallback。Suspense 确保加载完异步内容时显示默认插槽，并将 fallback 插槽用作加载状态。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tempalte</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">suspense</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> #<span class="attr">default</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">List</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> #<span class="attr">fallback</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        Loading...</span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">suspense</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Teleport"><a href="#5-Teleport" class="headerlink" title="5. Teleport"></a>5. Teleport</h2><p>Vue3 提供 Teleport 组件可将部分 DOM 移动到 Vue app 之外的位置。比如项目中常见的 Dialog 弹窗。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;dialogVisible = true&quot;</span>&gt;</span>显示弹窗<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">teleport</span> <span class="attr">to</span>=<span class="string">&quot;body&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;dialog&quot;</span> <span class="attr">v-if</span>=<span class="string">&quot;dialogVisible&quot;</span>&gt;</span></span><br><span class="line">    我是弹窗，我直接移动到了body标签下</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">teleport</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-响应式原理"><a href="#6-响应式原理" class="headerlink" title="6. 响应式原理"></a>6. 响应式原理</h2><p>Vue2 响应式原理基础是 Object.defineProperty；Vue3 响应式原理基础是 Proxy。</p>
+<p>Object.defineProperty 基本用法：直接在一个对象上定义新的属性或修改现有的属性，并返回对象。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> name = <span class="string">&#x27;leo&#x27;</span>;</span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, <span class="string">&#x27;name&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,   <span class="comment">// 可枚举（是否可通过 for...in 或 Object.keys() 进行访问）</span></span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">true</span>,   <span class="comment">// 可配置（是否可使用 delete 删除，是否可再次设置属性）</span></span><br><span class="line">  <span class="comment">// value: &#x27;&#x27;,   // 任意类型的值，默认undefined</span></span><br><span class="line">  <span class="comment">// writable: true,   // 可重写</span></span><br><span class="line">  <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> name;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">set</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    name = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<div class="note info modern"><p>Tips： <code>writable</code> 和 <code>value</code> 与 <code>getter</code> 和 <code>setter</code> 不共存。</p>
+</div>
+
+<p><strong>vue2核心源码</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">defineReactive</span>(<span class="params">obj, key, val</span>) &#123;</span><br><span class="line">  <span class="comment">// 一 key 一个 dep</span></span><br><span class="line">  <span class="keyword">const</span> dep = <span class="keyword">new</span> <span class="title class_">Dep</span>()</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 获取 key 的属性描述符，发现它是不可配置对象的话直接 return</span></span><br><span class="line">  <span class="keyword">const</span> property = <span class="title class_">Object</span>.<span class="title function_">getOwnPropertyDescriptor</span>(obj, key)</span><br><span class="line">  <span class="keyword">if</span> (property &amp;&amp; property.<span class="property">configurable</span> === <span class="literal">false</span>) &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 获取 getter 和 setter，并获取 val 值</span></span><br><span class="line">  <span class="keyword">const</span> getter = property &amp;&amp; property.<span class="property">get</span></span><br><span class="line">  <span class="keyword">const</span> setter = property &amp;&amp; property.<span class="property">set</span></span><br><span class="line">  <span class="keyword">if</span>((!getter || setter) &amp;&amp; <span class="variable language_">arguments</span>.<span class="property">length</span> === <span class="number">2</span>) &#123; val = obj[key] &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 递归处理，保证对象中所有 key 被观察</span></span><br><span class="line">  <span class="keyword">let</span> childOb = <span class="title function_">observe</span>(val)</span><br><span class="line">  </span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, key, &#123;</span><br><span class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">configurable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// get 劫持 obj[key] 的 进行依赖收集</span></span><br><span class="line">    <span class="attr">get</span>: <span class="keyword">function</span> <span class="title function_">reactiveGetter</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.<span class="title function_">call</span>(obj) : val</span><br><span class="line">      <span class="keyword">if</span>(<span class="title class_">Dep</span>.<span class="property">target</span>) &#123;</span><br><span class="line">        <span class="comment">// 依赖收集</span></span><br><span class="line">        dep.<span class="title function_">depend</span>()</span><br><span class="line">        <span class="keyword">if</span>(childOb) &#123;</span><br><span class="line">          <span class="comment">// 针对嵌套对象，依赖收集</span></span><br><span class="line">          childOb.<span class="property">dep</span>.<span class="title function_">depend</span>()</span><br><span class="line">          <span class="comment">// 触发数组响应式</span></span><br><span class="line">          <span class="keyword">if</span>(<span class="title class_">Array</span>.<span class="title function_">isArray</span>(value)) &#123;</span><br><span class="line">            <span class="title function_">dependArray</span>(value)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// set 派发更新 obj[key]</span></span><br><span class="line">  <span class="attr">set</span>: <span class="keyword">function</span> <span class="title function_">reactiveSetter</span>(<span class="params">newVal</span>) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span>(setter) &#123;</span><br><span class="line">      setter.<span class="title function_">call</span>(obj, newVal)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      val = newVal</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 新值设置响应式</span></span><br><span class="line">    childOb = <span class="title function_">observe</span>(val)</span><br><span class="line">    <span class="comment">// 依赖通知更新</span></span><br><span class="line">    dep.<span class="title function_">notify</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p>vue2响应式的缺陷是无法监听对象或数组新增、删除的元素。</p>
+</div>
+
+<hr>
+<p>vue3采用es6新特性Proxy Proxy ，通过第2个参数 handler 拦截目标对象的行为。相较于 Object.defineProperty 提供语言全范围的响应能力，消除了局限性。</p>
+<p>vue3 的源码 reactive.ts 文件：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createReactiveObject</span>(<span class="params">target, isReadOnly, baseHandlers, collectionHandlers, proxyMap</span>) &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// collectionHandlers: 处理Map、Set、WeakMap、WeakSet</span></span><br><span class="line">  <span class="comment">// baseHandlers: 处理数组、对象</span></span><br><span class="line">  <span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="title class_">Proxy</span>(</span><br><span class="line">    target,</span><br><span class="line">    targetType === <span class="title class_">TargetType</span>.<span class="property">COLLECTION</span> ? collectionHandlers : baseHandlers</span><br><span class="line">  )</span><br><span class="line">  proxyMap.<span class="title function_">set</span>(target, proxy)</span><br><span class="line">  <span class="keyword">return</span> proxy</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-虚拟DOM"><a href="#7-虚拟DOM" class="headerlink" title="7. 虚拟DOM"></a>7. 虚拟DOM</h2><p>Vue3 相比于 Vue2，虚拟DOM上增加 patchFlag 字段。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>vue3虚拟DOM讲解<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>今天天气真不错<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>渲染函数如下:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createElementVNode <span class="keyword">as</span> _createElementVNode, toDisplayString <span class="keyword">as</span> _toDisplayString, openBlock <span class="keyword">as</span> _openBlock, createElementBlock <span class="keyword">as</span> _createElementBlock, pushScopeId <span class="keyword">as</span> _pushScopeId, popScopeId <span class="keyword">as</span> _popScopeId &#125; <span class="keyword">from</span> vue</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> <span class="title function_">_withScopeId</span> = n =&gt; (<span class="title function_">_pushScopeId</span>(scope-id),n=<span class="title function_">n</span>(),<span class="title function_">_popScopeId</span>(),n)</span><br><span class="line"><span class="keyword">const</span> _hoisted_1 = &#123; <span class="attr">id</span>: app &#125;</span><br><span class="line"><span class="keyword">const</span> _hoisted_2 = <span class="comment">/*#__PURE__*/</span> <span class="title function_">_withScopeId</span>(<span class="function">() =&gt;</span> <span class="comment">/*#__PURE__*/</span><span class="title function_">_createElementVNode</span>(h1, <span class="literal">null</span>, vue3虚拟<span class="variable constant_">DOM</span>讲解, -<span class="number">1</span> <span class="comment">/* HOISTED */</span>))</span><br><span class="line"><span class="keyword">const</span> _hoisted_3 = <span class="comment">/*#__PURE__*/</span> <span class="title function_">_withScopeId</span>(<span class="function">() =&gt;</span> <span class="comment">/*#__PURE__*/</span><span class="title function_">_createElementVNode</span>(p, <span class="literal">null</span>, 今天天气真不错, -<span class="number">1</span> <span class="comment">/* HOISTED */</span>))</span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">render</span>(<span class="params">_ctx, _cache, $props, $setup, $data, $options</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="title function_">_openBlock</span>(), <span class="title function_">_createElementBlock</span>(div, _hoisted_1, [</span><br><span class="line">    _hoisted_2,</span><br><span class="line">    _hoisted_3,</span><br><span class="line">    <span class="title function_">_createElementVNode</span>(div, <span class="literal">null</span>, <span class="title function_">_toDisplayString</span>(_ctx.<span class="property">name</span>), <span class="number">1</span> <span class="comment">/* TEXT */</span>)</span><br><span class="line">  ]))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>字段类型情况：1 代表节点为动态文本节点，那在 diff 过程中，只需比对文本对容，无需关注 class、style等。除此之外，发现所有的静态节点（HOISTED 为 -1），都保存为一个变量进行静态提升，可在重新渲染时直接引用，无需重新创建。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// patchFlags 字段类型列举</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> enum <span class="title class_">PatchFlags</span> &#123; </span><br><span class="line">  <span class="variable constant_">TEXT</span> = <span class="number">1</span>,   <span class="comment">// 动态文本内容</span></span><br><span class="line">  <span class="variable constant_">CLASS</span> = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,   <span class="comment">// 动态类名</span></span><br><span class="line">  <span class="variable constant_">STYLE</span> = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,   <span class="comment">// 动态样式</span></span><br><span class="line">  <span class="variable constant_">PROPS</span> = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,   <span class="comment">// 动态属性，不包含类名和样式</span></span><br><span class="line">  <span class="variable constant_">FULL_PROPS</span> = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,   <span class="comment">// 具有动态 key 属性，当 key 改变，需要进行完整的 diff 比较</span></span><br><span class="line">  <span class="variable constant_">HYDRATE_EVENTS</span> = <span class="number">1</span> &lt;&lt; <span class="number">5</span>,   <span class="comment">// 带有监听事件的节点</span></span><br><span class="line">  <span class="variable constant_">STABLE_FRAGMENT</span> = <span class="number">1</span> &lt;&lt; <span class="number">6</span>,   <span class="comment">// 不会改变子节点顺序的 fragment</span></span><br><span class="line">  <span class="variable constant_">KEYED_FRAGMENT</span> = <span class="number">1</span> &lt;&lt; <span class="number">7</span>,   <span class="comment">// 带有 key 属性的 fragment 或部分子节点</span></span><br><span class="line">  <span class="variable constant_">UNKEYED_FRAGMENT</span> = <span class="number">1</span> &lt;&lt; <span class="number">8</span>,   <span class="comment">// 子节点没有 key 的fragment</span></span><br><span class="line">  <span class="variable constant_">NEED_PATCH</span> = <span class="number">1</span> &lt;&lt; <span class="number">9</span>,   <span class="comment">// 只会进行非 props 的比较</span></span><br><span class="line">  <span class="variable constant_">DYNAMIC_SLOTS</span> = <span class="number">1</span> &lt;&lt; <span class="number">10</span>,   <span class="comment">// 动态的插槽</span></span><br><span class="line">  <span class="variable constant_">HOISTED</span> = -<span class="number">1</span>,   <span class="comment">// 静态节点，diff阶段忽略其子节点</span></span><br><span class="line">  <span class="variable constant_">BAIL</span> = -<span class="number">2</span>   <span class="comment">// 代表 diff 应该结束</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-事件缓存"><a href="#8-事件缓存" class="headerlink" title="8. 事件缓存"></a>8. 事件缓存</h2><p>了解React的同学知道，使用 React 时，性能优化的其中一点就是<strong>将事件侦听方法手动进行缓存</strong>，避免更新组件时重复创建。而 Vue3 直接替我们做了这一步。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;handleBtnClick&quot;</span>&gt;</span>666<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>编译后的dom:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> _hoisted_1 = &#123; <span class="attr">id</span>: <span class="string">&quot;app&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">render</span>(<span class="params">_ctx, _cache, $props, $setup, $data, $options</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="title function_">_openBlock</span>(), <span class="title function_">_createElementBlock</span>(<span class="string">&quot;div&quot;</span>, _hoisted_1, [</span><br><span class="line">    <span class="title function_">_createElementVNode</span>(<span class="string">&quot;button&quot;</span>, &#123;</span><br><span class="line">      <span class="attr">onClick</span>: _cache[<span class="number">0</span>] || (_cache[<span class="number">0</span>] = <span class="function">(<span class="params">...args</span>) =&gt;</span> (_ctx.<span class="property">handleBtnClick</span> &amp;&amp; _ctx.<span class="title function_">handleBtnClick</span>(...args)))</span><br><span class="line">    &#125;, <span class="string">&quot;666&quot;</span>)</span><br><span class="line">  ]))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-Diff算法优化"><a href="#9-Diff算法优化" class="headerlink" title="9.Diff算法优化"></a>9.Diff算法优化</h2><p>vue2.x中的虚拟dom是进行<strong>全量的对比</strong>，在运行时会对所有节点生成一个虚拟节点树，当页面数据发生变更好，会遍历判断virtual dom所有节点（包括一些不会变化的节点）有没有发生变化；虽然说diff算法确实减少了多DOM节点的直接操作，但是这个<strong>减少是有成本的</strong>，如果是复杂的大型项目，必然存在很复杂的父子关系的VNode,<strong>而Vue2.x的diff算法，会不断地递归调用 patchVNode，不断堆叠而成的几毫秒，最终就会造成 VNode 更新缓慢</strong>。</p>
+<p>在Vue3.0中，在这个模版编译时，编译器会在动态标签末尾加上 &#x2F;* Text*&#x2F; PatchFlag。<strong>也就是在生成VNode的时候，同时打上标记，在这个基础上再进行核心的diff算法</strong>并且 PatchFlag 会标识动态的属性类型有哪些，比如这里 的TEXT 表示只有节点中的文字是动态的。而patchFlag的类型也很多,其中大致可以分为两类：</p>
+<ul>
+<li>当 patchFlag 的值「大于」 0 时，代表所对应的元素在 patchVNode 时或 render 时是可以被优化生成或更新的。</li>
+<li>当 patchFlag 的值「小于」 0 时，代表所对应的元素在 patchVNode 时，是需要被 full diff，即进行递归遍历 VNode tree 的比较更新过程。</li>
+</ul>
+<h2 id="10-打包优化"><a href="#10-打包优化" class="headerlink" title="10. 打包优化"></a>10. 打包优化</h2><p>Tree-shaking：模块打包 webpack、rollup 等中的概念。移除 JavaScript 上下文中未引用的代码。主要依赖于 import 和 export 语句，用来检测代码模块是否被导出、导入，且被 JavaScript 文件使用。</p>
+<p>以 nextTick 为例子，在 Vue2 中，全局API暴露在Vue实例上，即使未使用，也无法通过 tree-shaking 进行消除。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"> </span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">nextTick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 一些和DOM有关的东西</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Vue3 中针对全局和内部的API进行了重构，并考虑到 tree-shaking 的支持。因此，全局API现在只能作为ES模块构建的命名导出进行访问。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; nextTick &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;   <span class="comment">// 显式导入</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_">nextTick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 一些和DOM有关的东西</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>通过这一更改，只要模块绑定器支持 tree-shaking，则Vue应用程序中未使用的 api 将从最终的捆绑包中消除，获得最佳文件大小。</p>
+<p>受此更改影响的全局API如下所示。</p>
+<ul>
+<li>Vue.nextTick</li>
+<li>Vue.observable （用 Vue.reactive 替换）</li>
+<li>Vue.version</li>
+<li>Vue.compile （仅全构建）</li>
+<li>Vue.set （仅兼容构建）</li>
+<li>Vue.delete （仅兼容构建）</li>
+</ul>
+<p>内部API也有诸如 transition、v-model 等标签或者指令被命名导出。只有在程序真正使用才会被捆绑打包。Vue3 将所有运行功能打包也只有约22.5kb，比 Vue2 轻量很多。</p>
+<h2 id="11-TypeScript支持"><a href="#11-TypeScript支持" class="headerlink" title="11. TypeScript支持"></a>11. TypeScript支持</h2><p>Vue3 由 TypeScript 重写，相对于 Vue2 有更好的 TypeScript 支持。</p>
+<ul>
+<li>Vue2 Options API 中 option 是个简单对象，而 TypeScript 是一种类型系统，面向对象的语法，不是特别匹配。</li>
+<li>Vue2 需要vue-class-component强化vue原生组件，也需要vue-property-decorator增加更多结合Vue特性的装饰器，写法比较繁琐。</li>
+</ul>
+</font>
+]]></content>
+      <categories>
+        <category>vue2</category>
+        <category>vue3</category>
+      </categories>
+      <tags>
+        <tag>typescript</tag>
+        <tag>vue3</tag>
+        <tag>vue2</tag>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>报错日志：安卓插件引入和项目版本兼容问题</title>
     <url>/post/3b7f2b28.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
@@ -258,148 +400,6 @@
         <tag>博客</tag>
         <tag>imsyy</tag>
         <tag>vercel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Vue3 与 Vue2 区别</title>
-    <url>/post/ec9655cc.html</url>
-    <content><![CDATA[<font face="ZhuZiAWan" size=3>
-
-<h1 id="Vue3-与-Vue2-区别详述"><a href="#Vue3-与-Vue2-区别详述" class="headerlink" title="Vue3 与 Vue2 区别详述"></a>Vue3 与 Vue2 区别详述</h1><h2 id="1-生命周期"><a href="#1-生命周期" class="headerlink" title="1. 生命周期"></a>1. 生命周期</h2><p>对于生命周期来说，整体上变化不大，只是大部分生命周期钩子名称上 + “on”，功能上是类似的。不过有一点需要注意，Vue3 在组合式API（Composition API，下面展开）中使用生命周期钩子时需要先引入，而 Vue2 在选项API（Options API）中可以直接调用生命周期钩子，如下所示。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// vue3</span></span><br><span class="line">&lt;script setup&gt;     </span><br><span class="line"><span class="keyword">import</span> &#123; onMounted &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;   <span class="comment">// 使用前需引入生命周期钩子</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_">onMounted</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 可将不同的逻辑拆开成多个onMounted，依然按顺序执行，不会被覆盖</span></span><br><span class="line"><span class="title function_">onMounted</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// vue2</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript">     </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;         </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">mounted</span>(<span class="params"></span>) &#123;   <span class="comment">// 直接调用生命周期钩子            </span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="comment">// ...         </span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,           </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br></pre></td></tr></table></figure>
-
-<p>常用生命周期对比如下表所示。</p>
-<table>
-<thead>
-<tr>
-<th>vue2</th>
-<th>vue3</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>beforeCreate</td>
-<td></td>
-</tr>
-<tr>
-<td>created</td>
-<td></td>
-</tr>
-<tr>
-<td>beforeMount</td>
-<td>onBeforeMount</td>
-</tr>
-<tr>
-<td>mounted</td>
-<td>onBeforeMount</td>
-</tr>
-<tr>
-<td>beforeUpdate</td>
-<td>onBeforeMount</td>
-</tr>
-<tr>
-<td>updated</td>
-<td>onUpdated</td>
-</tr>
-<tr>
-<td>beforeDestroy</td>
-<td>onBeforeUnmount</td>
-</tr>
-<tr>
-<td>destroyed</td>
-<td>onUnmounted</td>
-</tr>
-</tbody></table>
-<div class="note info modern"><p>Tips： setup 是围绕 beforeCreate 和 created 生命周期钩子运行的，所以不需要显式地去定义。</p>
-</div>
-
-<h2 id="2-多根节点"><a href="#2-多根节点" class="headerlink" title="2. 多根节点"></a>2. 多根节点</h2><p>Vue2中，在模板中如果使用多个根节点时会报错，如下所示。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">// vue2中在template里存在多个根节点会报错</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">// 只能存在一个根节点，需要用一个<span class="tag">&lt;<span class="name">div</span>&gt;</span>来包裹着</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但是，Vue3 支持多个根节点，也就是 fragment。即以下多根节点的写法是被允许的。根节点不再需要用<code>&lt;div&gt;</code>包裹.</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-Composition-API"><a href="#3-Composition-API" class="headerlink" title="3. Composition API"></a>3. Composition API</h2><p>组合式API（Composition API）是vue3最大的特色。</p>
-<p>Vue2 是选项API（Options API），一个逻辑会散乱在文件不同位置（data、props、computed、watch、生命周期钩子等），导致代码的可读性变差。当需要修改某个逻辑时，需要上下来回跳转文件位置。</p>
-<p>Vue3 组合式API（Composition API）则很好地解决了这个问题，可将同一逻辑的内容写到一起，增强了代码的可读性、内聚性，其还提供了较为完美的逻辑复用性方案。</p>
-<h2 id="4-异步组件（Suspense）"><a href="#4-异步组件（Suspense）" class="headerlink" title="4. 异步组件（Suspense）"></a>4. 异步组件（Suspense）</h2><p>Vue3 提供 Suspense 组件，允许程序在等待异步组件加载完成前渲染兜底的内容，如 loading ，使用户的体验更平滑。使用它，需在模板中声明，并包括两个命名插槽：default 和 fallback。Suspense 确保加载完异步内容时显示默认插槽，并将 fallback 插槽用作加载状态。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tempalte</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">suspense</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> #<span class="attr">default</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">List</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> #<span class="attr">fallback</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        Loading...</span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">suspense</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="5-Teleport"><a href="#5-Teleport" class="headerlink" title="5. Teleport"></a>5. Teleport</h2><p>Vue3 提供 Teleport 组件可将部分 DOM 移动到 Vue app 之外的位置。比如项目中常见的 Dialog 弹窗。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;dialogVisible = true&quot;</span>&gt;</span>显示弹窗<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">teleport</span> <span class="attr">to</span>=<span class="string">&quot;body&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;dialog&quot;</span> <span class="attr">v-if</span>=<span class="string">&quot;dialogVisible&quot;</span>&gt;</span></span><br><span class="line">    我是弹窗，我直接移动到了body标签下</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">teleport</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="6-响应式原理"><a href="#6-响应式原理" class="headerlink" title="6. 响应式原理"></a>6. 响应式原理</h2><p>Vue2 响应式原理基础是 Object.defineProperty；Vue3 响应式原理基础是 Proxy。</p>
-<p>Object.defineProperty 基本用法：直接在一个对象上定义新的属性或修改现有的属性，并返回对象。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> name = <span class="string">&#x27;leo&#x27;</span>;</span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, <span class="string">&#x27;name&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">enumerable</span>: <span class="literal">true</span>,   <span class="comment">// 可枚举（是否可通过 for...in 或 Object.keys() 进行访问）</span></span><br><span class="line">  <span class="attr">configurable</span>: <span class="literal">true</span>,   <span class="comment">// 可配置（是否可使用 delete 删除，是否可再次设置属性）</span></span><br><span class="line">  <span class="comment">// value: &#x27;&#x27;,   // 任意类型的值，默认undefined</span></span><br><span class="line">  <span class="comment">// writable: true,   // 可重写</span></span><br><span class="line">  <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> name;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">set</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    name = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<div class="note info modern"><p>Tips： <code>writable</code> 和 <code>value</code> 与 <code>getter</code> 和 <code>setter</code> 不共存。</p>
-</div>
-
-<p><strong>vue2核心源码</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">defineReactive</span>(<span class="params">obj, key, val</span>) &#123;</span><br><span class="line">  <span class="comment">// 一 key 一个 dep</span></span><br><span class="line">  <span class="keyword">const</span> dep = <span class="keyword">new</span> <span class="title class_">Dep</span>()</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 获取 key 的属性描述符，发现它是不可配置对象的话直接 return</span></span><br><span class="line">  <span class="keyword">const</span> property = <span class="title class_">Object</span>.<span class="title function_">getOwnPropertyDescriptor</span>(obj, key)</span><br><span class="line">  <span class="keyword">if</span> (property &amp;&amp; property.<span class="property">configurable</span> === <span class="literal">false</span>) &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 获取 getter 和 setter，并获取 val 值</span></span><br><span class="line">  <span class="keyword">const</span> getter = property &amp;&amp; property.<span class="property">get</span></span><br><span class="line">  <span class="keyword">const</span> setter = property &amp;&amp; property.<span class="property">set</span></span><br><span class="line">  <span class="keyword">if</span>((!getter || setter) &amp;&amp; <span class="variable language_">arguments</span>.<span class="property">length</span> === <span class="number">2</span>) &#123; val = obj[key] &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 递归处理，保证对象中所有 key 被观察</span></span><br><span class="line">  <span class="keyword">let</span> childOb = <span class="title function_">observe</span>(val)</span><br><span class="line">  </span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, key, &#123;</span><br><span class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">configurable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// get 劫持 obj[key] 的 进行依赖收集</span></span><br><span class="line">    <span class="attr">get</span>: <span class="keyword">function</span> <span class="title function_">reactiveGetter</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.<span class="title function_">call</span>(obj) : val</span><br><span class="line">      <span class="keyword">if</span>(<span class="title class_">Dep</span>.<span class="property">target</span>) &#123;</span><br><span class="line">        <span class="comment">// 依赖收集</span></span><br><span class="line">        dep.<span class="title function_">depend</span>()</span><br><span class="line">        <span class="keyword">if</span>(childOb) &#123;</span><br><span class="line">          <span class="comment">// 针对嵌套对象，依赖收集</span></span><br><span class="line">          childOb.<span class="property">dep</span>.<span class="title function_">depend</span>()</span><br><span class="line">          <span class="comment">// 触发数组响应式</span></span><br><span class="line">          <span class="keyword">if</span>(<span class="title class_">Array</span>.<span class="title function_">isArray</span>(value)) &#123;</span><br><span class="line">            <span class="title function_">dependArray</span>(value)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// set 派发更新 obj[key]</span></span><br><span class="line">  <span class="attr">set</span>: <span class="keyword">function</span> <span class="title function_">reactiveSetter</span>(<span class="params">newVal</span>) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span>(setter) &#123;</span><br><span class="line">      setter.<span class="title function_">call</span>(obj, newVal)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      val = newVal</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 新值设置响应式</span></span><br><span class="line">    childOb = <span class="title function_">observe</span>(val)</span><br><span class="line">    <span class="comment">// 依赖通知更新</span></span><br><span class="line">    dep.<span class="title function_">notify</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<div class="note danger flat"><p>vue2响应式的缺陷是无法监听对象或数组新增、删除的元素。</p>
-</div>
-
-<hr>
-<p>vue3采用es6新特性Proxy Proxy ，通过第2个参数 handler 拦截目标对象的行为。相较于 Object.defineProperty 提供语言全范围的响应能力，消除了局限性。</p>
-<p>vue3 的源码 reactive.ts 文件：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createReactiveObject</span>(<span class="params">target, isReadOnly, baseHandlers, collectionHandlers, proxyMap</span>) &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// collectionHandlers: 处理Map、Set、WeakMap、WeakSet</span></span><br><span class="line">  <span class="comment">// baseHandlers: 处理数组、对象</span></span><br><span class="line">  <span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="title class_">Proxy</span>(</span><br><span class="line">    target,</span><br><span class="line">    targetType === <span class="title class_">TargetType</span>.<span class="property">COLLECTION</span> ? collectionHandlers : baseHandlers</span><br><span class="line">  )</span><br><span class="line">  proxyMap.<span class="title function_">set</span>(target, proxy)</span><br><span class="line">  <span class="keyword">return</span> proxy</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-虚拟DOM"><a href="#7-虚拟DOM" class="headerlink" title="7. 虚拟DOM"></a>7. 虚拟DOM</h2><p>Vue3 相比于 Vue2，虚拟DOM上增加 patchFlag 字段。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>vue3虚拟DOM讲解<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>今天天气真不错<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>渲染函数如下:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createElementVNode <span class="keyword">as</span> _createElementVNode, toDisplayString <span class="keyword">as</span> _toDisplayString, openBlock <span class="keyword">as</span> _openBlock, createElementBlock <span class="keyword">as</span> _createElementBlock, pushScopeId <span class="keyword">as</span> _pushScopeId, popScopeId <span class="keyword">as</span> _popScopeId &#125; <span class="keyword">from</span> vue</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> <span class="title function_">_withScopeId</span> = n =&gt; (<span class="title function_">_pushScopeId</span>(scope-id),n=<span class="title function_">n</span>(),<span class="title function_">_popScopeId</span>(),n)</span><br><span class="line"><span class="keyword">const</span> _hoisted_1 = &#123; <span class="attr">id</span>: app &#125;</span><br><span class="line"><span class="keyword">const</span> _hoisted_2 = <span class="comment">/*#__PURE__*/</span> <span class="title function_">_withScopeId</span>(<span class="function">() =&gt;</span> <span class="comment">/*#__PURE__*/</span><span class="title function_">_createElementVNode</span>(h1, <span class="literal">null</span>, vue3虚拟<span class="variable constant_">DOM</span>讲解, -<span class="number">1</span> <span class="comment">/* HOISTED */</span>))</span><br><span class="line"><span class="keyword">const</span> _hoisted_3 = <span class="comment">/*#__PURE__*/</span> <span class="title function_">_withScopeId</span>(<span class="function">() =&gt;</span> <span class="comment">/*#__PURE__*/</span><span class="title function_">_createElementVNode</span>(p, <span class="literal">null</span>, 今天天气真不错, -<span class="number">1</span> <span class="comment">/* HOISTED */</span>))</span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">render</span>(<span class="params">_ctx, _cache, $props, $setup, $data, $options</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="title function_">_openBlock</span>(), <span class="title function_">_createElementBlock</span>(div, _hoisted_1, [</span><br><span class="line">    _hoisted_2,</span><br><span class="line">    _hoisted_3,</span><br><span class="line">    <span class="title function_">_createElementVNode</span>(div, <span class="literal">null</span>, <span class="title function_">_toDisplayString</span>(_ctx.<span class="property">name</span>), <span class="number">1</span> <span class="comment">/* TEXT */</span>)</span><br><span class="line">  ]))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>字段类型情况：1 代表节点为动态文本节点，那在 diff 过程中，只需比对文本对容，无需关注 class、style等。除此之外，发现所有的静态节点（HOISTED 为 -1），都保存为一个变量进行静态提升，可在重新渲染时直接引用，无需重新创建。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// patchFlags 字段类型列举</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> enum <span class="title class_">PatchFlags</span> &#123; </span><br><span class="line">  <span class="variable constant_">TEXT</span> = <span class="number">1</span>,   <span class="comment">// 动态文本内容</span></span><br><span class="line">  <span class="variable constant_">CLASS</span> = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,   <span class="comment">// 动态类名</span></span><br><span class="line">  <span class="variable constant_">STYLE</span> = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,   <span class="comment">// 动态样式</span></span><br><span class="line">  <span class="variable constant_">PROPS</span> = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,   <span class="comment">// 动态属性，不包含类名和样式</span></span><br><span class="line">  <span class="variable constant_">FULL_PROPS</span> = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,   <span class="comment">// 具有动态 key 属性，当 key 改变，需要进行完整的 diff 比较</span></span><br><span class="line">  <span class="variable constant_">HYDRATE_EVENTS</span> = <span class="number">1</span> &lt;&lt; <span class="number">5</span>,   <span class="comment">// 带有监听事件的节点</span></span><br><span class="line">  <span class="variable constant_">STABLE_FRAGMENT</span> = <span class="number">1</span> &lt;&lt; <span class="number">6</span>,   <span class="comment">// 不会改变子节点顺序的 fragment</span></span><br><span class="line">  <span class="variable constant_">KEYED_FRAGMENT</span> = <span class="number">1</span> &lt;&lt; <span class="number">7</span>,   <span class="comment">// 带有 key 属性的 fragment 或部分子节点</span></span><br><span class="line">  <span class="variable constant_">UNKEYED_FRAGMENT</span> = <span class="number">1</span> &lt;&lt; <span class="number">8</span>,   <span class="comment">// 子节点没有 key 的fragment</span></span><br><span class="line">  <span class="variable constant_">NEED_PATCH</span> = <span class="number">1</span> &lt;&lt; <span class="number">9</span>,   <span class="comment">// 只会进行非 props 的比较</span></span><br><span class="line">  <span class="variable constant_">DYNAMIC_SLOTS</span> = <span class="number">1</span> &lt;&lt; <span class="number">10</span>,   <span class="comment">// 动态的插槽</span></span><br><span class="line">  <span class="variable constant_">HOISTED</span> = -<span class="number">1</span>,   <span class="comment">// 静态节点，diff阶段忽略其子节点</span></span><br><span class="line">  <span class="variable constant_">BAIL</span> = -<span class="number">2</span>   <span class="comment">// 代表 diff 应该结束</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="8-事件缓存"><a href="#8-事件缓存" class="headerlink" title="8. 事件缓存"></a>8. 事件缓存</h2><p>了解React的同学知道，使用 React 时，性能优化的其中一点就是<strong>将事件侦听方法手动进行缓存</strong>，避免更新组件时重复创建。而 Vue3 直接替我们做了这一步。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;handleBtnClick&quot;</span>&gt;</span>666<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>编译后的dom:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> _hoisted_1 = &#123; <span class="attr">id</span>: <span class="string">&quot;app&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">render</span>(<span class="params">_ctx, _cache, $props, $setup, $data, $options</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="title function_">_openBlock</span>(), <span class="title function_">_createElementBlock</span>(<span class="string">&quot;div&quot;</span>, _hoisted_1, [</span><br><span class="line">    <span class="title function_">_createElementVNode</span>(<span class="string">&quot;button&quot;</span>, &#123;</span><br><span class="line">      <span class="attr">onClick</span>: _cache[<span class="number">0</span>] || (_cache[<span class="number">0</span>] = <span class="function">(<span class="params">...args</span>) =&gt;</span> (_ctx.<span class="property">handleBtnClick</span> &amp;&amp; _ctx.<span class="title function_">handleBtnClick</span>(...args)))</span><br><span class="line">    &#125;, <span class="string">&quot;666&quot;</span>)</span><br><span class="line">  ]))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="9-Diff算法优化"><a href="#9-Diff算法优化" class="headerlink" title="9.Diff算法优化"></a>9.Diff算法优化</h2><p>vue2.x中的虚拟dom是进行<strong>全量的对比</strong>，在运行时会对所有节点生成一个虚拟节点树，当页面数据发生变更好，会遍历判断virtual dom所有节点（包括一些不会变化的节点）有没有发生变化；虽然说diff算法确实减少了多DOM节点的直接操作，但是这个<strong>减少是有成本的</strong>，如果是复杂的大型项目，必然存在很复杂的父子关系的VNode,<strong>而Vue2.x的diff算法，会不断地递归调用 patchVNode，不断堆叠而成的几毫秒，最终就会造成 VNode 更新缓慢</strong>。</p>
-<p>在Vue3.0中，在这个模版编译时，编译器会在动态标签末尾加上 &#x2F;* Text*&#x2F; PatchFlag。<strong>也就是在生成VNode的时候，同时打上标记，在这个基础上再进行核心的diff算法</strong>并且 PatchFlag 会标识动态的属性类型有哪些，比如这里 的TEXT 表示只有节点中的文字是动态的。而patchFlag的类型也很多,其中大致可以分为两类：</p>
-<ul>
-<li>当 patchFlag 的值「大于」 0 时，代表所对应的元素在 patchVNode 时或 render 时是可以被优化生成或更新的。</li>
-<li>当 patchFlag 的值「小于」 0 时，代表所对应的元素在 patchVNode 时，是需要被 full diff，即进行递归遍历 VNode tree 的比较更新过程。</li>
-</ul>
-<h2 id="10-打包优化"><a href="#10-打包优化" class="headerlink" title="10. 打包优化"></a>10. 打包优化</h2><p>Tree-shaking：模块打包 webpack、rollup 等中的概念。移除 JavaScript 上下文中未引用的代码。主要依赖于 import 和 export 语句，用来检测代码模块是否被导出、导入，且被 JavaScript 文件使用。</p>
-<p>以 nextTick 为例子，在 Vue2 中，全局API暴露在Vue实例上，即使未使用，也无法通过 tree-shaking 进行消除。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"> </span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">nextTick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 一些和DOM有关的东西</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>Vue3 中针对全局和内部的API进行了重构，并考虑到 tree-shaking 的支持。因此，全局API现在只能作为ES模块构建的命名导出进行访问。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; nextTick &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;   <span class="comment">// 显式导入</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_">nextTick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 一些和DOM有关的东西</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>通过这一更改，只要模块绑定器支持 tree-shaking，则Vue应用程序中未使用的 api 将从最终的捆绑包中消除，获得最佳文件大小。</p>
-<p>受此更改影响的全局API如下所示。</p>
-<ul>
-<li>Vue.nextTick</li>
-<li>Vue.observable （用 Vue.reactive 替换）</li>
-<li>Vue.version</li>
-<li>Vue.compile （仅全构建）</li>
-<li>Vue.set （仅兼容构建）</li>
-<li>Vue.delete （仅兼容构建）</li>
-</ul>
-<p>内部API也有诸如 transition、v-model 等标签或者指令被命名导出。只有在程序真正使用才会被捆绑打包。Vue3 将所有运行功能打包也只有约22.5kb，比 Vue2 轻量很多。</p>
-<h2 id="11-TypeScript支持"><a href="#11-TypeScript支持" class="headerlink" title="11. TypeScript支持"></a>11. TypeScript支持</h2><p>Vue3 由 TypeScript 重写，相对于 Vue2 有更好的 TypeScript 支持。</p>
-<ul>
-<li>Vue2 Options API 中 option 是个简单对象，而 TypeScript 是一种类型系统，面向对象的语法，不是特别匹配。</li>
-<li>Vue2 需要vue-class-component强化vue原生组件，也需要vue-property-decorator增加更多结合Vue特性的装饰器，写法比较繁琐。</li>
-</ul>
-</font>
-]]></content>
-      <categories>
-        <category>vue2</category>
-        <category>vue3</category>
-      </categories>
-      <tags>
-        <tag>typescript</tag>
-        <tag>vue3</tag>
-        <tag>vue2</tag>
-        <tag>前端</tag>
       </tags>
   </entry>
   <entry>
@@ -666,97 +666,140 @@
       </tags>
   </entry>
   <entry>
-    <title>箭头函数的特点</title>
-    <url>/post/4d1c757e.html</url>
+    <title>一些前端面试题（一）</title>
+    <url>/post/20802113.html</url>
     <content><![CDATA[<font face="ZhuZiAWan" size=3>
 
-<h1 id="箭头函数的使用"><a href="#箭头函数的使用" class="headerlink" title="箭头函数的使用"></a>箭头函数的使用</h1><h2 id="简写方法速记"><a href="#简写方法速记" class="headerlink" title="简写方法速记"></a>简写方法速记</h2><div class="note none blue flat"><p>将原函数的“function”关键字和函数名都删掉，并使用“&#x3D;&gt;”连接参数列表和函数体。</p>
-</div>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写为：</span></span><br><span class="line">(a,b)=&gt;&#123;<span class="comment">//删掉了function和函数名</span></span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add = <span class="keyword">function</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写为：</span></span><br><span class="line"><span class="keyword">var</span> <span class="title function_">add</span> = (<span class="params">a,b</span>)=&gt;&#123; <span class="comment">//删掉了function</span></span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="箭头函数的书写规则"><a href="#箭头函数的书写规则" class="headerlink" title="箭头函数的书写规则"></a>箭头函数的书写规则</h1><h2 id="箭头函数的书写-x3D-gt"><a href="#箭头函数的书写-x3D-gt" class="headerlink" title="箭头函数的书写 ()&#x3D;&gt;{}"></a><strong>箭头函数的书写 ()&#x3D;&gt;{}</strong></h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">test</span> = (<span class="params">zjcopy</span>) =&gt; &#123; </span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(zjcopy) </span><br><span class="line">&#125; </span><br><span class="line"><span class="title function_">test</span>(<span class="string">&#x27;hello&#x27;</span>) </span><br></pre></td></tr></table></figure>
-
-<h2 id="箭头函数简写规则："><a href="#箭头函数简写规则：" class="headerlink" title="箭头函数简写规则："></a>箭头函数简写规则：</h2><p><strong>（1）箭头函数只能用赋值式写法，不能用声明式写法</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = (<span class="params">a</span>) =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>（2）如果参数只有一个，可以不加括号，如果没有参数或者参数多于一个就需要加括号</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>（3）如果函数体只有一句话，可以省略函数体大括号</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; <span class="keyword">return</span> a</span><br></pre></td></tr></table></figure>
-
-<p><strong>（4）箭头函数返回对象时，省略大括号，用小括号括起来。</strong></p>
-<p>箭头后面return的是一个对象时, 需要使用({});</p>
-<p><strong>（5）如果函数体只有一句话，并且这一句话是return 返回值 那return也可以要省略</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; a</span><br><span class="line"><span class="title function_">f</span>(<span class="number">2</span>) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h1 id="箭头函数的特点"><a href="#箭头函数的特点" class="headerlink" title="箭头函数的特点"></a>箭头函数的特点</h1><p><strong>1.箭头函数没有自己的this，arguments，super或new.target</strong></p>
-<p><strong>2.箭头函数不绑定this，会捕获其所在上下文的this，作为自己的this。</strong></p>
-<div class="note danger flat"><p>这句话需要注意的是，箭头函数的外层如果有普通函数，那么箭头函数的this就是这个外层的普通函数的this，箭头函数的外层如果没有普通函数，那么箭头函数的this就是全局变量。</p>
-</div>
-
-<p><strong>3. 箭头函数是匿名函数，不能作为构造函数，不可以使用new命令，否则后抛出错误。</strong></p>
-<p><strong>4. 箭头函数不绑定arguments，取而代之用rest参数解决，同时没有super和new.target。</strong></p>
-<div class="note danger flat"><p>箭头函数没有arguments、super、new.target的绑定，这些值由外围最近一层非箭头函数决定。</p>
-</div>
-
-<div class="note danger flat"><p><strong>外围最近一层非箭头函数</strong>指的是箭头函数被包裹在一个普通函数中</p>
-</div>
-
-<p><strong>5.箭头函数可以通过拓展运算符获取传入的参数。</strong></p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/597888ee749b49a69385e687abd57173~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
-<p><strong>6. 使用call,apply,bind并不会改变箭头函数中的this指向。</strong></p>
-<ul>
-<li>当对箭头函数使用call或apply方法时，只会传入参数并调用函数，并不会改变箭头函数中this的指向。</li>
-<li>当对箭头函数使用bind方法时，只会返回一个预设参数的新函数，并不会改变这个新函数的this指向。</li>
+<p>记录一点前端面试中会出现的问题</p>
+<h1 id="hash-与-history-的区别？"><a href="#hash-与-history-的区别？" class="headerlink" title="hash 与 history 的区别？"></a>hash 与 history 的区别？</h1><h2 id="原理区别"><a href="#原理区别" class="headerlink" title="原理区别"></a>原理区别</h2><h3 id="hash-原理"><a href="#hash-原理" class="headerlink" title="hash 原理"></a><strong>hash 原理</strong></h3><p>hash 通过监听浏览器 onhashchange 事件变化，查找对应路由应用。通过改变 location.hash 改变页面路由。</p>
+<h3 id="history-原理"><a href="#history-原理" class="headerlink" title="history 原理"></a><strong>history 原理</strong></h3><p>利用 html5 的history Interface 中新增的 pushState() 和 replaceState() 方法，改变页面路径。</p>
+<p>history Interface 是浏览器历史记录栈提供的接口，可通过 back、forward、go 等，可以读取历览器历史记录栈的信息，pushState、repalceState 还可以对浏览器历史记录栈进行修改。</p>
+<table>
+<thead>
+<tr>
+<th>hash</th>
+<th>history</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>有#号</td>
+<td>无#号</td>
+</tr>
+<tr>
+<td>能够兼容IE8</td>
+<td>只能兼容到IE10</td>
+</tr>
+<tr>
+<td>实际的url之前使用哈希字符，这部分url不会发送到服务器，不需要在服务器层面上进行任何处理</td>
+<td>每访问一个页面都需要服务器进行路由匹配生成 html 文件再发送响应给浏览器，消耗服务器大量资源</td>
+</tr>
+<tr>
+<td>刷新不会存在404</td>
+<td>浏览器直接访问嵌套路由时，会报 404 问题。</td>
+</tr>
+<tr>
+<td>不需要服务器任何配置</td>
+<td>需要在服务器配置一个回调路由</td>
+</tr>
+</tbody></table>
+<h2 id="hash-模式优势"><a href="#hash-模式优势" class="headerlink" title="hash 模式优势"></a>hash 模式优势</h2><p>1、从兼容角度分析。</p>
+<p>　　hash 可以兼容到 IE8，而 history 只能兼容到 IE10。</p>
+<p>2、从网络请求的角度分析。</p>
+<p>　　使用 hash 模式，地址改变时通过 hashchange 事件，只会读取哈希符号后的内容，并不会发起任何网络请求。</p>
+<p>　　而 history 模式，每访问一个页面都要发起网络请求，每个请求都需要服务器进行路由匹配、数据库查询、生成HTML文档后再发送响应给浏览器，这个过程会消耗服务器的大量资源，给服务器的压力较大。</p>
+<p>3、服务器配置角度分析。</p>
+<p>　　hash 不需要服务器任何配置。</p>
+<p>　　history 进行刷新页面时，无法找到url对应的页面，会出现 404 问题。因为域名后面的路由是由前端控制的，后端只能保留域名部分，所以就会造成页面丢失的问题，需要服务器端添加一个回退路由，就能解决该问题了。</p>
+<h3 id="hash模式的不足"><a href="#hash模式的不足" class="headerlink" title="hash模式的不足"></a><strong>hash模式的不足</strong></h3><p>1、hash 模式中的 # 也称作锚点，这里的的 # 和 css 中的 # 是一个意思，所以在 hash 模式内，页面定位会失效。</p>
+<p>2、hash 不利于 SEO（搜索引擎优化）。</p>
+<p>3、白屏时间问题。浏览器需要等待 JavaScript 文件加载完成之后渲染 HTML 文档内容，用户等待时间稍长。</p>
+<h1 id="什么是-MVVM、mvc-模型？"><a href="#什么是-MVVM、mvc-模型？" class="headerlink" title="什么是 MVVM、mvc 模型？"></a>什么是 MVVM、mvc 模型？</h1><p><strong>MVC:</strong> MVC 即 model-view-controller（模型-视图-控制器)是项目的一种分层架构思想，它把复杂的业务逻辑， 抽离为职能单一的小模块，每个模块看似相互独立，其实又各自有相互依赖关系。它的好处是： 保证了模块的智能单一性，方便程序的开发、维护、耦合度低。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ef7bdc26eeb745e8a5e0057b8b554d09~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="img"></p>
+<p><strong>MVVM：</strong>MVVM 即 Model-View-ViewModel，(模型-视图-控制器)它是一种双向数据绑定的模式， 用 viewModel 来建立起 model 数据层和 view 视图层的连接，数据改变会影响视图，视图改变会影响数据</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b594cec4834242d582f4598c9db4179c~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="img"></p>
+<h1 id="vue-双向数据绑定的原理？"><a href="#vue-双向数据绑定的原理？" class="headerlink" title="vue 双向数据绑定的原理？"></a>vue 双向数据绑定的原理？</h1><p>vue.js 是采用数据劫持结合发布者-订阅者模式的方式，通过<strong>Object.defineProperty()**来劫持各个属性的**setter**，</strong>getter**，在数据变动时发布消息给订阅者，触发相应的监听回调。 <strong>具体步骤：</strong></p>
+<p><strong>第一步：</strong> 需要 <strong>observe</strong> 的数据对象进行递归遍历，包括子属性对象的属性，都加上 <strong>setter</strong> 和<strong>getter</strong> 这样的话，给这个对象的某个值赋值，就会触发 setter，那么就能监听到了数据变化</p>
+<p><strong>第二步：</strong> <strong>compile 解析模板指令</strong>，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图</p>
+<p><strong>第三步：</strong> <strong>Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁</strong>，主要做的事情是: 1、在自身实例化时往属性订阅器(dep)里面添加自己 2、自身必须有一个 <strong>update()</strong> 方法 3、待属性变动 <strong>dep.notice()</strong> 通知时，能调用自身的 update() 方法，并触发 Compile 中绑定的回调，则功成身退。</p>
+<p>第四步：MVVM 作为数据绑定的入口，整合 <strong>Observer、Compile 和 Watcher</strong> 三者，通过 Observer 来监听自己的 model 数据变化， 通过 Compile 来解析编译模板指令，最终利用 Watcher 搭起 Observer 和 Compile 之间的通信桥梁，达到数据变化 -&gt; 视图更新； 视图交互变化(input) -&gt; 数据 model 变更的双向绑定效果。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88523a441edf4712a616913bf2d2673b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="vue_02.png"></p>
+<h1 id="vue-的生命周期有哪些？"><a href="#vue-的生命周期有哪些？" class="headerlink" title="vue 的生命周期有哪些？"></a>vue 的生命周期有哪些？</h1><h2 id="vue2生命周期"><a href="#vue2生命周期" class="headerlink" title="vue2生命周期"></a>vue2生命周期</h2><ul>
+<li><strong>beforeCreat() 创建前</strong> 在new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。在此生命周期执行的时候，data和methods中的数据都还没有初始化。不能在这个阶段使用data中的数据和methods中的方法</li>
+<li><strong>created（）被创建</strong> data 和 methods都已经被初始化好了，可以调用了</li>
+<li><strong>beforeMount() 挂载前</strong> 在内存中已经编译好了模板了，但是还没有挂载到页面中，此时，页面还是旧的</li>
+<li><strong>mounted（）已挂载</strong> Vue实例已经初始化完成了。此时组件脱离了创建阶段，进入到了运行阶段。 如果我们想要通过插件操作页面上的DOM节点，最早可以在和这个阶段中进行</li>
+<li><strong>beforeupdate（）更新前</strong> 页面中的显示的数据还是旧的，data中的数据是更新后的， 页面还没有和最新的数据保持同步</li>
+<li><strong>updated（）更新</strong> 页面显示的数据和data中的数据已经保持同步了，都是最新的</li>
+<li><strong>beforeDestroy() 销毁前</strong> Vue实例从运行阶段进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁</li>
+<li><strong>destroyed（）被销毁</strong> 这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于不可用状态。组件已经被销毁了。</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">name</span> = <span class="string">&quot;window_name&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> f1 = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"><span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">name</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="title function_">f2</span> = (<span class="params"></span>) =&gt; <span class="variable language_">this</span>.<span class="property">name</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">&quot;obj_name&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">call</span>(obj));  <span class="comment">//obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">call</span>(obj));  <span class="comment">// window_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">apply</span>(obj)); <span class="comment">// obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">apply</span>(obj)); <span class="comment">// window_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">bind</span>(obj)());  <span class="comment">// obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">bind</span>(obj)());  <span class="comment">// window_name</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>7. 箭头函数没有原型对象prototype这个属性</strong></p>
-<div class="note danger flat"><p>由于不可以通过new关键字调用，所以没有构建原型的需求，所以箭头函数没有prototype这个属性。</p>
-</div>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">F</span> = (<span class="params"></span>)=&gt;&#123;&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(F.<span class="property"><span class="keyword">prototype</span></span>) <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>8. 不能使用yield关键字，不能用作Generator函数</strong></p>
-<h1 id="arguments函数"><a href="#arguments函数" class="headerlink" title="arguments函数"></a>arguments函数</h1><h2 id="arguments有什么用？"><a href="#arguments有什么用？" class="headerlink" title="arguments有什么用？"></a>arguments有什么用？</h2><p>arguments对象是所有非箭头函数中都可用的局部变量，可以使用arguments对象在函数中引用函数的参数，此对象包含传递给函数的每一个参数，第一个参数在索引0的位置。</p>
-<h2 id="如何将arguments对象转换为数组"><a href="#如何将arguments对象转换为数组" class="headerlink" title="如何将arguments对象转换为数组"></a>如何将arguments对象转换为数组</h2><ol>
-<li>通过slice</li>
-<li>通过拓展运算符</li>
-<li>通过Array.from</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">js</span><br><span class="line">复制代码</span><br><span class="line"><span class="keyword">var</span> args = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"><span class="keyword">var</span> args = [].<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> args = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"><span class="keyword">const</span> args = [...<span class="variable language_">arguments</span>];</span><br></pre></td></tr></table></figure>
-
-<h2 id="arguments函数如何调用自身函数？"><a href="#arguments函数如何调用自身函数？" class="headerlink" title="arguments函数如何调用自身函数？"></a>arguments函数如何调用自身函数？</h2><div class="note danger flat"><p>我们先看看下面这个函数，这个是可以正常运行的。</p>
-</div>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">factorial</span> (n) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="title function_">factorial</span>(n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(factorial);</span><br></pre></td></tr></table></figure>
-
-<div class="note danger flat"><p>但是作为匿名函数则不行。</p>
-</div>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">n</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="comment">/* what goes here? */</span> (n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<div class="note danger flat"><p>因此arguments.callee诞生了。</p>
-</div>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">n</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="variable language_">arguments</span>.<span class="title function_">callee</span>(n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<div class="note danger flat"><p>所以arguments要想调用自身的匿名函数，可以通过arguments.callee来调用。</p>
-</div>
-
+<p><img src="https://cdn.acwing.com/media/article/image/2021/08/06/101476_366b60c2f6-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="vue 生命周期原理图 - AcWing"></p>
+<p>除了<code>beforecate</code>和<code>created</code>(它们被<code>setup</code>方法本身所取代)，我们可以在<code>setup</code>方法中访问的API生命周期钩子有9个选项:</p>
+<ul>
+<li><p><code>onBeforeMount</code> – 在挂载开始之前被调用：相关的 <code>render</code> 函数首次被调用。</p>
+</li>
+<li><p><code>onMounted</code> – 组件挂载时调用</p>
+</li>
+<li><p><code>onBeforeUpdate</code> – 数据更新时调用，发生在虚拟 DOM 打补丁之前。这里适合在更新之前访问现有的 DOM，比如手动移除已添加的事件监听器。</p>
+</li>
+<li><p><code>onUpdated</code> – 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。</p>
+</li>
+<li><p>onBeforeUnmount – 在卸载组件实例之前调用。在这个阶段，实例仍然是完全正常的。</p>
+</li>
+<li><p><code>onUnmounted</code> – 卸载组件实例后调用。调用此钩子时，组件实例的所有指令都被解除绑定，所有事件侦听器都被移除，所有子组件实例被卸载。</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p><code>onActivated</code> – 被 <code>keep-alive</code> 缓存的组件激活时调用。</p>
+</li>
+<li><p><code>onDeactivated</code> – 被 <code>keep-alive</code> 缓存的组件停用时调用。</p>
+</li>
+<li><p><code>onErrorCaptured</code> – 当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 <code>false</code> 以阻止该错误继续向上传播。</p>
+</li>
+</ul>
+<p><img src="https://lordblog.cn/upload/2021/07/image-8359d1e7177f4ed486c55475a0da06bf.png" alt="Vue3.0"></p>
+<h1 id="Vue3-中的setup-在哪一个阶段执行？"><a href="#Vue3-中的setup-在哪一个阶段执行？" class="headerlink" title="Vue3.中的setup()在哪一个阶段执行？"></a>Vue3.中的setup()在哪一个阶段执行？</h1><p>setup是组合api的入口函数。setup()函数在beforecreate()函数执行之前,已经执行。也就是说在setup函数中我们不能够对data和methods进行操作。</p>
+<h1 id="v-if-和-v-show-有什么区别？"><a href="#v-if-和-v-show-有什么区别？" class="headerlink" title="v-if 和 v-show 有什么区别？"></a>v-if 和 v-show 有什么区别？</h1><p><code>v-if</code> 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建， 操作的实际上是 dom 元素的创建或销毁。</p>
+<p><code>v-show</code> 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换， 它操作的是<code>display:none/block</code>属性。</p>
+<p>一般来说， v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常<strong>频繁地切换</strong>，则使用<code> v-show</code> 较好； 如果在运行时条件很少改变，则使用 v-if 较好。</p>
+<h1 id="async-await-是什么？它有哪些作用？"><a href="#async-await-是什么？它有哪些作用？" class="headerlink" title="async await 是什么？它有哪些作用？"></a>async await 是什么？它有哪些作用？</h1><p><strong>async await</strong> 是<strong>es7</strong>里面的新语法、它的作用就是 async 用于申明一个 function 是异步的，而 await 用 于等待一个异步方法执行完成。它可以很好的替代<strong>promise 中的 then</strong></p>
+<p>async 函数返回一个 Promise 对象，可以使用 <strong>then</strong> 方法添加回调函数。当函数执行的时候，一旦遇 到 <code>await </code>就会先返回， 等到异步操作完成，再接着执行函数体内后面的语句。</p>
+<h1 id="常用的数组方法有哪些？"><a href="#常用的数组方法有哪些？" class="headerlink" title="常用的数组方法有哪些？"></a>常用的数组方法有哪些？</h1><p><strong>concat()</strong> 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。</p>
+<p><strong>find()</strong> 方法<strong>返回数组中满足提供的测试函数的第一个元素的值</strong>。否则返回 undefined 。</p>
+<p><strong>findIndex()</strong> 方法返回数组中满足提供的测试函数的<strong>第一个元素的索引</strong>。否则返回-1。</p>
+<p><strong>includes()</strong> 方法用来<strong>判断一个数组是否包含一个指定的值</strong>，根据情况，如果包含则返回 true， 否则返回 false。</p>
+<p><strong>indexOf()</strong> 方法返回在数组中可以<strong>找到一个给定元素的第一个索引</strong>，如果<strong>不存在，则返回-1</strong>。 （通常用它判断数组中有没有这个元素）</p>
+<p><strong>join()</strong> 方法将一个数组（或一个类数组对象）的所有元素<strong>连接成一个字符串并返回这个字符串</strong>。 如果数组只有一个项目，那么将返回该项目而不使用分隔符。</p>
+<p><strong>pop()</strong> 方法从数组中<strong>删除最后一个元素</strong>，并返回该元素的值。此方法更改数组的长度。</p>
+<p><strong>push()</strong> 方法将<strong>一个或多个元素添加到数组的末尾</strong>，并返回该数组的新长度。</p>
+<p><strong>shift()</strong> 方法从数组中<strong>删除第一个元素</strong>，并返回该元素的值。此方法更改数组的长度。</p>
+<p><strong>unshift()</strong> 方法将<strong>一个或多个元素添加到数组的开头</strong>，并返回该数组的新长度(该方法修改原有数组)。</p>
+<p><strong>splice()</strong> 方法通过删除或替换现有元素或者原地添加新的元素来修改数组,并以数组形式返回被修改的内 容。<strong>此方法会改变原数组</strong>。 由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删 除元素，则返回空数组。</p>
+<p><strong>slice()</strong> 方法同上，但不会改变原数组</p>
+<p><strong>reverse()</strong> 方法将数组中元素的位置颠倒，并返回该数组。该方法会改变原数组。</p>
+<p><strong>sort()</strong> 方法用原地算法对数组的元素进行排序，并返回数组。默认排序顺序是在将元素转换为字 符串，然后比较它们的 UTF-16 代码单元值序列时构建的</p>
+<h1 id="数组有哪几种循环方式？分别有什么作用？"><a href="#数组有哪几种循环方式？分别有什么作用？" class="headerlink" title="数组有哪几种循环方式？分别有什么作用？"></a>数组有哪几种循环方式？分别有什么作用？</h1><p><strong>every()</strong> 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔 值。</p>
+<p><strong>filter()</strong> 方法<strong>创建一个新数组</strong>, 其包含通过所提供函数实现的测试的所有元素。 <strong>注意：</strong> filter() 不会对空数组进行检测。 <strong>注意：</strong> filter() 不会改变原始数组。</p>
+<p><strong>forEach()</strong> 方法对数组的<strong>每个元素执行一次</strong>提供的函数。</p>
+<p><strong>some()</strong> 方法测试<strong>是否至少有一个元素可以通过被提供的函数方法</strong>。该方法返回一个 Boolean 类型 的值。</p>
+<h1 id="常用的字符串方法有哪些？"><a href="#常用的字符串方法有哪些？" class="headerlink" title="常用的字符串方法有哪些？"></a>常用的字符串方法有哪些？</h1><p><strong>charAt()</strong> 方法从一个字符串中返回指定的字符。</p>
+<p><strong>concat()</strong> 方法将一个或多个字符串与原字符串连接合并，形成一个新的字符串并返回。</p>
+<p><strong>includes()</strong> 方法用于判断一个字符串是否包含在另一个字符串中，根据情况返回 true 或 false。</p>
+<p><strong>indexOf()</strong> 方法返回调用它的 String 对象中第一次出现的指定值的索引，从 fromIndex 处进行搜 索。如果未找到该值，则返回 -1。 <strong>match()</strong> 方法检索返回一个字符串匹配正则表达式的的结果。</p>
+<p><strong>padStart()</strong> 方法用另一个字符串填充当前字符串(重复，如果需要的话)，以便产生的字符串达到给定的 长度。填充从当前字符串的开始(左侧)应用的。 (常用于时间补 0)</p>
+<p><strong>replace()</strong> 方法返回一个由替换值（ replacement ）替换一些或所有匹配的模式（ pattern ）后的新 字符串。模式可以是一个字符串或者一个<a href="https://link.juejin.cn/?target=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp">正则表达式</a>，替换值可以是一个字符串或者一个每次匹配都要 调用的回调函数。 原字符串不会改变。 slice() 方法提取某个字符串的一部分，并返回一个新的字符串，且不会改动原字符串。</p>
+<p><strong>split()</strong> 方法使用指定的分隔符字符串将一个 <a href="https://link.juejin.cn/?target=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String">String</a> 对象分割成字符串数组，以将字符串分隔为 子字符串，以确定每个拆分的位置。 <strong>substr()</strong> 方法返回一个字符串中从指定位置开始到指定字符数的字符。 trim() 方法会从一个字符串的两端删除空白字符。在这个上下文中的空白字符是所有的空白字符 (space, tab, no-break space 等) 以及所有行终止符字符（如 LF，CR）。</p>
 </font>
 ]]></content>
       <categories>
-        <category>es6</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>es6</tag>
+        <tag>前端</tag>
+        <tag>面试</tag>
+        <tag>vue</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -954,140 +997,285 @@
       </tags>
   </entry>
   <entry>
-    <title>一些前端面试题（一）</title>
-    <url>/post/20802113.html</url>
-    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+    <title>微信小程序城市定位</title>
+    <url>/post/b55f790c.html</url>
+    <content><![CDATA[<p>在微信小程序的项目开发中，我们需要定位用户的位置，</p>
+<p>而微信小程序内置了可以获取用户经纬度的函数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">wx.<span class="title function_">getLocation</span>(&#123;</span><br><span class="line"> <span class="attr">type</span>: <span class="string">&#x27;wgs84&#x27;</span>,</span><br><span class="line"> success (res) &#123;</span><br><span class="line">   <span class="keyword">const</span> latitude = res.<span class="property">latitude</span></span><br><span class="line">   <span class="keyword">const</span> longitude = res.<span class="property">longitude</span></span><br><span class="line">   <span class="keyword">const</span> speed = res.<span class="property">speed</span></span><br><span class="line">   <span class="keyword">const</span> accuracy = res.<span class="property">accuracy</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p>记录一点前端面试中会出现的问题</p>
-<h1 id="hash-与-history-的区别？"><a href="#hash-与-history-的区别？" class="headerlink" title="hash 与 history 的区别？"></a>hash 与 history 的区别？</h1><h2 id="原理区别"><a href="#原理区别" class="headerlink" title="原理区别"></a>原理区别</h2><h3 id="hash-原理"><a href="#hash-原理" class="headerlink" title="hash 原理"></a><strong>hash 原理</strong></h3><p>hash 通过监听浏览器 onhashchange 事件变化，查找对应路由应用。通过改变 location.hash 改变页面路由。</p>
-<h3 id="history-原理"><a href="#history-原理" class="headerlink" title="history 原理"></a><strong>history 原理</strong></h3><p>利用 html5 的history Interface 中新增的 pushState() 和 replaceState() 方法，改变页面路径。</p>
-<p>history Interface 是浏览器历史记录栈提供的接口，可通过 back、forward、go 等，可以读取历览器历史记录栈的信息，pushState、repalceState 还可以对浏览器历史记录栈进行修改。</p>
-<table>
+<p>其中<code>latitude</code>和<code>longitude</code>分别是经度和纬度。但是仅凭经纬度无法到达定位城市的效果，必须借助第三方地图商的API，如高德、百度、腾讯等等。</p>
+<h1 id="腾讯地图定位城市API"><a href="#腾讯地图定位城市API" class="headerlink" title="腾讯地图定位城市API"></a>腾讯地图定位城市API</h1><p>推荐使用腾讯地图，毕竟跟微信小程序是一家的。</p>
+<h2 id="注册腾讯地图API平台"><a href="#注册腾讯地图API平台" class="headerlink" title="注册腾讯地图API平台"></a>注册腾讯地图API平台</h2><p>直接注册就行，注册好后在<code>控制台</code>&#x3D;&gt;<code>应用管理</code>&#x3D;&gt;<code>我的应用</code>里添加一个应用并获取一个<strong>KEY</strong></p>
+<p>接下来需要到<code>配额管理</code>中分配额度，个人用户每天有<strong>5000</strong>条api请求额度，需要分配到不同的请求单位，不然每天只能请求一次</p>
+<img src="/post/b55f790c/image-20240122155009941.png" class="" title="image-20240122155009941">
+
+<p>这里我把全部额度分配给了IP定位，因为我暂时只使用这一个API模块</p>
+<h2 id="IP定位接口"><a href="#IP定位接口" class="headerlink" title="IP定位接口"></a>IP定位接口</h2><p>城市定位是最简单的一个API，就是一个简单的<strong>GET</strong>请求</p>
+<p>url:<font color=Blue><strong><a href="https://apis.map.qq.com/ws/location/v1/ip">https://apis.map.qq.com/ws/location/v1/ip</a></strong></font></p>
+<h2 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h2><table>
 <thead>
 <tr>
-<th>hash</th>
-<th>history</th>
+<th align="left">参数</th>
+<th align="left">必填</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>有#号</td>
-<td>无#号</td>
+<td align="left">key</td>
+<td align="left">是</td>
+<td align="left">开发密钥（Key）</td>
+<td align="left">key&#x3D;OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-*****</td>
 </tr>
 <tr>
-<td>能够兼容IE8</td>
-<td>只能兼容到IE10</td>
+<td align="left">ip</td>
+<td align="left">否</td>
+<td align="left">IP地址，缺省时会使用请求端的IP</td>
+<td align="left">ip&#x3D;111.206.145.41</td>
 </tr>
 <tr>
-<td>实际的url之前使用哈希字符，这部分url不会发送到服务器，不需要在服务器层面上进行任何处理</td>
-<td>每访问一个页面都需要服务器进行路由匹配生成 html 文件再发送响应给浏览器，消耗服务器大量资源</td>
+<td align="left">output</td>
+<td align="left">否</td>
+<td align="left">返回格式：支持JSON&#x2F;JSONP，默认JSON</td>
+<td align="left">output&#x3D;json</td>
 </tr>
 <tr>
-<td>刷新不会存在404</td>
-<td>浏览器直接访问嵌套路由时，会报 404 问题。</td>
-</tr>
-<tr>
-<td>不需要服务器任何配置</td>
-<td>需要在服务器配置一个回调路由</td>
+<td align="left">callback</td>
+<td align="left">否</td>
+<td align="left">JSONP方式回调函数</td>
+<td align="left">callback&#x3D;function1</td>
 </tr>
 </tbody></table>
-<h2 id="hash-模式优势"><a href="#hash-模式优势" class="headerlink" title="hash 模式优势"></a>hash 模式优势</h2><p>1、从兼容角度分析。</p>
-<p>　　hash 可以兼容到 IE8，而 history 只能兼容到 IE10。</p>
-<p>2、从网络请求的角度分析。</p>
-<p>　　使用 hash 模式，地址改变时通过 hashchange 事件，只会读取哈希符号后的内容，并不会发起任何网络请求。</p>
-<p>　　而 history 模式，每访问一个页面都要发起网络请求，每个请求都需要服务器进行路由匹配、数据库查询、生成HTML文档后再发送响应给浏览器，这个过程会消耗服务器的大量资源，给服务器的压力较大。</p>
-<p>3、服务器配置角度分析。</p>
-<p>　　hash 不需要服务器任何配置。</p>
-<p>　　history 进行刷新页面时，无法找到url对应的页面，会出现 404 问题。因为域名后面的路由是由前端控制的，后端只能保留域名部分，所以就会造成页面丢失的问题，需要服务器端添加一个回退路由，就能解决该问题了。</p>
-<h3 id="hash模式的不足"><a href="#hash模式的不足" class="headerlink" title="hash模式的不足"></a><strong>hash模式的不足</strong></h3><p>1、hash 模式中的 # 也称作锚点，这里的的 # 和 css 中的 # 是一个意思，所以在 hash 模式内，页面定位会失效。</p>
-<p>2、hash 不利于 SEO（搜索引擎优化）。</p>
-<p>3、白屏时间问题。浏览器需要等待 JavaScript 文件加载完成之后渲染 HTML 文档内容，用户等待时间稍长。</p>
-<h1 id="什么是-MVVM、mvc-模型？"><a href="#什么是-MVVM、mvc-模型？" class="headerlink" title="什么是 MVVM、mvc 模型？"></a>什么是 MVVM、mvc 模型？</h1><p><strong>MVC:</strong> MVC 即 model-view-controller（模型-视图-控制器)是项目的一种分层架构思想，它把复杂的业务逻辑， 抽离为职能单一的小模块，每个模块看似相互独立，其实又各自有相互依赖关系。它的好处是： 保证了模块的智能单一性，方便程序的开发、维护、耦合度低。</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ef7bdc26eeb745e8a5e0057b8b554d09~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="img"></p>
-<p><strong>MVVM：</strong>MVVM 即 Model-View-ViewModel，(模型-视图-控制器)它是一种双向数据绑定的模式， 用 viewModel 来建立起 model 数据层和 view 视图层的连接，数据改变会影响视图，视图改变会影响数据</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b594cec4834242d582f4598c9db4179c~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="img"></p>
-<h1 id="vue-双向数据绑定的原理？"><a href="#vue-双向数据绑定的原理？" class="headerlink" title="vue 双向数据绑定的原理？"></a>vue 双向数据绑定的原理？</h1><p>vue.js 是采用数据劫持结合发布者-订阅者模式的方式，通过<strong>Object.defineProperty()**来劫持各个属性的**setter**，</strong>getter**，在数据变动时发布消息给订阅者，触发相应的监听回调。 <strong>具体步骤：</strong></p>
-<p><strong>第一步：</strong> 需要 <strong>observe</strong> 的数据对象进行递归遍历，包括子属性对象的属性，都加上 <strong>setter</strong> 和<strong>getter</strong> 这样的话，给这个对象的某个值赋值，就会触发 setter，那么就能监听到了数据变化</p>
-<p><strong>第二步：</strong> <strong>compile 解析模板指令</strong>，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图</p>
-<p><strong>第三步：</strong> <strong>Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁</strong>，主要做的事情是: 1、在自身实例化时往属性订阅器(dep)里面添加自己 2、自身必须有一个 <strong>update()</strong> 方法 3、待属性变动 <strong>dep.notice()</strong> 通知时，能调用自身的 update() 方法，并触发 Compile 中绑定的回调，则功成身退。</p>
-<p>第四步：MVVM 作为数据绑定的入口，整合 <strong>Observer、Compile 和 Watcher</strong> 三者，通过 Observer 来监听自己的 model 数据变化， 通过 Compile 来解析编译模板指令，最终利用 Watcher 搭起 Observer 和 Compile 之间的通信桥梁，达到数据变化 -&gt; 视图更新； 视图交互变化(input) -&gt; 数据 model 变更的双向绑定效果。</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88523a441edf4712a616913bf2d2673b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="vue_02.png"></p>
-<h1 id="vue-的生命周期有哪些？"><a href="#vue-的生命周期有哪些？" class="headerlink" title="vue 的生命周期有哪些？"></a>vue 的生命周期有哪些？</h1><h2 id="vue2生命周期"><a href="#vue2生命周期" class="headerlink" title="vue2生命周期"></a>vue2生命周期</h2><ul>
-<li><strong>beforeCreat() 创建前</strong> 在new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。在此生命周期执行的时候，data和methods中的数据都还没有初始化。不能在这个阶段使用data中的数据和methods中的方法</li>
-<li><strong>created（）被创建</strong> data 和 methods都已经被初始化好了，可以调用了</li>
-<li><strong>beforeMount() 挂载前</strong> 在内存中已经编译好了模板了，但是还没有挂载到页面中，此时，页面还是旧的</li>
-<li><strong>mounted（）已挂载</strong> Vue实例已经初始化完成了。此时组件脱离了创建阶段，进入到了运行阶段。 如果我们想要通过插件操作页面上的DOM节点，最早可以在和这个阶段中进行</li>
-<li><strong>beforeupdate（）更新前</strong> 页面中的显示的数据还是旧的，data中的数据是更新后的， 页面还没有和最新的数据保持同步</li>
-<li><strong>updated（）更新</strong> 页面显示的数据和data中的数据已经保持同步了，都是最新的</li>
-<li><strong>beforeDestroy() 销毁前</strong> Vue实例从运行阶段进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁</li>
-<li><strong>destroyed（）被销毁</strong> 这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于不可用状态。组件已经被销毁了。</li>
-</ul>
-<p><img src="https://cdn.acwing.com/media/article/image/2021/08/06/101476_366b60c2f6-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="vue 生命周期原理图 - AcWing"></p>
-<p>除了<code>beforecate</code>和<code>created</code>(它们被<code>setup</code>方法本身所取代)，我们可以在<code>setup</code>方法中访问的API生命周期钩子有9个选项:</p>
+<h2 id="响应结果"><a href="#响应结果" class="headerlink" title="响应结果"></a>响应结果</h2><table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">必有</th>
+<th align="left">说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">status</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">状态码，0为正常，其它为异常，详细请参阅<a href="https://lbs.qq.com/service/webService/webServiceGuide/status">状态码说明</a></td>
+<td></td>
+</tr>
+<tr>
+<td align="left">message</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td align="left">对status的描述</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">result</td>
+<td align="left">object</td>
+<td align="left">是</td>
+<td align="left">IP定位结果</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">ip</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td>用于定位的IP地址</td>
+</tr>
+<tr>
+<td align="left">location</td>
+<td align="left">object</td>
+<td align="left">是</td>
+<td align="left">定位坐标。<strong>注：</strong>IP定位服务精确到市级，该位置为IP地址所属的行政区划政府坐标。</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">lat</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td>纬度</td>
+</tr>
+<tr>
+<td align="left">lng</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">经度</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">ad_info</td>
+<td align="left">object</td>
+<td align="left">是</td>
+<td align="left">定位行政区划信息</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left">nation</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td>国家</td>
+</tr>
+<tr>
+<td align="left">nation_code</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">国家代码（ISO3166标准3位数字码）</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">province</td>
+<td align="left">string</td>
+<td align="left">是</td>
+<td align="left">省</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">city</td>
+<td align="left">string</td>
+<td align="left">否</td>
+<td align="left">市</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">district</td>
+<td align="left">string</td>
+<td align="left">否</td>
+<td align="left">区</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">adcode</td>
+<td align="left">number</td>
+<td align="left">是</td>
+<td align="left">行政区划代码</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="调用示例"><a href="#调用示例" class="headerlink" title="调用示例"></a>调用示例</h2><p>GET请求，注意参数值要进行URL编码<br><a href="https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&key=%5B%E4%BD%A0%E7%9A%84key%5D">https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&amp;key=[你的key]</a></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//响应示例：</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Success&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;result&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;ip&quot;</span><span class="punctuation">:</span> <span class="string">&quot;111.206.145.41&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;location&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;lat&quot;</span><span class="punctuation">:</span> <span class="number">39.90469</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;lng&quot;</span><span class="punctuation">:</span> <span class="number">116.40717</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;ad_info&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;nation&quot;</span><span class="punctuation">:</span> <span class="string">&quot;中国&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;province&quot;</span><span class="punctuation">:</span> <span class="string">&quot;北京市&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="string">&quot;北京市&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;district&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;adcode&quot;</span><span class="punctuation">:</span> <span class="number">110000</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="微信小程序中的使用"><a href="#微信小程序中的使用" class="headerlink" title="微信小程序中的使用"></a>微信小程序中的使用</h2><p>有了第三方api接口，我们就不需要再用内置方法获取经纬度了，但需要注意在微信小程序管理平台上将域名添加上，否则可能获取失败</p>
+<img src="/post/b55f790c/image-20240122155835078.png" class="" title="image-20240122155835078">
+
+<p>此外，还需要在<code>app.json</code>中加上</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;permission&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;scope.userLocation&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;desc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的位置信息将用于小程序位置接口的效果展示&quot;</span></span><br><span class="line">     <span class="punctuation">&#125;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>来获取用户授权定位</p>
+<p>示例代码：</p>
+<p><code>map.wxml</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;button type=<span class="string">&quot;primary&quot;</span> bindtap=<span class="string">&quot;getLocation&quot;</span> <span class="keyword">class</span>=<span class="string">&quot;btn&quot;</span>&gt;定位&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>map.js</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="attr">getLocation</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        wx.<span class="title function_">request</span>(&#123;</span><br><span class="line">            <span class="attr">url</span>:<span class="string">&#x27;https://apis.map.qq.com/ws/location/v1/ip?key=PENBZ-C7WK5-C5UIF-IDZWF-ZR6KV-M6BLQ&#x27;</span>,</span><br><span class="line">            <span class="attr">method</span>:<span class="string">&#x27;get&#x27;</span>,</span><br><span class="line">            <span class="attr">success</span>: <span class="keyword">function</span>(<span class="params">res</span>) &#123;</span><br><span class="line">              <span class="variable language_">console</span>.<span class="title function_">log</span>(res.<span class="property">data</span>.<span class="property">result</span>.<span class="property">ad_info</span>.<span class="property">city</span>); </span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击按钮即可获取当前城市名字</p>
+<div class="note danger modern"><p>注意：当前版本的开发者工具需要安装第三方腾讯插件才能将res打印到控制台上，如果没有安装插件，只能在真机调试中打印查看</p>
+</div>
+]]></content>
+      <categories>
+        <category>微信小程序</category>
+      </categories>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>第三方API</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>箭头函数的特点</title>
+    <url>/post/4d1c757e.html</url>
+    <content><![CDATA[<font face="ZhuZiAWan" size=3>
+
+<h1 id="箭头函数的使用"><a href="#箭头函数的使用" class="headerlink" title="箭头函数的使用"></a>箭头函数的使用</h1><h2 id="简写方法速记"><a href="#简写方法速记" class="headerlink" title="简写方法速记"></a>简写方法速记</h2><div class="note none blue flat"><p>将原函数的“function”关键字和函数名都删掉，并使用“&#x3D;&gt;”连接参数列表和函数体。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写为：</span></span><br><span class="line">(a,b)=&gt;&#123;<span class="comment">//删掉了function和函数名</span></span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add = <span class="keyword">function</span>(<span class="params">a,b</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写为：</span></span><br><span class="line"><span class="keyword">var</span> <span class="title function_">add</span> = (<span class="params">a,b</span>)=&gt;&#123; <span class="comment">//删掉了function</span></span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="箭头函数的书写规则"><a href="#箭头函数的书写规则" class="headerlink" title="箭头函数的书写规则"></a>箭头函数的书写规则</h1><h2 id="箭头函数的书写-x3D-gt"><a href="#箭头函数的书写-x3D-gt" class="headerlink" title="箭头函数的书写 ()&#x3D;&gt;{}"></a><strong>箭头函数的书写 ()&#x3D;&gt;{}</strong></h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">test</span> = (<span class="params">zjcopy</span>) =&gt; &#123; </span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(zjcopy) </span><br><span class="line">&#125; </span><br><span class="line"><span class="title function_">test</span>(<span class="string">&#x27;hello&#x27;</span>) </span><br></pre></td></tr></table></figure>
+
+<h2 id="箭头函数简写规则："><a href="#箭头函数简写规则：" class="headerlink" title="箭头函数简写规则："></a>箭头函数简写规则：</h2><p><strong>（1）箭头函数只能用赋值式写法，不能用声明式写法</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = (<span class="params">a</span>) =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>（2）如果参数只有一个，可以不加括号，如果没有参数或者参数多于一个就需要加括号</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>（3）如果函数体只有一句话，可以省略函数体大括号</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; <span class="keyword">return</span> a</span><br></pre></td></tr></table></figure>
+
+<p><strong>（4）箭头函数返回对象时，省略大括号，用小括号括起来。</strong></p>
+<p>箭头后面return的是一个对象时, 需要使用({});</p>
+<p><strong>（5）如果函数体只有一句话，并且这一句话是return 返回值 那return也可以要省略</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">f</span> = a =&gt; a</span><br><span class="line"><span class="title function_">f</span>(<span class="number">2</span>) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="箭头函数的特点"><a href="#箭头函数的特点" class="headerlink" title="箭头函数的特点"></a>箭头函数的特点</h1><p><strong>1.箭头函数没有自己的this，arguments，super或new.target</strong></p>
+<p><strong>2.箭头函数不绑定this，会捕获其所在上下文的this，作为自己的this。</strong></p>
+<div class="note danger flat"><p>这句话需要注意的是，箭头函数的外层如果有普通函数，那么箭头函数的this就是这个外层的普通函数的this，箭头函数的外层如果没有普通函数，那么箭头函数的this就是全局变量。</p>
+</div>
+
+<p><strong>3. 箭头函数是匿名函数，不能作为构造函数，不可以使用new命令，否则后抛出错误。</strong></p>
+<p><strong>4. 箭头函数不绑定arguments，取而代之用rest参数解决，同时没有super和new.target。</strong></p>
+<div class="note danger flat"><p>箭头函数没有arguments、super、new.target的绑定，这些值由外围最近一层非箭头函数决定。</p>
+</div>
+
+<div class="note danger flat"><p><strong>外围最近一层非箭头函数</strong>指的是箭头函数被包裹在一个普通函数中</p>
+</div>
+
+<p><strong>5.箭头函数可以通过拓展运算符获取传入的参数。</strong></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/597888ee749b49a69385e687abd57173~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
+<p><strong>6. 使用call,apply,bind并不会改变箭头函数中的this指向。</strong></p>
 <ul>
-<li><p><code>onBeforeMount</code> – 在挂载开始之前被调用：相关的 <code>render</code> 函数首次被调用。</p>
-</li>
-<li><p><code>onMounted</code> – 组件挂载时调用</p>
-</li>
-<li><p><code>onBeforeUpdate</code> – 数据更新时调用，发生在虚拟 DOM 打补丁之前。这里适合在更新之前访问现有的 DOM，比如手动移除已添加的事件监听器。</p>
-</li>
-<li><p><code>onUpdated</code> – 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。</p>
-</li>
-<li><p>onBeforeUnmount – 在卸载组件实例之前调用。在这个阶段，实例仍然是完全正常的。</p>
-</li>
-<li><p><code>onUnmounted</code> – 卸载组件实例后调用。调用此钩子时，组件实例的所有指令都被解除绑定，所有事件侦听器都被移除，所有子组件实例被卸载。</p>
-</li>
+<li>当对箭头函数使用call或apply方法时，只会传入参数并调用函数，并不会改变箭头函数中this的指向。</li>
+<li>当对箭头函数使用bind方法时，只会返回一个预设参数的新函数，并不会改变这个新函数的this指向。</li>
 </ul>
-<hr>
-<ul>
-<li><p><code>onActivated</code> – 被 <code>keep-alive</code> 缓存的组件激活时调用。</p>
-</li>
-<li><p><code>onDeactivated</code> – 被 <code>keep-alive</code> 缓存的组件停用时调用。</p>
-</li>
-<li><p><code>onErrorCaptured</code> – 当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 <code>false</code> 以阻止该错误继续向上传播。</p>
-</li>
-</ul>
-<p><img src="https://lordblog.cn/upload/2021/07/image-8359d1e7177f4ed486c55475a0da06bf.png" alt="Vue3.0"></p>
-<h1 id="Vue3-中的setup-在哪一个阶段执行？"><a href="#Vue3-中的setup-在哪一个阶段执行？" class="headerlink" title="Vue3.中的setup()在哪一个阶段执行？"></a>Vue3.中的setup()在哪一个阶段执行？</h1><p>setup是组合api的入口函数。setup()函数在beforecreate()函数执行之前,已经执行。也就是说在setup函数中我们不能够对data和methods进行操作。</p>
-<h1 id="v-if-和-v-show-有什么区别？"><a href="#v-if-和-v-show-有什么区别？" class="headerlink" title="v-if 和 v-show 有什么区别？"></a>v-if 和 v-show 有什么区别？</h1><p><code>v-if</code> 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建， 操作的实际上是 dom 元素的创建或销毁。</p>
-<p><code>v-show</code> 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换， 它操作的是<code>display:none/block</code>属性。</p>
-<p>一般来说， v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常<strong>频繁地切换</strong>，则使用<code> v-show</code> 较好； 如果在运行时条件很少改变，则使用 v-if 较好。</p>
-<h1 id="async-await-是什么？它有哪些作用？"><a href="#async-await-是什么？它有哪些作用？" class="headerlink" title="async await 是什么？它有哪些作用？"></a>async await 是什么？它有哪些作用？</h1><p><strong>async await</strong> 是<strong>es7</strong>里面的新语法、它的作用就是 async 用于申明一个 function 是异步的，而 await 用 于等待一个异步方法执行完成。它可以很好的替代<strong>promise 中的 then</strong></p>
-<p>async 函数返回一个 Promise 对象，可以使用 <strong>then</strong> 方法添加回调函数。当函数执行的时候，一旦遇 到 <code>await </code>就会先返回， 等到异步操作完成，再接着执行函数体内后面的语句。</p>
-<h1 id="常用的数组方法有哪些？"><a href="#常用的数组方法有哪些？" class="headerlink" title="常用的数组方法有哪些？"></a>常用的数组方法有哪些？</h1><p><strong>concat()</strong> 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。</p>
-<p><strong>find()</strong> 方法<strong>返回数组中满足提供的测试函数的第一个元素的值</strong>。否则返回 undefined 。</p>
-<p><strong>findIndex()</strong> 方法返回数组中满足提供的测试函数的<strong>第一个元素的索引</strong>。否则返回-1。</p>
-<p><strong>includes()</strong> 方法用来<strong>判断一个数组是否包含一个指定的值</strong>，根据情况，如果包含则返回 true， 否则返回 false。</p>
-<p><strong>indexOf()</strong> 方法返回在数组中可以<strong>找到一个给定元素的第一个索引</strong>，如果<strong>不存在，则返回-1</strong>。 （通常用它判断数组中有没有这个元素）</p>
-<p><strong>join()</strong> 方法将一个数组（或一个类数组对象）的所有元素<strong>连接成一个字符串并返回这个字符串</strong>。 如果数组只有一个项目，那么将返回该项目而不使用分隔符。</p>
-<p><strong>pop()</strong> 方法从数组中<strong>删除最后一个元素</strong>，并返回该元素的值。此方法更改数组的长度。</p>
-<p><strong>push()</strong> 方法将<strong>一个或多个元素添加到数组的末尾</strong>，并返回该数组的新长度。</p>
-<p><strong>shift()</strong> 方法从数组中<strong>删除第一个元素</strong>，并返回该元素的值。此方法更改数组的长度。</p>
-<p><strong>unshift()</strong> 方法将<strong>一个或多个元素添加到数组的开头</strong>，并返回该数组的新长度(该方法修改原有数组)。</p>
-<p><strong>splice()</strong> 方法通过删除或替换现有元素或者原地添加新的元素来修改数组,并以数组形式返回被修改的内 容。<strong>此方法会改变原数组</strong>。 由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删 除元素，则返回空数组。</p>
-<p><strong>slice()</strong> 方法同上，但不会改变原数组</p>
-<p><strong>reverse()</strong> 方法将数组中元素的位置颠倒，并返回该数组。该方法会改变原数组。</p>
-<p><strong>sort()</strong> 方法用原地算法对数组的元素进行排序，并返回数组。默认排序顺序是在将元素转换为字 符串，然后比较它们的 UTF-16 代码单元值序列时构建的</p>
-<h1 id="数组有哪几种循环方式？分别有什么作用？"><a href="#数组有哪几种循环方式？分别有什么作用？" class="headerlink" title="数组有哪几种循环方式？分别有什么作用？"></a>数组有哪几种循环方式？分别有什么作用？</h1><p><strong>every()</strong> 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔 值。</p>
-<p><strong>filter()</strong> 方法<strong>创建一个新数组</strong>, 其包含通过所提供函数实现的测试的所有元素。 <strong>注意：</strong> filter() 不会对空数组进行检测。 <strong>注意：</strong> filter() 不会改变原始数组。</p>
-<p><strong>forEach()</strong> 方法对数组的<strong>每个元素执行一次</strong>提供的函数。</p>
-<p><strong>some()</strong> 方法测试<strong>是否至少有一个元素可以通过被提供的函数方法</strong>。该方法返回一个 Boolean 类型 的值。</p>
-<h1 id="常用的字符串方法有哪些？"><a href="#常用的字符串方法有哪些？" class="headerlink" title="常用的字符串方法有哪些？"></a>常用的字符串方法有哪些？</h1><p><strong>charAt()</strong> 方法从一个字符串中返回指定的字符。</p>
-<p><strong>concat()</strong> 方法将一个或多个字符串与原字符串连接合并，形成一个新的字符串并返回。</p>
-<p><strong>includes()</strong> 方法用于判断一个字符串是否包含在另一个字符串中，根据情况返回 true 或 false。</p>
-<p><strong>indexOf()</strong> 方法返回调用它的 String 对象中第一次出现的指定值的索引，从 fromIndex 处进行搜 索。如果未找到该值，则返回 -1。 <strong>match()</strong> 方法检索返回一个字符串匹配正则表达式的的结果。</p>
-<p><strong>padStart()</strong> 方法用另一个字符串填充当前字符串(重复，如果需要的话)，以便产生的字符串达到给定的 长度。填充从当前字符串的开始(左侧)应用的。 (常用于时间补 0)</p>
-<p><strong>replace()</strong> 方法返回一个由替换值（ replacement ）替换一些或所有匹配的模式（ pattern ）后的新 字符串。模式可以是一个字符串或者一个<a href="https://link.juejin.cn/?target=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp">正则表达式</a>，替换值可以是一个字符串或者一个每次匹配都要 调用的回调函数。 原字符串不会改变。 slice() 方法提取某个字符串的一部分，并返回一个新的字符串，且不会改动原字符串。</p>
-<p><strong>split()</strong> 方法使用指定的分隔符字符串将一个 <a href="https://link.juejin.cn/?target=https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String">String</a> 对象分割成字符串数组，以将字符串分隔为 子字符串，以确定每个拆分的位置。 <strong>substr()</strong> 方法返回一个字符串中从指定位置开始到指定字符数的字符。 trim() 方法会从一个字符串的两端删除空白字符。在这个上下文中的空白字符是所有的空白字符 (space, tab, no-break space 等) 以及所有行终止符字符（如 LF，CR）。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">name</span> = <span class="string">&quot;window_name&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> f1 = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"><span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">name</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="title function_">f2</span> = (<span class="params"></span>) =&gt; <span class="variable language_">this</span>.<span class="property">name</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">name</span>: <span class="string">&quot;obj_name&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">call</span>(obj));  <span class="comment">//obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">call</span>(obj));  <span class="comment">// window_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">apply</span>(obj)); <span class="comment">// obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">apply</span>(obj)); <span class="comment">// window_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f1.<span class="title function_">bind</span>(obj)());  <span class="comment">// obj_name</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f2.<span class="title function_">bind</span>(obj)());  <span class="comment">// window_name</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>7. 箭头函数没有原型对象prototype这个属性</strong></p>
+<div class="note danger flat"><p>由于不可以通过new关键字调用，所以没有构建原型的需求，所以箭头函数没有prototype这个属性。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">F</span> = (<span class="params"></span>)=&gt;&#123;&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(F.<span class="property"><span class="keyword">prototype</span></span>) <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>8. 不能使用yield关键字，不能用作Generator函数</strong></p>
+<h1 id="arguments函数"><a href="#arguments函数" class="headerlink" title="arguments函数"></a>arguments函数</h1><h2 id="arguments有什么用？"><a href="#arguments有什么用？" class="headerlink" title="arguments有什么用？"></a>arguments有什么用？</h2><p>arguments对象是所有非箭头函数中都可用的局部变量，可以使用arguments对象在函数中引用函数的参数，此对象包含传递给函数的每一个参数，第一个参数在索引0的位置。</p>
+<h2 id="如何将arguments对象转换为数组"><a href="#如何将arguments对象转换为数组" class="headerlink" title="如何将arguments对象转换为数组"></a>如何将arguments对象转换为数组</h2><ol>
+<li>通过slice</li>
+<li>通过拓展运算符</li>
+<li>通过Array.from</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">js</span><br><span class="line">复制代码</span><br><span class="line"><span class="keyword">var</span> args = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"><span class="keyword">var</span> args = [].<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> args = <span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="variable language_">arguments</span>);</span><br><span class="line"><span class="keyword">const</span> args = [...<span class="variable language_">arguments</span>];</span><br></pre></td></tr></table></figure>
+
+<h2 id="arguments函数如何调用自身函数？"><a href="#arguments函数如何调用自身函数？" class="headerlink" title="arguments函数如何调用自身函数？"></a>arguments函数如何调用自身函数？</h2><div class="note danger flat"><p>我们先看看下面这个函数，这个是可以正常运行的。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">factorial</span> (n) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="title function_">factorial</span>(n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(factorial);</span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p>但是作为匿名函数则不行。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">n</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="comment">/* what goes here? */</span> (n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p>因此arguments.callee诞生了。</p>
+</div>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>].<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">n</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(n &gt; <span class="number">1</span>) ? <span class="number">1</span> : <span class="variable language_">arguments</span>.<span class="title function_">callee</span>(n - <span class="number">1</span>) * n;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<div class="note danger flat"><p>所以arguments要想调用自身的匿名函数，可以通过arguments.callee来调用。</p>
+</div>
+
 </font>
 ]]></content>
       <categories>
-        <category>前端</category>
+        <category>es6</category>
       </categories>
       <tags>
-        <tag>前端</tag>
-        <tag>面试</tag>
-        <tag>vue</tag>
-        <tag>https</tag>
+        <tag>es6</tag>
       </tags>
   </entry>
 </search>
